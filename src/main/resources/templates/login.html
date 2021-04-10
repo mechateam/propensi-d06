@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xml:lang="http://thymeleaf.org" xmlns:th="http://www.springframework.org/schema/jdbc">
+<head>
+    <meta charset="UTF-8"> <title> Login </title>
+</head>
+
+<body>
+
+<header id="header" class="fixed-top">
+</header>
+
+<!-- ======= Hero Section ======= -->
+<section id="hero" class="d-flex align-items-center">
+    <div class="container">
+        <br><br><br>
+        <div class="row">
+            <div class="col-lg-6 pt-5 pt-lg-0 order-2 order-lg-1 d-flex flex-column justify-content-center">
+                <div class="card">
+                    <div class="card-header">
+                        Log In
+                    </div>
+                    <div class="card-body">
+                        <form th:action="@{/login}" method="POST">
+                            <p th:if="${param.error}" class="alert alert-info" role="alert">Invalid username or password</p>
+                            <div class="row form-group">
+                                <label class="col-sm-4">Username:</label>
+                                <input type="text" class="col-sm-8 form-control input-sm" name="username">
+                            </div>
+                            <div class="row form-group">
+                                <label class="col-sm-4">Password:</label>
+                                <input type="password" class="col-sm-8 form-control input-sm" name="password">
+                            </div>
+                            <div class="text-left">
+                                <button type="submit" class="btn btn-dark">Sign In</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 order-1 order-lg-2 hero-img">
+                <img th:src="@{/img/hero-img.png}" class="img-fluid animated" alt="">
+            </div>
+        </div>
+    </div>
+
+</section><!-- End Hero -->
+
+
+<!-- Vendor JS Files -->
+
+
+</body>
+
+</html>
