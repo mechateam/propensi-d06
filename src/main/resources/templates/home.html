@@ -1,9 +1,18 @@
 <!DOCTYPE html>
-<html lang="en" xml:lang="http://thymeleaf.org" xmlns:th="http://www.springframework.org/schema/jdbc">
+<html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
+    <meta charset="UTF-8">
+    <title> Home </title>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+
+
 </head>
     <title>Hai bela</title>
 <body>
+<nav th:replace="fragments/fragment :: navbar"></nav>
+<br>
 Hai
 
 </body>
