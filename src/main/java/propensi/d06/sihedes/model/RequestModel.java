@@ -49,19 +49,19 @@ public class RequestModel implements Serializable {
     private Integer request_type;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "resolver", referencedColumnName = "id_user", nullable = false)
+    @JoinColumn(name = "id_resolver", referencedColumnName = "id_user", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private UserModel resolver;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "sla", referencedColumnName = "id_sla", nullable = false)
+    @JoinColumn(name = "id_sla", referencedColumnName = "id_sla", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private SLAModel sla;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "pengaju", referencedColumnName = "id_user", nullable = false)
+    @JoinColumn(name = "id_pengaju", referencedColumnName = "id_user", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private UserModel pengaju;

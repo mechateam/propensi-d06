@@ -56,13 +56,13 @@ public class UserModel implements Serializable {
     private RoleModel id_role;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "departemen", referencedColumnName = "id_dept", nullable = false)
+    @JoinColumn(name = "id_dept", referencedColumnName = "id_dept", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private DepartemenModel departemen;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "boa", referencedColumnName = "id_boa")
+    @JoinColumn(name = "id_boa", referencedColumnName = "id_boa")
     private BOAModel boa;
 
     @OneToMany(mappedBy = "resolver", fetch = FetchType.LAZY, cascade = CascadeType.ALL)

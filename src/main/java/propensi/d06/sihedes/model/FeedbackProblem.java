@@ -35,7 +35,7 @@ public class FeedbackProblem implements Serializable {
     private Integer score;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "problem", referencedColumnName = "id_problem", nullable = false)
+    @JoinColumn(name = "id_problem", referencedColumnName = "id_problem", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private ProblemModel problem;

@@ -27,7 +27,7 @@ public class ArtikelModel {
 
     @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @Column(name = "created-date", nullable = false)
+    @Column(name = "created_date", nullable = false)
     private Date created_date;
 
     @NotNull

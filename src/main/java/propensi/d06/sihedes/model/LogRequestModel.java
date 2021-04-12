@@ -31,7 +31,7 @@ public class LogRequestModel implements Serializable {
     private Date posted_date;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "request", referencedColumnName = "id_request", nullable = false)
+    @JoinColumn(name = "id_request", referencedColumnName = "id_request", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private RequestModel request;

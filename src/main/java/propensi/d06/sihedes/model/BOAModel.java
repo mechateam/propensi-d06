@@ -22,7 +22,7 @@ public class BOAModel implements Serializable {
     private UserModel user;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "departemen", referencedColumnName = "id_dept", nullable = false)
+    @JoinColumn(name = "id_dept", referencedColumnName = "id_dept", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private DepartemenModel departemen;

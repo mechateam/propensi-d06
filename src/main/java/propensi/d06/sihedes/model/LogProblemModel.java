@@ -31,7 +31,7 @@ public class LogProblemModel implements Serializable {
     private Date posted_date;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "problem", referencedColumnName = "id_problem", nullable = false)
+    @JoinColumn(name = "id_problem", referencedColumnName = "id_problem", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private ProblemModel problem;

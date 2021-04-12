@@ -35,7 +35,7 @@ public class FeedbackRequest implements Serializable {
     private Integer score;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "request", referencedColumnName = "id_request", nullable = false)
+    @JoinColumn(name = "id_request", referencedColumnName = "id_request", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private RequestModel request;

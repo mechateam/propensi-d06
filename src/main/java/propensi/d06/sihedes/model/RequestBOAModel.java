@@ -18,12 +18,12 @@ public class RequestBOAModel implements Serializable {
     private Integer id;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "request", referencedColumnName = "id_request", nullable = false)
+    @JoinColumn(name = "id_request", referencedColumnName = "id_request", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private RequestModel request;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "boa", referencedColumnName = "id_boa", nullable = false)
+    @JoinColumn(name = "id_boa", referencedColumnName = "id_boa", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private BOAModel boa;
 
