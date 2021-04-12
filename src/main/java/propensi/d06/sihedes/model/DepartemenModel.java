@@ -20,7 +20,7 @@ public class DepartemenModel implements Serializable {
 
     @NotNull
     @Size(max = 50)
-    @Column(name = "nama_role", nullable = false)
+    @Column(name = "nama_departemen", nullable = false)
     private String nama_departemen;
 
     @NotNull
