@@ -12,21 +12,33 @@ body{
     background: #FFFFFF;
     color: #656867;
     box-shadow: 0 0.2rem 0 0 rgba(0, 0, 0, 0.1);
-    border-right: 1.5px solid #7DAB5D;
+    border-right: 1px solid #CBCBCB;
 
 }
 
 .content-container {
-    padding-top: 20px;
+    padding: 30px 10px;
+    margin-left: 10px;
+}
+.header-container {
+    /*margin-bottom: 10px;*/
+}
+#fixHeader{
+    border-bottom: 1px solid #CBCBCB;
+    padding: 10px 25px 10px 30px;
+}
+.upper-logo{
+    float: right;
+
 }
 
 .sidebar-logo {
-    padding: 10px 15px 10px 30px;
+    /*padding: 10px 15px 10px 30px;*/
     background-color: transparent;
     font-weight: bold;
     font-size: xx-large;
-    border-bottom: 1.5px solid #7DAB5D;
-    margin-bottom: 5px;
+    color: #656867;
+
 }
 
 .sidebar-navigation {
@@ -62,10 +74,7 @@ body{
     font-weight: bolder;
     background: #7DAB5D;;
 }
-.sidebar-navigation li:focus {
-    background-color: #7DAB5D;
-    border-color: black;
-}
+
 
 .sidebar-navigation li a:active,
 .sidebar-navigation li a:hover {
@@ -110,9 +119,10 @@ body{
     padding: 10px 15px 10px 30px;
     width: 100%;
     border-bottom: 1.5px solid #7DAB5D;
-    margin-bottom: 3px;
 }
 .navbar-brand{
+    position: fixed;
     padding-left: 320px;
     color: pink;
+
 }
