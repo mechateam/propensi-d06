@@ -15,31 +15,35 @@
     <head th:fragment="js">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <script th:src="@{/js/fragment.js}"></script>
     </head>
 </head>
 <body>
 <nav th:fragment="navbar" class="parentNav">
     <!-- Brand and toggle get grouped for better mobile display -->
-<!--    <div class="navbar-header">-->
-<!--        <a class="navbar-brand">-->
-<!--            SIHEDES-->
-<!--        </a>-->
-<!--    </div>-->
+
     <div class="sidebar-container">
-        <div class="sidebar-logo">
-            SIHEDES
-        </div>
         <ul class="sidebar-navigation">
             <li>
                 <a href="#">
                     <i class="fa fa-home" aria-hidden="true"></i> Dashboard
                 </a>
             </li>
-            <li>
-                <a href="#">
-                    <i class="fa fa-tachometer" aria-hidden="true"></i> Tickets
-                </a>
+            <li class='sub-menu'>
+                <a href='#'> <i class="fa fa-tachometer" aria-hidden="true"></i>
+                    Tickets
+                    <div class='fa fa-caret-down right'></div></a>
+                <ul>
+                    <li><a href='#'>All Tickets</a></li>
+                    <li><a href='#'>My Ticket(s)</a></li>
+                    <li><a href='#'>Pending Ticket(s)</a></li>
+                </ul>
             </li>
+<!--            <li>-->
+<!--                <a href="#">-->
+<!--                    <i class="fa fa-tachometer" aria-hidden="true"></i> Tickets-->
+<!--                </a>-->
+<!--            </li>-->
             <li>
                 <a href="#">
                     <i class="fa fa-users" aria-hidden="true"></i> FAQs
@@ -56,14 +60,41 @@
                 </a>
             </li>
             <li>
+                <a href="#">
+                    <i class="fa fa-info-circle" aria-hidden="true"></i> SLM
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa fa-info-circle" aria-hidden="true"></i> Profile
+                </a>
+            </li>
+            <li>
                 <a th:href="@{/logout}"><i class="fa fa-sign-out" ></i>     Logout</a>
             </li>
         </ul>
     </div>
 
-
-
 </nav>
+
+<div th:fragment="header"class="header-container">
+    <div class="row" id="fixHeader">
+        <div class="col-sm-3">
+            <div class="sidebar-logo">
+                SIHEDES
+            </div>
+        </div>
+        <div class="col-sm-6">
+        </div>
+        <div class="col-sm-3">
+            <div class="upper-logo">
+                <img th:src="@{/images/Logo.png}" alt="image">
+            </div>
+        </div>
+
+    </div>
+
+</div>
 
 </body>
 </html>
