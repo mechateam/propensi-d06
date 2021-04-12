@@ -1,12 +1,19 @@
+body{
+    font-family: 'Poppins', sans-serif;
+}
+
 .sidebar-container {
     position: fixed;
-    width: 220px;
+    width: 230px;
     height: 100%;
     left: 0;
     overflow-x: hidden;
     overflow-y: auto;
-    background: #1a1a1a;
-    color: #fff;
+    background: #FFFFFF;
+    color: #656867;
+    box-shadow: 0 0.2rem 0 0 rgba(0, 0, 0, 0.1);
+    border-right: 1.5px solid #7DAB5D;
+
 }
 
 .content-container {
@@ -15,8 +22,11 @@
 
 .sidebar-logo {
     padding: 10px 15px 10px 30px;
-    font-size: 20px;
-    background-color: #2574A9;
+    background-color: transparent;
+    font-weight: bold;
+    font-size: xx-large;
+    border-bottom: 1.5px solid #7DAB5D;
+    margin-bottom: 5px;
 }
 
 .sidebar-navigation {
@@ -32,27 +42,41 @@
     display: inline-block;
     width: 100%;
     line-height: 20px;
+    /*padding: 5px 0px;*/
 }
 
 .sidebar-navigation li a {
     padding: 10px 15px 10px 30px;
     display: block;
-    color: #fff;
+    color: #656867;
 }
 
 .sidebar-navigation li .fa {
     margin-right: 10px;
 }
 
-.sidebar-navigation li a:active,
-.sidebar-navigation li a:hover,
 .sidebar-navigation li a:focus {
     text-decoration: none;
     outline: none;
+    color: white;
+    font-weight: bolder;
+    background: #7DAB5D;;
+}
+.sidebar-navigation li:focus {
+    background-color: #7DAB5D;
+    border-color: black;
 }
 
+.sidebar-navigation li a:active,
+.sidebar-navigation li a:hover {
+    text-decoration: none;
+    outline: none;
+    color: white;
+}
+
+/*FOR ANIMATION*/
 .sidebar-navigation li::before {
-    background-color: #2574A9;
+    background-color: #7DAB5D;
     position: absolute;
     content: '';
     height: 100%;
@@ -81,4 +105,14 @@
 
 .content-container {
     padding-left: 220px;
+}
+.navbar-header{
+    padding: 10px 15px 10px 30px;
+    width: 100%;
+    border-bottom: 1.5px solid #7DAB5D;
+    margin-bottom: 3px;
+}
+.navbar-brand{
+    padding-left: 320px;
+    color: pink;
 }
