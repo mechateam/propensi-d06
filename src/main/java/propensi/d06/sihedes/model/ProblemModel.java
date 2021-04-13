@@ -21,10 +21,6 @@ public class ProblemModel implements Serializable {
     private Long id_problem;
 
     @NotNull
-    @Column(name = "status", nullable = false)
-    private Integer status;
-
-    @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "created_date", nullable = false)
     private Date created_date;
@@ -60,6 +56,12 @@ public class ProblemModel implements Serializable {
     @JsonIgnore
     private UserModel pengaju;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_status", referencedColumnName = "id_status", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private StatusModel status;
+
     @OneToMany(mappedBy = "problem", fetch = FetchType.LAZY)
     private List<LogProblemModel> listLog;
 
@@ -74,11 +76,11 @@ public class ProblemModel implements Serializable {
         this.id_problem = id_problem;
     }
 
-    public Integer getStatus() {
+    public StatusModel getStatus() {
         return status;
     }
 
-    public void setStatus(Integer status) {
+    public void setStatus(StatusModel status) {
         this.status = status;
     }
 

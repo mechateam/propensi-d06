@@ -5,6 +5,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 
@@ -26,6 +27,10 @@ public class RequestBOAModel implements Serializable {
     @JoinColumn(name = "id_boa", referencedColumnName = "id_boa", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private BOAModel boa;
+
+    @NotNull
+    @Column(name = "status", nullable = false)
+    private Integer status;
 
     // Setter & Getter
 
