@@ -21,10 +21,6 @@ public class RequestModel implements Serializable {
     private Long id_request;
 
     @NotNull
-    @Column(name = "status", nullable = false)
-    private Integer status;
-
-    @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "created_date", nullable = false)
     private Date created_date;
@@ -44,9 +40,9 @@ public class RequestModel implements Serializable {
     @Column(name = "nama_pengaju", nullable = false)
     private String nama_pengaju;
 
-    @NotNull
-    @Column(name = "request_type", nullable = false)
-    private Integer request_type;
+    @Column(name = "id_approver", nullable = true)
+    private Integer id_approver;
+
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_resolver", referencedColumnName = "id_user", nullable = false)
@@ -66,6 +62,12 @@ public class RequestModel implements Serializable {
     @JsonIgnore
     private UserModel pengaju;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_status", referencedColumnName = "id_status", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private StatusModel status;
+
     @OneToMany(mappedBy = "request", fetch = FetchType.LAZY)
     private List<RequestBOAModel> listRequestBOA;
 
@@ -83,11 +85,11 @@ public class RequestModel implements Serializable {
         this.id_request = id_request;
     }
 
-    public Integer getStatus() {
+    public StatusModel getStatus() {
         return status;
     }
 
-    public void setStatus(Integer status) {
+    public void setStatus(StatusModel status) {
         this.status = status;
     }
 
@@ -121,14 +123,6 @@ public class RequestModel implements Serializable {
 
     public void setNama_pengaju(String nama_pengaju) {
         this.nama_pengaju = nama_pengaju;
-    }
-
-    public Integer getRequest_type() {
-        return request_type;
-    }
-
-    public void setRequest_type(Integer request_type) {
-        this.request_type = request_type;
     }
 
     public UserModel getResolver() {

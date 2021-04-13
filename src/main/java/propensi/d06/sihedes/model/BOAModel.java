@@ -18,8 +18,13 @@ public class BOAModel implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_boa;
 
-    @OneToOne(mappedBy = "boa", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    private UserModel user;
+    @NotNull
+    @Column(name = "rank", nullable = false)
+    private Integer rank;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_boa", referencedColumnName = "id_boa")
+    private BOAModel boa;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_dept", referencedColumnName = "id_dept", nullable = false)
@@ -38,12 +43,12 @@ public class BOAModel implements Serializable {
         this.id_boa = id_boa;
     }
 
-    public UserModel getUser() {
-        return user;
+    public BOAModel getBoa() {
+        return boa;
     }
 
-    public void setUser(UserModel user) {
-        this.user = user;
+    public void setBoa(BOAModel boa) {
+        this.boa = boa;
     }
 
     public DepartemenModel getDepartemen() {
