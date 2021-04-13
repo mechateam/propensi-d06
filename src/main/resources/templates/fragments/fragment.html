@@ -15,7 +15,7 @@
     <head th:fragment="js">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-        <script th:src="@{/js/fragment.js}"></script>
+        <script type="text/javascript" th:src="@{/js/fragment.js}"></script>
     </head>
 </head>
 <body>
@@ -25,7 +25,7 @@
     <div class="sidebar-container">
         <ul class="sidebar-navigation">
             <li>
-                <a href="#">
+                <a href="/">
                     <i class="fa fa-home" aria-hidden="true"></i> Dashboard
                 </a>
             </li>
@@ -34,7 +34,7 @@
                     Tickets
                     <div class='fa fa-caret-down right'></div></a>
                 <ul>
-                    <li><a href='#'>All Tickets</a></li>
+                    <li><a th:href="@{/tickets}">All Tickets</a></li>
                     <li><a href='#'>My Ticket(s)</a></li>
                     <li><a href='#'>Pending Ticket(s)</a></li>
                 </ul>
@@ -95,6 +95,7 @@
     </div>
 
 </div>
+
 
 </body>
 </html>
