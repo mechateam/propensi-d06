@@ -1,8 +1,21 @@
-INSERT INTO sihedes.departemen(id_dept, nama_departemen, nama_kepala) VALUES(1, "IT Helpdesk", "Earlene");
-INSERT INTO sihedes.departemen(id_dept, nama_departemen, nama_kepala) VALUES(2, "Security", "Praya");
-INSERT INTO sihedes.departemen(id_dept, nama_departemen, nama_kepala) VALUES(3, "IT Sys Dev", "Meldi");
-INSERT INTO sihedes.departemen(id_dept, nama_departemen, nama_kepala) VALUES(4, "IT User Admin", "Bela");
-INSERT INTO sihedes.departemen(id_dept, nama_departemen, nama_kepala) VALUES(5, "IT Network", "Ajeng");
-INSERT INTO sihedes.departemen(id_dept, nama_departemen, nama_kepala) VALUES(6, "IT Infrastructure", "Nindya");
-INSERT INTO sihedes.departemen(id_dept, nama_departemen, nama_kepala) VALUES(7, "Finance", "Aku");
-INSERT INTO sihedes.departemen(id_dept, nama_departemen, nama_kepala) VALUES(8, "HR", "Kamu");
+DROP TABLE IF EXISTS `departemen`;
+
+CREATE TABLE `departemen` (
+  `id_dept` bigint(20) NOT NULL,
+  `nama_departemen` varchar(50) NOT NULL,
+  `nama_kepala` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `departemen`
+--
+
+INSERT INTO `departemen` (`id_dept`, `nama_departemen`, `nama_kepala`) VALUES
+(1, 'IT Helpdesk', 'Earlene'),
+(2, 'Security', 'Praya'),
+(3, 'IT Sys Dev', 'Meldi'),
+(4, 'IT User Admin', 'Bela'),
+(5, 'IT Network', 'Ajeng'),
+(6, 'IT Infrastructure', 'Nindya'),
+(7, 'Finance', 'Aku'),
+(8, 'HR', 'Kamu');
