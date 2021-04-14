@@ -23,8 +23,8 @@ public class BOAModel implements Serializable {
     private Integer rank;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_boa", referencedColumnName = "id_boa")
-    private BOAModel boa;
+    @JoinColumn(name = "id_user", referencedColumnName = "id_user")
+    private UserModel user;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_dept", referencedColumnName = "id_dept", nullable = false)
@@ -35,6 +35,9 @@ public class BOAModel implements Serializable {
     @OneToMany(mappedBy = "boa", fetch = FetchType.LAZY)
     private List<RequestBOAModel> listRequestBOA;
 
+    @OneToMany(mappedBy = "boa", fetch = FetchType.LAZY)
+    private List<SLABOAModel> listSLABOA;
+
     public Long getId_boa() {
         return id_boa;
     }
@@ -43,12 +46,28 @@ public class BOAModel implements Serializable {
         this.id_boa = id_boa;
     }
 
-    public BOAModel getBoa() {
-        return boa;
+    public Integer getRank() {
+        return rank;
     }
 
-    public void setBoa(BOAModel boa) {
-        this.boa = boa;
+    public void setRank(Integer rank) {
+        this.rank = rank;
+    }
+
+    public UserModel getUser() {
+        return user;
+    }
+
+    public void setUser(UserModel user) {
+        this.user = user;
+    }
+
+    public List<SLABOAModel> getListSLABOA() {
+        return listSLABOA;
+    }
+
+    public void setListSLABOA(List<SLABOAModel> listSLABOA) {
+        this.listSLABOA = listSLABOA;
     }
 
     public DepartemenModel getDepartemen() {

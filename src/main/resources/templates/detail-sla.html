@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title> Home </title>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+
+
+</head>
+<title>Hai bela</title>
+<body>
+<div th:replace="fragments/fragment :: header"></div>
+<nav th:replace="fragments/fragment :: navbar"></nav>
+
+<div class="content-container">
+    <section>
+        <div class="card" style="width: 50%; margin-left: 23%;">
+            <div class="card-header"><center><Strong>Detail SLA</Strong></center></div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col col-4">
+                        <p>Nama SLA</p>
+                    </div>
+                    <div class="col" style="width: 66%">
+                        <p th:text="':  ' + ${sla.nama_sla}"></p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col col-4">
+                        <p>Completion Time</p>
+                    </div>
+                    <div class="col" style="width: 66%">
+                        <p th:text="':  ' + ${sla.completion_time}"></p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col col-4">
+                        <p>Description</p>
+                    </div>
+                    <div class="col" style="width: 66%">
+                        <p th:text="':  ' + ${sla.description}"></p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col col-4">
+                        <p>Departemen</p>
+                    </div>
+                    <div class="col" style="width: 66%">
+                        <p th:text="':  ' + ${sla.departemen.nama_departemen}"></p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="card" style="width: 50%; margin-left: 23%;">
+            <div class="card-header"><center><Strong>Daftar Board of Approval</Strong></center></div>
+            <div class="card-body">
+                <div th:if="${!listBOA.isEmpty()}">
+                    <div class="card m-5 p-6 shadow p-3 mb-5 bg-white rounded">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Nama BoA</th>
+                                <th>Nama Departemen</th>
+                                <th>Rank</th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            <tr th:each="slaBOA, iterationStatus: ${listBOA}">
+                                <td th:text="${iterationStatus.count}"></td>
+                                <td th:text="${slaBOA.boa.user.getNama()}"></td>
+                                <td th:text="${slaBOA.boa.departemen.nama_departemen}"></td>
+                                <td th:text="${slaBOA.boa.rank}"></td>
+                                <td>
+<!--                                    <form th:action="@{/peserta/laporan}" method="POST">-->
+<!--                                        <input type="hidden" name="username" value="budak 1"/>-->
+<!--                                        <input type="hidden" name="jumlahPelatihan" value="1"/>-->
+<!--                                        <input type="hidden" name="noPeserta" th:value="${pesertaPelatihan.no_peserta}"/>-->
+<!--                                        <button type="submit" value="submit" class="btn btn-dark">Buat Laporan</button>-->
+<!--                                    </form>-->
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div th:unless="${!listBOA.isEmpty()}">
+                    <br>
+                    <br>
+                    <h2 class="text-center">Tidak ada BoA</h2>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+</body>
+</html>

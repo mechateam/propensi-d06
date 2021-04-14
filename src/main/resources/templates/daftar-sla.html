@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title> Home </title>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+
+
+</head>
+<title>Hai bela</title>
+<body>
+<div th:replace="fragments/fragment :: header"></div>
+<nav th:replace="fragments/fragment :: navbar"></nav>
+
+<div class="content-container">
+    <div class="text-center">
+        <a class="btn btn-outline-dark" th:href="@{/sla/tambah}">+Tambah SLA</a>
+    </div>
+    <div th:if="${!listSLA.isEmpty()}">
+        <div class="card m-5 p-6 shadow p-3 mb-5 bg-white rounded">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Nama SLA</th>
+                    <th>Completion Time</th>
+                    <th>Description</th>
+                    <th>Departemen</th>
+                    <th>Aksi</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr th:each="sla, iterationStatus: ${listSLA}">
+                    <td th:text="${iterationStatus.count}"></td>
+                    <td>
+                        <a th:href="@{sla/detail/} + ${sla.id_sla}" th:text="${sla.nama_sla}"></a>
+                    </td>
+                    <td th:text="${sla.completion_time}"></td>
+                    <td th:text="${sla.description}"></td>
+                    <td th:text="${sla.departemen.nama_departemen}"></td>
+                    <td>
+                        <a class="btn btn-dark" th:href="@{/sla/update/}+${sla.id_sla}">Ubah</a>
+                        <a class="btn btn-dark" th:href="@{/sla/delete/}+${sla.id_sla}">Delete</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div th:unless="${!listSLA.isEmpty()}">
+        <br>
+        <br>
+        <h2 class="text-center">Tidak ada SLA</h2>
+    </div>
+</div>
+
+</body>
+</html>
