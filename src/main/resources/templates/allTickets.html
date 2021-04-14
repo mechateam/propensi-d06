@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title> All Tickets </title>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+
+
+</head>
+
+<body>
+<div th:replace="fragments/fragment :: header"></div>
+<nav th:replace="fragments/fragment :: navbar"></nav>
+
+<div class="content-container">
+        <div class="container-fluid">
+            <div class="row">
+
+    <!--Page Name Header-->
+                <div class="col-md-6">
+                    <div class="pageName">
+                        <h3>All Tickets</h3>
+                        <p>All Tickets</p>
+                    </div>
+                </div>
+
+            </div>
+            <br>
+
+<!--                        START YOUR CONTENT                      -->
+
+            <!--Tab Nav-->
+            <div class="col-md-12">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a data-toggle="tab" href="#problem">Problem</a></li>
+                    <li><a data-toggle="tab" href="#request">Request</a></li>
+                </ul>
+
+
+
+
+                <div class="tab-content">
+<!--                    START TAB PROBLEM-->
+                    <div class="tab-pane fade in active" id="problem">
+                        <div class="card">
+                            <div class="card-content">
+<!--                                for row header-->
+                                <div class="row">
+                                    <div class="col-sm-7">
+                                        <div class="pageName">
+                                            <h4>Problem</h4>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3"></div>
+                                    <div class="col-sm-2">
+                                        <a href="#" type="submit" class="btn btn-fill btn-create text-center"> CREATE </a>
+                                    </div>
+                                </div>
+
+<!--                                for row search-->
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <div class="col-items">
+                                            show brp
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3"></div>
+                                    <div class="col-sm-6">
+                                        <div class="col-search">
+                                            <div class="row">
+                                            <!-- Search form -->
+                                                <input id="problemBar" class="searchbar" type="search" placeholder="Search...">
+                                                <a class="btn-search"><i class="fa fa-search"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+<!--                                            mulai table-->
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <table>
+                                            <thead>
+                                            <tr>
+                                                <th title="Field #1">No</th>
+                                                <th title="Field #2">ID</th>
+                                                <th title="Field #3">Subject</th>
+                                                <th title="Field #4">Date</th>
+                                                <th title="Field #5">Status</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+
+                                                <tr>
+                                                    <td><a th:href="@{/problem/detail}">1 </a></td>
+                                                    <td>PR21092020QB71</td>
+                                                    <td>Tidak dapat mengakses aplikasi untuk absen</td>
+                                                    <td>21 Februari 2021</td>
+                                                    <td>OPEN</td>
+
+                                                </tr>
+
+                                            <tr>
+                                                <td>2</td>
+                                                <td>PR21092020QB72</td>
+                                                <td>Tidak dapat mengakses aplikasi untuk absen</td>
+                                                <td>21 Februari 2021</td>
+                                                <td>DONE</td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>3</td>
+                                                <td>PR21092020QB73</td>
+                                                <td>Tidak dapat mengakses aplikasi untuk absen</td>
+                                                <td>21 Februari 2021</td>
+                                                <td>ASSIGNED</td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>4</td>
+                                                <td>PR21092020QB74</td>
+                                                <td>Tidak dapat mengakses aplikasi untuk absen</td>
+                                                <td>21 Februari 2021</td>
+                                                <td>CLOSED</td>
+
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        INI PAGINATION
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+<!--                    START TAB REQUEST-->
+                    <div class="tab-pane fade" id="request">
+                        <div class="card">
+                            <div class="card-content">
+                                <!--                                for row header-->
+                                <div class="row">
+                                    <div class="col-sm-7">
+                                        <div class="pageName">
+                                            <h4>Problem</h4>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3"></div>
+                                    <div class="col-sm-2">
+                                        <a href="#" type="submit" class="btn btn-fill btn-create text-center"> CREATE </a>
+                                    </div>
+                                </div>
+
+                                <!--                                for row search-->
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <div class="col-items">
+                                            show brp
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3"></div>
+                                    <div class="col-sm-6">
+                                        <div class="col-search">
+                                            <div class="row">
+                                                <!-- Search form -->
+                                                <input id="requestBar" class="searchbar" type="search" placeholder="Search...">
+                                                <a class="btn-search"><i class="fa fa-search"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!--                                            mulai table-->
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <table>
+                                            <thead>
+                                            <tr>
+                                                <th title="Field #1">No</th>
+                                                <th title="Field #2">ID</th>
+                                                <th title="Field #3">Subject</th>
+                                                <th title="Field #4">Service Catalog</th>
+                                                <th title="Field #5">Date</th>
+                                                <th title="Field #6">Status</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr>
+                                                <td><a th:href="@{/request/detail}">1 </a></td>
+                                                <td>RQ21092020QB76</td>
+                                                <td>Lorem ipsum dolor sit amet, constectetur</td>
+                                                <td>IT Infrasctructure</td>
+                                                <td>21 Februari 2021</td>
+                                                <td>DONE</td>
+                                            </tr>
+                                            <tr>
+                                                <td>2</td>
+                                                <td>RQ21092020QB77</td>
+                                                <td>Lorem ipsum dolor sit amet, constectetur</td>
+                                                <td>IT Support</td>
+                                                <td>21 Februari 2021</td>
+                                                <td>OPEN</td>
+                                            </tr>
+                                            <tr>
+                                                <td>3</td>
+                                                <td>RQ21092020QB78</td>
+                                                <td>Lorem ipsum dolor sit amet, constectetur</td>
+                                                <td>IT Network</td>
+                                                <td>21 Februari 2021</td>
+                                                <td>ASSIGNED</td>
+                                            </tr>
+                                            <tr>
+                                                <td>4</td>
+                                                <td>RQ21092020QB79</td>
+                                                <td>Lorem ipsum dolor sit amet, constectetur</td>
+                                                <td>Security</td>
+                                                <td>21 Februari 2021</td>
+                                                <td>Waiting for Approval</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        INI PAGINATION
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--END OF TAB REQUEST-->
+
+                </div>
+            </div>
+
+            <!--                         END OF CONTENT                      -->
+
+      </div>
+</div>
+<script>
+    $("#problemBar").on("input", function () {
+        var n = $(this).val();
+        $('tbody tr:ccontains("' + n + '")').show(),
+            $('tbody tr:not(:ccontains("' + n + '"))').hide(),
+            0 === $('tr:ccontains("' + n + '")').length
+                ? $("#no_results").show()
+                : $("#no_results").hide();
+    });
+
+    jQuery.expr[":"].ccontains = function (a, i, m) {
+        return jQuery(a).text().toUpperCase().indexOf(m[3].toUpperCase()) >= 0;
+    };
+</script>
+
+<script>
+    $("#requestBar").on("input", function () {
+        var n = $(this).val();
+        $('tbody tr:ccontains("' + n + '")').show(),
+            $('tbody tr:not(:ccontains("' + n + '"))').hide(),
+            0 === $('tr:ccontains("' + n + '")').length
+                ? $("#no_results").show()
+                : $("#no_results").hide();
+    });
+
+    jQuery.expr[":"].ccontains = function (a, i, m) {
+        return jQuery(a).text().toUpperCase().indexOf(m[3].toUpperCase()) >= 0;
+    };
+</script>
+</body>
+
+
+
+</html>
