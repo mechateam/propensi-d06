@@ -22,6 +22,11 @@ public class SLAModel implements Serializable {
 
     @NotNull
     @Size(max = 255)
+    @Column(name = "nama_sla", nullable = false)
+    private String nama_sla;
+
+    @NotNull
+    @Size(max = 255)
     @Column(name = "description", nullable = false)
     private String description;
 
@@ -38,6 +43,9 @@ public class SLAModel implements Serializable {
 
     @OneToMany(mappedBy = "sla", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<RequestModel> listRequest;
+
+    @OneToMany(mappedBy = "sla", fetch = FetchType.LAZY)
+    private List<SLABOAModel> listSLABOA;
 
     public Long getId_sla() {
         return id_sla;
@@ -77,5 +85,21 @@ public class SLAModel implements Serializable {
 
     public void setListRequest(List<RequestModel> listRequest) {
         this.listRequest = listRequest;
+    }
+
+    public List<SLABOAModel> getListSLABOA() {
+        return listSLABOA;
+    }
+
+    public void setListSLABOA(List<SLABOAModel> listSLABOA) {
+        this.listSLABOA = listSLABOA;
+    }
+
+    public String getNama_sla() {
+        return nama_sla;
+    }
+
+    public void setNama_sla(String nama_sla) {
+        this.nama_sla = nama_sla;
     }
 }

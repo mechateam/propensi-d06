@@ -1,17 +1,17 @@
-DROP TABLE IF EXISTS `status`;
+DROP TABLE IF EXISTS status;
 
-CREATE TABLE IF NOT EXISTS `status` (
-  `id_status` bigint(20) unsigned NOT NULL,
-  `nama_status` varchar(50) NOT NULL
+CREATE TABLE IF NOT EXISTS status (
+  id_status bigint(20) unsigned NOT NULL,
+  nama_status varchar(50) NOT NULL
 );
 
 
 
 --
--- Dumping data for table `status`
+-- Dumping data for table status
 --
 
-INSERT INTO `status` (`id_status`, `nama_status`) VALUES
+INSERT INTO status (id_status, nama_status) VALUES
 (1, 'Open'),
 (2, 'Requested'),
 (3, 'Waiting for Approval'),
@@ -22,18 +22,18 @@ INSERT INTO `status` (`id_status`, `nama_status`) VALUES
 (8, 'Closed');
 
 --
--- Indexes for table `status`
+-- Indexes for table status
 --
-ALTER TABLE `status`
-    ADD PRIMARY KEY (`id_status`);
+ALTER TABLE status
+    ADD PRIMARY KEY (id_status);
 
 --
 -- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT for table `status`
+-- AUTO_INCREMENT for table status
 --
-ALTER TABLE `status`
-    MODIFY `id_status` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+ALTER TABLE status
+    MODIFY id_status bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 COMMIT;
