@@ -1,6 +1,6 @@
-DROP TABLE IF EXISTS status;
+DROP TABLE IF EXISTS sihedes.status;
 
-CREATE TABLE IF NOT EXISTS status (
+CREATE TABLE IF NOT EXISTS sihedes.status (
   id_status bigint(20) unsigned NOT NULL,
   nama_status varchar(50) NOT NULL
 );
@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS status (
 -- Dumping data for table status
 --
 
-INSERT INTO status (id_status, nama_status) VALUES
+INSERT INTO sihedes.status (id_status, nama_status) VALUES
 (1, 'Open'),
 (2, 'Requested'),
 (3, 'Waiting for Approval'),
@@ -24,7 +24,7 @@ INSERT INTO status (id_status, nama_status) VALUES
 --
 -- Indexes for table status
 --
-ALTER TABLE status
+ALTER TABLE sihedes.status
     ADD PRIMARY KEY (id_status);
 
 --
@@ -34,6 +34,6 @@ ALTER TABLE status
 --
 -- AUTO_INCREMENT for table status
 --
-ALTER TABLE status
+ALTER TABLE sihedes.status
     MODIFY id_status bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 COMMIT;

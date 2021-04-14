@@ -1,6 +1,6 @@
-DROP TABLE IF EXISTS departemen;
+DROP TABLE IF EXISTS sihedes.departemen;
 
-CREATE TABLE IF NOT EXISTS departemen (
+CREATE TABLE IF NOT EXISTS sihedes.departemen (
   id_dept bigint(20) unsigned NOT NULL,
   nama_departemen varchar(50) NOT NULL,
   nama_kepala varchar(50) NOT NULL
@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS departemen (
 -- Dumping data for table departemen
 --
 
-INSERT INTO departemen (id_dept, nama_departemen, nama_kepala) VALUES
+INSERT INTO sihedes.departemen (id_dept, nama_departemen, nama_kepala) VALUES
 (1, 'IT Helpdesk', 'Earlene'),
 (2, 'Security', 'Praya'),
 (3, 'IT Sys Dev', 'Meldi'),
@@ -27,7 +27,7 @@ INSERT INTO departemen (id_dept, nama_departemen, nama_kepala) VALUES
 --
 -- Indexes for table departemen
 --
-ALTER TABLE departemen
+ALTER TABLE sihedes.departemen
     ADD PRIMARY KEY (id_dept);
 
 --
@@ -37,6 +37,6 @@ ALTER TABLE departemen
 --
 -- AUTO_INCREMENT for table departemen
 --
-ALTER TABLE departemen
+ALTER TABLE sihedes.departemen
     MODIFY id_dept bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 COMMIT;

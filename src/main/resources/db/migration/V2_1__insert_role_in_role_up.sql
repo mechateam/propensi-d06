@@ -1,6 +1,6 @@
-DROP TABLE IF EXISTS role;
+DROP TABLE IF EXISTS sihedes.role;
 
-CREATE TABLE IF NOT EXISTS role (
+CREATE TABLE IF NOT EXISTS sihedes.role (
   id_role bigint(20)  NOT NULL,
   nama_role varchar(50) NOT NULL
 );
@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS role (
 -- Dumping data for table role
 --
 
-INSERT INTO role (id_role, nama_role) VALUES
+INSERT INTO sihedes.role (id_role, nama_role) VALUES
 (1, 'Admin'),
 (2, 'Helpdesk'),
 (3, 'Pengaju'),
@@ -20,7 +20,7 @@ INSERT INTO role (id_role, nama_role) VALUES
 --
 -- Indexes for table role
 --
-ALTER TABLE role
+ALTER TABLE sihedes.role
     ADD PRIMARY KEY (id_role);
 
 --
@@ -30,6 +30,6 @@ ALTER TABLE role
 --
 -- AUTO_INCREMENT for table role
 --
-ALTER TABLE role
+ALTER TABLE sihedes.role
     MODIFY id_role bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 COMMIT;
