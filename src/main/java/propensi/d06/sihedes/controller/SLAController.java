@@ -36,7 +36,7 @@ public class SLAController {
         return "daftar-sla";
     }
 
-        @RequestMapping(value="/sla/daftar/{id_dept}")
+        @GetMapping(value="/sla/daftar/{id_dept}")
     public String viewSlaDept(
             @PathVariable(value="id_dept") Long id_dept, Model model){
             DepartemenModel departemenNama = departemenService.findDepartemenById(id_dept);
