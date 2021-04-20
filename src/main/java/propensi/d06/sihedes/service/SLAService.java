@@ -1,5 +1,6 @@
 package propensi.d06.sihedes.service;
 
+import propensi.d06.sihedes.model.DepartemenModel;
 import propensi.d06.sihedes.model.SLAModel;
 
 import java.util.List;
@@ -10,4 +11,5 @@ public interface SLAService {
     void addSLA(SLAModel sla);
     SLAModel updateSLA(SLAModel sla);
     void deleteSLA(SLAModel sla);
+    List<SLAModel> getAllSLAByDepartemen(DepartemenModel departemen);
 }

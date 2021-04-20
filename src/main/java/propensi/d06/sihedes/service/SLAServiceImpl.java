@@ -3,6 +3,7 @@ package propensi.d06.sihedes.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import propensi.d06.sihedes.model.DepartemenModel;
 import propensi.d06.sihedes.model.SLAModel;
 import propensi.d06.sihedes.repository.SLADb;
 
@@ -45,5 +46,10 @@ public class SLAServiceImpl implements SLAService {
     public void deleteSLA(SLAModel sla){
         slaDb.delete(slaDb.findById(sla.getId_sla()).get());
 
+    }
+
+    @Override
+    public List<SLAModel> getAllSLAByDepartemen(DepartemenModel departemen) {
+        return slaDb.findAllByDepartemen(departemen);
     }
 }

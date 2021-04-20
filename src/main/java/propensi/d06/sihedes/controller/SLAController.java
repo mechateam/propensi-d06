@@ -23,13 +23,29 @@ public class SLAController {
 
 
     @GetMapping("/sla")
+    public String viewDepartmentSLA(Model model){
+        List<DepartemenModel> listDepartment = departemenService.getListDepartment();
+        model.addAttribute("listDepartment",listDepartment);
+        return "daftar-department-sla";
+    }
+
+    @GetMapping("/sla/daftar")
     public String viewAllSLA(Model model){
         List<SLAModel> listSLA = slaService.getListSLA();
         model.addAttribute("listSLA",listSLA);
         return "daftar-sla";
     }
 
-    @GetMapping("/sla/detail/{id}")
+        @RequestMapping(value="/sla/daftar/{id_dept}")
+    public String viewSlaDept(
+            @PathVariable(value="id_dept") Long id_dept, Model model){
+            DepartemenModel departemenNama = departemenService.findDepartemenById(id_dept);
+            List<SLAModel> listSLA = slaService.getAllSLAByDepartemen(departemenNama);
+            model.addAttribute("listSLA",listSLA);
+        return "daftar-sla";
+    }
+
+    @GetMapping("/sla/daftar/detail/{id}")
     public String detailSLA(
             @PathVariable(value = "id") Long id,
             Model model
@@ -40,20 +56,20 @@ public class SLAController {
         return "detail-sla";
     }
 
-    @GetMapping("/sla/tambah")
+    @GetMapping("/sla/daftar/tambah")
     public String formTambahSLA(Model model){
         List<DepartemenModel> listDepartemen = departemenService.findAll();
         model.addAttribute("listDepartemen",listDepartemen);
         return "form-add-sla";
     }
 
-    @PostMapping("/sla/tambah")
+    @PostMapping("/sla/daftar/tambah")
     public String postTambahSLA(@ModelAttribute SLAModel sla, Model model){
         slaService.addSLA(sla);
         return "redirect:/sla";
     }
 
-    @GetMapping("/sla/update/{id}")
+    @GetMapping("/sla/daftar/update/{id}")
     public String formUpdateSLA(@PathVariable Long id, Model model){
         SLAModel sla = slaService.getSLAById(id);
         List<DepartemenModel> listDepartemen = departemenService.findAll();
@@ -62,13 +78,13 @@ public class SLAController {
         return "form-update-sla";
     }
 
-    @PostMapping("/sla/update")
+    @PostMapping("/sla/daftar/update")
     public String putUpdateSLA(@ModelAttribute SLAModel sla, Model model){
         slaService.updateSLA(sla);
         return "redirect:/sla";
     }
 
-    @GetMapping("/sla/delete/{id}")
+    @GetMapping("/sla/daftar/delete/{id}")
     public String deleteSLA(@PathVariable Long id, Model model){
         SLAModel sla = slaService.getSLAById(id);
         slaService.deleteSLA(sla);
