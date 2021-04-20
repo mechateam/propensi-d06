@@ -30,10 +30,15 @@ public class SLAModel implements Serializable {
     @Column(name = "description", nullable = false)
     private String description;
 
+//    @NotNull
+//    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSX")
+//    @Column(name = "completion_time", nullable = false)
+//    private Date completion_time;
+
     @NotNull
-    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSX")
+    @Size(max = 255)
     @Column(name = "completion_time", nullable = false)
-    private Date completion_time;
+    private String completion_time;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_dept", referencedColumnName = "id_dept", nullable = false)
@@ -63,11 +68,11 @@ public class SLAModel implements Serializable {
         this.description = description;
     }
 
-    public Date getCompletion_time() {
+    public String getCompletion_time() {
         return completion_time;
     }
 
-    public void setCompletion_time(Date completion_time) {
+    public void setCompletion_time(String completion_time) {
         this.completion_time = completion_time;
     }
 
