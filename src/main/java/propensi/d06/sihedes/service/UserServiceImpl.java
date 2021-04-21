@@ -3,10 +3,12 @@ package propensi.d06.sihedes.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import propensi.d06.sihedes.model.DepartemenModel;
 import propensi.d06.sihedes.model.UserModel;
 import propensi.d06.sihedes.repository.UserDb;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 @Transactional
@@ -32,6 +34,12 @@ public class UserServiceImpl implements UserService {
     public UserModel getUserbyUsername(String username) {
         return userDb.findByUsername(username);
     }
+
+    @Override
+    public List<UserModel> getListUserbyDepartemen(DepartemenModel departemen) {
+        return userDb.findUserModelsByDepartemen(departemen);
+    }
+
 
     @Override
     public boolean isMatch(String newPassword, String oldPassword) {

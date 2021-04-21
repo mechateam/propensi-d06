@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Problem</title>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+  </head>
+
+  <body>
+    <div th:replace="fragments/fragment :: header"></div>
+    <nav th:replace="fragments/fragment :: navbar"></nav>
+
+    <div class="content-container">
+      <div class="container-fluid">
+        <div class="row">
+          <!--Page Name Header-->
+          <div class="col-sm-6">
+            <div class="pageName">
+              <h3>Detail Ticket</h3>
+              <p>
+                <a th:href="@{/tickets}">All Tickets</a> > Detail PR21092020QB71
+              </p>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="statusName">
+              <h3>For Status</h3>
+            </div>
+          </div>
+        </div>
+        <br />
+
+        <!--            START YOUR CONTENT                  -->
+
+        <!--Tab Nav-->
+        <div class="col-md-12">
+          <ul class="nav nav-tabs">
+            <li class="active">
+              <a data-toggle="tab" href="#detail">Problem</a>
+            </li>
+          </ul>
+
+          <div class="tab-content">
+            <!--                    START TAB PROBLEM-->
+            <div class="tab-pane fade in active" id="detail">
+              <div class="card">
+                <div class="card-content">
+                  <!--                                for row header-->
+                  <div class="row">
+                    <div class="col-sm-7">
+                      <div class="pageName">
+                        <h4>Detail for Problem : PR21092020QB71</h4>
+                      </div>
+                    </div>
+                    <div class="col-sm-3"></div>
+                    <div class="col-sm-2"></div>
+                  </div>
+                  <br /><br />
+                  <div class="row detail-row">
+                    <div class="col-sm-3">Requestor</div>
+                    <div class="col-sm-9">:</div>
+                  </div>
+                  <div class="row detail-row">
+                    <div class="col-sm-3">Subject</div>
+                    <div class="col-sm-9">:</div>
+                  </div>
+                  <div class="row detail-row">
+                    <div class="col-sm-3">Date Requested</div>
+                    <div class="col-sm-9">:</div>
+                  </div>
+                  <div class="row detail-row">
+                    <div class="col-sm-3">Description</div>
+                    <div class="col-sm-9">:</div>
+                  </div>
+                  <!-- <form th:action="@{/lowongan/add}" th:object="${lowongan}" method="POST"> -->
+                  <div class="row detail-row">
+                    <div class="col-sm-3">Assign Resolver</div>
+                    <div class="col-sm-1">:</div>
+                    <div class="col-sm-3">
+                      <select
+                        name="jenisResolver"
+                        id="resolver"
+                        style="width: 150%; margin-left: 0"
+                      >
+                        <option value="">Assign Individual Resolver</option>
+                        <option value="1">Rizki</option>
+                        <option value="2">Fadil</option>
+                        <option value="3">Erwin</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <br />
+                  <div class="row">
+                    <div class="col-sm-7"></div>
+                    <div class="col-sm-3"></div>
+                    <div class="col-sm-2">
+                      <a
+                        th:href="@{/problem/detail/assign}"
+                        type="submit"
+                        class="btn btn-fill btn-create text-center"
+                      >
+                        Assign
+                      </a>
+                    </div>
+                  </div>
+
+                  <!-- </form> -->
+
+                  <!-- <br>
+                            <h5 th:text="${berhasil}" style="color: green;"></h5> -->
+                </div>
+                <div class="created-by">created by</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!--Tab Log-->
+        <div class="col-md-12">
+          <br /><br /><br />
+          <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#log">Log</a></li>
+          </ul>
+
+          <div class="tab-content">
+            <!--                    START TAB PROBLEM-->
+            <div class="tab-pane fade in active" id="log">
+              <div class="card">
+                <div class="log-content">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <table>
+                        <thead>
+                          <tr>
+                            <th title="Field #1">Progress</th>
+                            <th title="Field #2">Time</th>
+                            <th title="Field #3">Created by</th>
+                            <th title="Field #4">Status</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>Lorem ipsum dolor sit amet, constectetur</td>
+                            <td>Feb. 21, 2021, 10:45 a.m.</td>
+                            <td>Hantigo</td>
+                            <td>DONE</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!--            END OF CONTENT                      -->
+      </div>
+    </div>
+  </body>
+</html>
