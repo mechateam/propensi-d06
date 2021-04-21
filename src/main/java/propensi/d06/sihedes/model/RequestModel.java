@@ -44,11 +44,17 @@ public class RequestModel implements Serializable {
     private Integer id_approver;
 
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_resolver", referencedColumnName = "id_user", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    @JoinColumn(name = "id_resolver", referencedColumnName = "id_user", nullable = true)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private UserModel resolver;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    @JoinColumn(name = "id_departemen", referencedColumnName = "id_dept", nullable = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private DepartemenModel resolver_departemen;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_sla", referencedColumnName = "id_sla", nullable = false)
@@ -171,6 +177,22 @@ public class RequestModel implements Serializable {
 
     public void setListFeedback(List<FeedbackRequest> listFeedback) {
         this.listFeedback = listFeedback;
+    }
+
+    public Integer getId_approver() {
+        return id_approver;
+    }
+
+    public void setId_approver(Integer id_approver) {
+        this.id_approver = id_approver;
+    }
+
+    public DepartemenModel getResolver_departemen() {
+        return resolver_departemen;
+    }
+
+    public void setResolver_departemen(DepartemenModel resolver_departemen) {
+        this.resolver_departemen = resolver_departemen;
     }
 }
 
