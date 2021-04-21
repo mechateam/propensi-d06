@@ -27,6 +27,10 @@ public class RequestModel implements Serializable {
 
     @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Column(name = "target_date", nullable = false)
+    private Date target_date;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "finished_date", nullable = true)
     private Date finished_date;
 
@@ -34,6 +38,24 @@ public class RequestModel implements Serializable {
     @Size(max = 255)
     @Column(name = "description", nullable = false)
     private String description;
+
+    @NotNull
+    @Size(max = 255)
+    @Column(name = "phone_number", nullable = false)
+    private Integer phone_number;
+
+    public Integer getPhone_number() { return phone_number; }
+
+    public void setPhone_number(Integer phone_number) { this.phone_number = phone_number; }
+
+    @NotNull
+    @Size(max = 255)
+    @Column(name = "background", nullable = false)
+    private String background;
+
+    public String getBackground() { return background; }
+
+    public void setBackground(String background) { this.background = background; }
 
     @NotNull
     @Size(max = 255)
@@ -100,6 +122,10 @@ public class RequestModel implements Serializable {
     public void setCreated_date(Date created_date) {
         this.created_date = created_date;
     }
+
+    public Date getTarget_date() { return target_date; }
+
+    public void setTarget_date(Date target_date) { this.target_date = target_date; }
 
     public Date getFinished_date() {
         return finished_date;

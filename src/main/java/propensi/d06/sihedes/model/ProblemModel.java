@@ -22,10 +22,15 @@ public class ProblemModel implements Serializable {
 
     @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Column(name = "real_date", nullable = false)
+    private Date real_date;
+
+    @NotNull
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "created_date", nullable = false)
     private Date created_date;
 
-    @NotNull
+
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "finished_date", nullable = true)
     private Date finished_date;
@@ -37,12 +42,17 @@ public class ProblemModel implements Serializable {
 
     @NotNull
     @Size(max = 255)
+    @Column(name = "subject", nullable = false)
+    private String subject;
+
+    @NotNull
+    @Size(max = 255)
     @Column(name = "nama_pengaju", nullable = false)
     private String nama_pengaju;
 
-    @NotNull
-    @Column(name = "request_type", nullable = false)
-    private Integer request_type;
+//    @NotNull
+//    @Column(name = "request_type", nullable = false)
+//    private Integer request_type;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_resolver", referencedColumnName = "id_user", nullable = false)
@@ -108,6 +118,10 @@ public class ProblemModel implements Serializable {
         this.description = description;
     }
 
+    public String getSubject() { return subject; }
+
+    public void setSubject(String subject) { this.subject = subject; }
+
     public String getNama_pengaju() {
         return nama_pengaju;
     }
@@ -116,13 +130,13 @@ public class ProblemModel implements Serializable {
         this.nama_pengaju = nama_pengaju;
     }
 
-    public Integer getRequest_type() {
-        return request_type;
-    }
-
-    public void setRequest_type(Integer request_type) {
-        this.request_type = request_type;
-    }
+//    public Integer getRequest_type() {
+//        return request_type;
+//    }
+//
+//    public void setRequest_type(Integer request_type) {
+//        this.request_type = request_type;
+//    }
 
     public UserModel getResolver() {
         return resolver;

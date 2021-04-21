@@ -78,4 +78,29 @@ public class TicketController {
 //        // Return view template yang diinginkan
         return "detailRequest";
     }
+
+    @GetMapping("/ticket/add")
+    public String addTicket(Model model) {
+        model.addAttribute("problem", new ProblemModel());
+        model.addAttribute("request", new RequestModel());
+        return "createTicket";
+    }
+
+    @PostMapping("/problem/add")
+    public String problemSubmit(
+            @ModelAttribute ProblemModel problem,
+            Model model) {
+
+        model.addAttribute("problem", new ProblemModel());
+        return "detailProblem";
+    }
+
+    @PostMapping("/request/add")
+    public String requestSubmit(
+            @ModelAttribute RequestModel request,
+            Model model) {
+
+        model.addAttribute("request", new RequestModel());
+        return "detailRequest";
+    }
 }
