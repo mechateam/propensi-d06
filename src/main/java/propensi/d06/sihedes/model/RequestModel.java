@@ -44,13 +44,13 @@ public class RequestModel implements Serializable {
     private Integer id_approver;
 
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
     @JoinColumn(name = "id_resolver", referencedColumnName = "id_user", nullable = true)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private UserModel resolver;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
     @JoinColumn(name = "id_departemen", referencedColumnName = "id_dept", nullable = true)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore

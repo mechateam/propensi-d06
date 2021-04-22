@@ -22,13 +22,23 @@ public class SLAModel implements Serializable {
 
     @NotNull
     @Size(max = 255)
+    @Column(name = "nama_sla", nullable = false)
+    private String nama_sla;
+
+    @NotNull
+    @Size(max = 255)
     @Column(name = "description", nullable = false)
     private String description;
 
+//    @NotNull
+//    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSX")
+//    @Column(name = "completion_time", nullable = false)
+//    private Date completion_time;
+
     @NotNull
-    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSX")
+    @Size(max = 255)
     @Column(name = "completion_time", nullable = false)
-    private Date completion_time;
+    private String completion_time;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_dept", referencedColumnName = "id_dept", nullable = false)
@@ -38,6 +48,9 @@ public class SLAModel implements Serializable {
 
     @OneToMany(mappedBy = "sla", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<RequestModel> listRequest;
+
+    @OneToMany(mappedBy = "sla", fetch = FetchType.LAZY)
+    private List<SLABOAModel> listSLABOA;
 
     public Long getId_sla() {
         return id_sla;
@@ -55,11 +68,11 @@ public class SLAModel implements Serializable {
         this.description = description;
     }
 
-    public Date getCompletion_time() {
+    public String getCompletion_time() {
         return completion_time;
     }
 
-    public void setCompletion_time(Date completion_time) {
+    public void setCompletion_time(String completion_time) {
         this.completion_time = completion_time;
     }
 
@@ -77,5 +90,21 @@ public class SLAModel implements Serializable {
 
     public void setListRequest(List<RequestModel> listRequest) {
         this.listRequest = listRequest;
+    }
+
+    public List<SLABOAModel> getListSLABOA() {
+        return listSLABOA;
+    }
+
+    public void setListSLABOA(List<SLABOAModel> listSLABOA) {
+        this.listSLABOA = listSLABOA;
+    }
+
+    public String getNama_sla() {
+        return nama_sla;
+    }
+
+    public void setNama_sla(String nama_sla) {
+        this.nama_sla = nama_sla;
     }
 }

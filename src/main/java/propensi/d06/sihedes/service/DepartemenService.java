@@ -8,4 +8,6 @@ import java.util.List;
 public interface DepartemenService {
     List<DepartemenModel> findAll();
     DepartemenModel findDepartemenById(Long id);
+
+    List<DepartemenModel> getListDepartment();
 }

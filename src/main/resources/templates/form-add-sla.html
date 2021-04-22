@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title> Home </title>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+
+
+</head>
+<title>Hai bela</title>
+<body>
+<div th:replace="fragments/fragment :: header"></div>
+<nav th:replace="fragments/fragment :: navbar"></nav>
+
+<div class="content-container">
+    <h2 class="text-center">Form Tambah SLA</h2>
+    <form th:action="@{/sla/daftar/tambah}" th:object="${sla}" method="POST">
+        Nama SLA: <br>
+        <input class="form-control" type="text" name="nama_sla" required/>
+        <br>
+        Deskripsi : <br>
+        <input class="form-control" type="text" name="description" required/>
+        <br>
+        Completion Time : <br>
+        <input class="form-control" type="datetime-local" name="completion_time" required/>
+        <br>
+        Departemen : <br>
+        <select name="departemen" class="form-control">
+            <option selected value="">-- Pilih Departemen --</option>
+            <option th:each="jenis_departemen: ${listDepartemen}" th:value="${jenis_departemen.id_dept}" th:text="${jenis_departemen.nama_departemen}"></option>
+        </select>
+        <button type="submit" class="btn btn-primary">Simpan</button>
+    </form>
+</div>
+
+</body>
+</html>
