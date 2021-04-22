@@ -41,7 +41,7 @@ public class RequestModel implements Serializable {
     private String nama_pengaju;
 
     @Column(name = "id_approver", nullable = true)
-    private Integer id_approver;
+    private Long id_approver;
 
 
     @ManyToOne(fetch = FetchType.LAZY, optional = true)
@@ -179,11 +179,11 @@ public class RequestModel implements Serializable {
         this.listFeedback = listFeedback;
     }
 
-    public Integer getId_approver() {
+    public Long getId_approver() {
         return id_approver;
     }
 
-    public void setId_approver(Integer id_approver) {
+    public void setId_approver(Long id_approver) {
         this.id_approver = id_approver;
     }
 
