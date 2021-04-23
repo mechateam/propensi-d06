@@ -1,4 +1,5 @@
 package propensi.d06.sihedes.controller;
+
 import org.springframework.beans.factory.parsing.Problem;
 import org.springframework.security.core.context.SecurityContextHolder;
 import propensi.d06.sihedes.model.*;
@@ -146,6 +147,7 @@ public class TicketController {
     @PostMapping("/problem/add")
     public String problemSubmit(
             @ModelAttribute ProblemModel problem,
+            RedirectAttributes redir,
             Model model) {
 
         long idStatus = 1;
@@ -159,7 +161,7 @@ public class TicketController {
         problem.setCreated_date(dateNow);
 
         problemService.addProblem(problem);
-        return "allTickets";
+        return "redirect:/tickets";
     }
 
     @PostMapping("/request/add")

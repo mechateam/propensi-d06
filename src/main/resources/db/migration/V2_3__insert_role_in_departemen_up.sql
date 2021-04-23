@@ -39,8 +39,4 @@
 -- # --
 -- # ALTER TABLE sihedes.departemen
 -- #     MODIFY id_dept bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
-<<<<<<< HEAD
 -- # COMMIT;
-=======
--- # COMMIT;
->>>>>>> 4d8a65380a5caac512860e2f9c7b2c0888fb4d38
