@@ -10,6 +10,7 @@ import propensi.d06.sihedes.model.SLAModel;
 import propensi.d06.sihedes.repository.RequestDb;
 import propensi.d06.sihedes.repository.SLABOADb;
 import propensi.d06.sihedes.repository.SLADb;
+import propensi.d06.sihedes.repository.StatusDb;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -26,6 +27,9 @@ public class RequestServiceImpl implements RequestService {
     @Autowired
     SLADb slaDb;
 
+    @Autowired
+    StatusDb statusDb;
+
     @Override
     public RequestModel getRequestById(Long id){
         return requestDb.findById(id).get();
@@ -35,13 +39,20 @@ public class RequestServiceImpl implements RequestService {
     public RequestModel updateApprovalRequest(RequestModel request){
 
         RequestModel targetRequest = requestDb.findById(request.getId_request()).get();
-        List<SLABOAModel> listBOA = slaboaDb.findAllBySla(request.getSla());
+        List<SLABOAModel> listBOA = slaboaDb.findAllBySla(targetRequest.getSla());
         Integer currentRank=0;
 
+        for (SLABOAModel boa:listBOA){
+            if (targetRequest.getId_approver().equals(boa.getBoa().getUser().getId_user())){
+                currentRank = boa.getBoa().getRank();
+            }
+        }
+
         for (SLABOAModel boa: listBOA){
+            System.out.println("id approver"+targetRequest.getId_approver());
+            System.out.println(boa.getBoa().getUser().getId_user());
 
             if (targetRequest.getId_approver() == boa.getBoa().getUser().getId_user()){
-                currentRank = boa.getBoa().getRank();
                 if (currentRank == listBOA.size()){
                     targetRequest.setId_approver(new Long(-1));
                 }
@@ -52,6 +63,10 @@ public class RequestServiceImpl implements RequestService {
             }
         }
 
+        if (targetRequest.getId_approver() == -1){
+            targetRequest.setStatus(statusDb.findByNamaStatus("Waiting for Assignment"));
+        }
+
         return targetRequest;
     }
 
@@ -59,8 +74,14 @@ public class RequestServiceImpl implements RequestService {
     public RequestModel rejectApprovalRequest(RequestModel request){
         RequestModel targetRequest = requestDb.findById(request.getId_request()).get();
 
-        targetRequest.setId_approver(new Long(-1));
+        try{
+            targetRequest.setId_approver(new Long(-1));
+            targetRequest.setStatus(statusDb.findByNamaStatus("Closed"));
+            return targetRequest;
+        }
+        catch (NullPointerException nullException){
+            return null;
+        }
 
-        return targetRequest;
     }
 }

@@ -110,6 +110,7 @@ public class TicketController {
 
             Long idApprover = new Long(request.getId_approver());
             model.addAttribute("user",userLoggedin);
+            model.addAttribute("request",request);
             model.addAttribute("userApproval", userService.getUserbyId(idApprover));
 
             return "detailRequestApproval";
@@ -121,17 +122,14 @@ public class TicketController {
     @PostMapping("/request/approve")
     public String approveRequest(@ModelAttribute RequestModel request, Model model){
         requestService.updateApprovalRequest(request);
-
-        if (request.getId_approver() == -1){
-            request.setStatus(statusService.getStatusByStatusName("Waiting for Assignment"));
-        }
+        model.addAttribute("request",request);
         return "redirect:/tickets";
     }
 
     @PostMapping("/request/reject")
     public String rejectRequest(@ModelAttribute RequestModel request, Model model){
         requestService.rejectApprovalRequest(request);
-        request.setStatus(statusService.getStatusByStatusName("Closed"));
+        model.addAttribute("request",request);
         return "redirect:/tickets";
     }
 }

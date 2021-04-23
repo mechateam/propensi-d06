@@ -67,6 +67,14 @@
                             </div>
                             <div class="row detail-row">
                                 <div class="col-sm-3">
+                                    Approver
+                                </div>
+                                <div class="col-sm-9">
+                                    <p th:text="${userApproval.nama}"></p>
+                                </div>
+                            </div>
+                            <div class="row detail-row">
+                                <div class="col-sm-3">
                                     Subject
                                 </div>
                                 <div class="col-sm-9">
@@ -156,6 +164,18 @@
                         </div>
                         <div class="created-by">
                         created by
+                        </div>
+                        <div th:if="${user.id_user == userApproval.id_user}" class="row detail-row">
+                            <div class="col-sm-3">
+                                <form class="button btn-primary" th:action="@{/request/approve}" th:object="${request}" method="POST">
+                                    <input type="hidden" th:field="*{id_request}"/>
+                                    <input type="submit" value="Approve"/>
+                                </form>
+                                <form class="button btn-warning" th:action="@{/request/reject}" th:object="${request}" method="POST">
+                                    <input type="hidden" th:field="*{id_request}"/>
+                                    <input type="submit" value="Reject"/>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
