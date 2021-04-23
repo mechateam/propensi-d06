@@ -131,7 +131,7 @@ public class TicketController {
         } else {
             request.setResolver_departemen(requestService.getDepById(id));
             requestService.updateRequest(request);
-            return "allTickets";
+            return "redirect:/tickets";
         }
     }
 }
