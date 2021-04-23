@@ -62,7 +62,7 @@
                                     Requestor
                                 </div>
                                 <div class="col-sm-9">
-                                    :
+                                    <h4 th:text="': '+ ${problem.nama_pengaju}"></h4>
                                 </div>
                             </div>
                             <div class="row detail-row">
@@ -70,7 +70,7 @@
                                     Subject
                                 </div>
                                 <div class="col-sm-9">
-                                    :
+                                    <h4 th:text="': '+ ${problem.subject}"></h4>
                                 </div>
                             </div>
                             <div class="row detail-row">
@@ -78,7 +78,7 @@
                                     Date Requested
                                 </div>
                                 <div class="col-sm-9">
-                                    :
+                                    <h4 th:text="': '+ ${problem.real_date}"></h4>
                                 </div>
                             </div>
                             <div class="row detail-row">
@@ -86,20 +86,21 @@
                                     Description
                                 </div>
                                 <div class="col-sm-9">
-                                    :
+                                    <h4 th:text="': '+ ${problem.description}"></h4>
                                 </div>
                             </div>
-
+                        
                         <form th:action="@{/problem/detail}" method="POST">
-                        <div class="row detail-row">
+                        <div class="row detail-row"> 
                             <div class="col-sm-3">
                                 Assign Resolver
                             </div>
-                            <div class="col-sm-1">
+                            <!-- <div class="col-sm-1">
                                 :
-                            </div>
-                            <div class="col-sm-3">
-                                <select name="jenisResolver" id="resolver" style="width: 150%; margin-left: 0;">
+                            </div> -->
+                            <div class="col-sm-9">
+                                : 
+                                <select name="jenisResolver" id="dropdown">
                                     <option value="">Assign Resolver Department</option>
                                     <option value="1">IT Helpdesk</option>
                                     <option value="2">Security</option>
@@ -121,7 +122,7 @@
                             </div>
                         </div>
         
-                        <!-- </form> -->
+                        </form>
 
                         <!-- <br>
                         <h5 th:text="${berhasil}" style="color: green;"></h5> -->

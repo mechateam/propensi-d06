@@ -54,28 +54,29 @@ public class TicketController {
 
     @GetMapping("/problem/detail/{id_problem}")
     public String detailProblem(
-            @PathVariable(value="id_problem") Long id_problem, Model model)
+            @PathVariable(value="id_problem") Long id_problem,
+            Model model)
     {
-        // if (problem.getStatus().getNama_status() == "open"){
-            //     return "detailProblem";
-            // }
-            // else if (problem.getStatus().getNama_status() == "Waiting for Assignment"){
-            //     return "assignResolverProblem";
-            // }
-
         System.out.println("Ini Jawabannya " + id_problem);
         ProblemModel problem = problemService.findProblemById(id_problem);
         model.addAttribute("problem",problem);   
-        return "detailProblem";
+        if (problem.getStatus().getId_status() == 1){
+            return "detailProblem";
+        }
+        else if (problem.getStatus().getId_status() == 4){
+            return "assignResolverProblem";
+        } else{
+            return "allTickets";
+        }
     }
 
-    @GetMapping("/problem/resolver")
-    public String detailResolverProblem(
-            @ModelAttribute ProblemModel problem,
-            Model model) {
+    // @GetMapping("/problem/resolver")
+    // public String detailResolverProblem(
+    //         @ModelAttribute ProblemModel problem,
+    //         Model model) {
 
-        return "assignResolverProblem";
-    }
+    //     return "assignResolverProblem";
+    // }
 
     // @PostMapping("/problem/detail")
     // public String ResolveProblem(
