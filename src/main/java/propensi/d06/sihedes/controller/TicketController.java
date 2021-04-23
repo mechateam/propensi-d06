@@ -15,11 +15,7 @@ import propensi.d06.sihedes.service.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Controller
 public class TicketController {
@@ -41,6 +37,9 @@ public class TicketController {
 
     @Autowired
     private ProblemService problemService;
+
+    @Autowired
+    private DepartemenService departemenService;
 
 
     @GetMapping("/tickets")
@@ -158,6 +157,25 @@ public class TicketController {
     @GetMapping("/ticket/add")
     public String addTicket(Model model) {
         model.addAttribute("problem", new ProblemModel());
+        UserModel user = userService.getUserbyUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        DepartemenModel departemen = user.getDepartemen();
+
+//        List<DepartemenModel> deptList = departemenService.getListDepartment();
+//        List<DepartemenModel> deptSLA = null;
+//        Hashtable<DepartemenModel, List<SLAModel>> my_dict = new Hashtable<DepartemenModel, List<SLAModel>>();
+//        for(DepartemenModel dept : deptList){
+//            if (dept.getListSLA().size() != 0){
+//                deptSLA.add(dept);
+//            }
+//        }
+//
+//        for(DepartemenModel dept : deptSLA){
+//            List<SLAModel> getSla = slaService.getAllSLAByDepartemen(dept);
+//            my_dict.put(dept, getSla);
+//        }
+
+
+        model.addAttribute("departemen", departemen);
         model.addAttribute("request", new RequestModel());
         return "createTicket";
     }

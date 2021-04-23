@@ -98,7 +98,7 @@
                                                     <td th:text="${problem.id_problem}"></td>
                                                     <td th:text="${problem.subject}"></td>
                                                     <td th:text="${problem.real_date}"></td>
-                                                    <td th:text="${problem.status.nama_status}"></td>
+                                                    <td th:text="${problem.status.namaStatus}"></td>
                                                     <td><a th:href="@{/problem/detail/}+${problem.id_problem}"> Detail </a></td>
                                                 </tr>
                                                 </tbody>
@@ -177,7 +177,7 @@
                                                     <td th:text="${request.subject}"></td>
                                                     <td th:text="${request.sla}"></td>
                                                     <td th:text="${request.created_date}"></td>
-                                                    <td th:text="${request.status}"></td>
+                                                    <td th:text="${request.status.namaStatus}"></td>
                                                     <td><a th:href="@{/request/detail/}+${request.id_request}"> Detail </a></td>
                                                 </tr>
                                                 </tbody>

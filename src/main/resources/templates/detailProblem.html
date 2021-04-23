@@ -22,12 +22,12 @@
             <div class="col-sm-6">
                 <div class="pageName">
                     <h3>Detail Ticket</h3>
-                    <p><a th:href="@{/tickets}">All Tickets</a> > Detail PR21092020QB71 </p>
+                    <p><a th:href="@{/tickets}">All Tickets</a> > Detail </p>
                 </div>
             </div>
             <div class="col-sm-6">
                 <div class="statusName">
-                    <h3>For Status</h3>
+                    <h3 th:text="${problem.status.namaStatus}"></h3>
                 </div>
             </div>
         </div>
@@ -50,7 +50,7 @@
                             <div class="row">
                                 <div class="col-sm-7">
                                     <div class="pageName">
-                                        <h4>Detail for Problem : PR21092020QB71</h4>
+                                        <h4 th:text="'Detail for Problem : '+ ${problem.id_problem}"></h4>
                                     </div>
                                 </div>
                                 <div class="col-sm-3"></div>
@@ -62,7 +62,7 @@
                                     Requestor
                                 </div>
                                 <div class="col-sm-9">
-                                    <h4 th:text="': '+ ${problem.nama_pengaju}"></h4>
+                                    <p th:text="': '+ ${problem.nama_pengaju}"></p>
                                 </div>
                             </div>
                             <div class="row detail-row">
@@ -70,7 +70,7 @@
                                     Subject
                                 </div>
                                 <div class="col-sm-9">
-                                    <h4 th:text="': '+ ${problem.subject}"></h4>
+                                    <p th:text="': '+ ${problem.subject}"></p>
                                 </div>
                             </div>
                             <div class="row detail-row">
@@ -78,7 +78,7 @@
                                     Date Requested
                                 </div>
                                 <div class="col-sm-9">
-                                    <h4 th:text="': '+ ${problem.real_date}"></h4>
+                                    <p th:text="': '+ ${problem.real_date}"></p>
                                 </div>
                             </div>
                             <div class="row detail-row">
@@ -86,12 +86,12 @@
                                     Description
                                 </div>
                                 <div class="col-sm-9">
-                                    <h4 th:text="': '+ ${problem.description}"></h4>
+                                    <p th:text="': '+ ${problem.description}"></p>
                                 </div>
                             </div>
                         </div>
                         <div class="created-by">
-                        created by
+                            <p th:text="'Created by '+ ${problem.pengaju.username}"></p>
                         </div>
                     </div>
                 </div>

@@ -41,6 +41,19 @@ public class RequestModel implements Serializable {
 
     @NotNull
     @Size(max = 255)
+    @Column(name = "subject", nullable = false)
+    private String subject;
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
+    @NotNull
+    @Size(max = 255)
     @Column(name = "phone_number", nullable = false)
     private Integer phone_number;
 
@@ -73,10 +86,38 @@ public class RequestModel implements Serializable {
     private UserModel resolver;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    @JoinColumn(name = "id_manager", referencedColumnName = "id_user", nullable = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private UserModel manager;
+
+    public UserModel getManager() {
+        return manager;
+    }
+
+    public void setManager(UserModel manager) {
+        this.manager = manager;
+    }
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
     @JoinColumn(name = "id_departemen", referencedColumnName = "id_dept", nullable = true)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private DepartemenModel resolver_departemen;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    @JoinColumn(name = "req_departemen", referencedColumnName = "id_dept", nullable = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private DepartemenModel request_departemen;
+
+    public DepartemenModel getRequest_departemen() {
+        return request_departemen;
+    }
+
+    public void setRequest_departemen(DepartemenModel request_departemen) {
+        this.request_departemen = request_departemen;
+    }
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_sla", referencedColumnName = "id_sla", nullable = false)
