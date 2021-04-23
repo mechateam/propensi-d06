@@ -10,4 +10,7 @@ public interface RequestService {
     List<RequestModel> findAll();
 //    List<RequestModel> findAllDesc();
     RequestModel findRequestById(Long id);
+    RequestModel getRequestById(Long id);
+    RequestModel updateApprovalRequest(RequestModel request);
+    RequestModel rejectApprovalRequest(RequestModel request);
 }

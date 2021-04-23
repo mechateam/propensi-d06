@@ -38,4 +38,7 @@ public class UserServiceImpl implements UserService {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         return passwordEncoder.matches(newPassword, oldPassword);
     }
+
+    @Override
+    public UserModel getUserbyId(Long id){ return userDb.findById(id).get();}
 }
