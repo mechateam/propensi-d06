@@ -9,7 +9,7 @@
 -- # -- Dumping data for table role
 -- # --
 -- #
--- # INSERT INTO sihedes_bela.role (id_role, nama_role) VALUES
+-- # INSERT INTO sihedes.role (id_role, nama_role) VALUES
 -- # (1, 'Admin'),
 -- # (2, 'Helpdesk'),
 -- # (3, 'Pengaju'),

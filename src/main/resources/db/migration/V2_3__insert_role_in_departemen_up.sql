@@ -10,7 +10,7 @@
 -- # -- Dumping data for table departemen
 -- # --
 -- #
--- # INSERT INTO sihedes_bela.departemen (id_dept, nama_departemen, nama_kepala) VALUES
+-- # INSERT INTO sihedes.departemen (id_dept, nama_departemen, nama_kepala) VALUES
 -- # (1, 'IT Helpdesk', 'Earlene'),
 -- # (2, 'Security', 'Praya'),
 -- # (3, 'IT Sys Dev', 'Meldi'),

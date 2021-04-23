@@ -1,20 +1,14 @@
 package propensi.d06.sihedes.controller;
+
 import org.springframework.beans.factory.parsing.Problem;
 import org.springframework.security.core.context.SecurityContextHolder;
-import propensi.d06.sihedes.model.ProblemModel;
-import propensi.d06.sihedes.model.RequestModel;
-import propensi.d06.sihedes.model.StatusModel;
-import propensi.d06.sihedes.model.UserModel;
-import propensi.d06.sihedes.service.ProblemService;
-import propensi.d06.sihedes.service.RequestService;
-import propensi.d06.sihedes.service.StatusService;
-import propensi.d06.sihedes.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import propensi.d06.sihedes.model.*;
+import propensi.d06.sihedes.service.*;
+import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import propensi.d06.sihedes.service.StatusService;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Date;
 import java.util.List;
@@ -60,13 +54,40 @@ public class TicketController {
 
     @GetMapping("/problem/detail/{id_problem}")
     public String detailProblem(
-            @PathVariable(value="id_problem") Long id_problem, Model model)
+            @PathVariable(value="id_problem") Long id_problem,
+            Model model)
     {
         System.out.println("Ini Jawabannya " + id_problem);
         ProblemModel problem = problemService.findProblemById(id_problem);
-        model.addAttribute("problem",problem);
-        return "detailProblem";
+        model.addAttribute("problem",problem);   
+        if (problem.getStatus().getId_status() == 1){
+            return "detailProblem";
+        }
+        else if (problem.getStatus().getId_status() == 4){
+            return "assignResolverProblem";
+        } else{
+            return "allTickets";
+        }
     }
+
+    // @GetMapping("/problem/resolver")
+    // public String detailResolverProblem(
+    //         @ModelAttribute ProblemModel problem,
+    //         Model model) {
+
+    //     return "assignResolverProblem";
+    // }
+
+    // @PostMapping("/problem/detail")
+    // public String ResolveProblem(
+    //     @RequestParam(value = "jenisResolver") Long id,
+    //     @ModelAttribute ProblemModel problem,
+    //     RedirectAttributes redir) {
+    //     problem.setResolver_departemen(problemService.getDepById(id));
+    //     problemService.updateProblem(problem);
+    //     return "allTickets";
+    // }
+
 
     @GetMapping("/request/detail")
     public String detailRequest(
@@ -85,7 +106,36 @@ public class TicketController {
 //
 //        model.addAttribute("listHotel", listHotel);
 //        // Return view template yang diinginkan
+        // if (request.getStatus().getNama_status() == "open"){
+        //         return "detailRequest";
+        //     }
+        // else if (request.getStatus().getNama_status() == "Waiting for Assignment"){
+        //     return "assignResolverRequest";
+        // }
         return "detailRequest";
+    }
+
+    @GetMapping("/request/resolver")
+    public String detailResolveRequest(
+            @ModelAttribute RequestModel request,
+            Model model) {
+
+        return "assignResolverRequest";
+    }
+
+    @PostMapping("/request/resolver")
+    public String ResolveRequest(
+        @RequestParam(value = "jenisResolver") Long id,
+        @ModelAttribute RequestModel request,
+        RedirectAttributes redir) {
+        if (id == 0){
+            redir.addFlashAttribute("gagal", "Resolver Departemen belum dipilih!");
+            return "redirect:/request/resolver"; 
+        } else {
+            request.setResolver_departemen(requestService.getDepById(id));
+            requestService.updateRequest(request);
+            return "redirect:/tickets";
+        }
     }
 
     @GetMapping("/ticket/add")
@@ -98,6 +148,7 @@ public class TicketController {
     @PostMapping("/problem/add")
     public String problemSubmit(
             @ModelAttribute ProblemModel problem,
+            RedirectAttributes redir,
             Model model) {
 
         long idStatus = 1;
@@ -111,7 +162,7 @@ public class TicketController {
         problem.setCreated_date(dateNow);
 
         problemService.addProblem(problem);
-        return "allTickets";
+        return "redirect:/tickets";
     }
 
     @PostMapping("/request/add")

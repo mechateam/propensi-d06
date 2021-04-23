@@ -11,7 +11,7 @@
 -- # -- Dumping data for table status
 -- # --
 -- #
--- # INSERT INTO sihedes_bela.status (id_status, nama_status) VALUES
+-- # INSERT INTO sihedes.status (id_status, nama_status) VALUES
 -- # (1, 'Open'),
 -- # (2, 'Requested'),
 -- # (3, 'Waiting for Approval'),
