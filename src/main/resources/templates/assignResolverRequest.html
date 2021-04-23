@@ -154,7 +154,7 @@
                                 </div>
                             </div>
                         
-                        <form th:action="@{/request/detail}" method="POST">
+                        <form th:action="@{/request/resolver}" method="POST">
                             <div class="row detail-row">
                                 <div class="col-sm-3">
                                     Assign Resolver
@@ -164,7 +164,7 @@
                                 </div>
                                 <div class="col-sm-3">
                                     <select name="jenisResolver" id="resolver" style="width: 150%; margin-left: 0;">
-                                        <option value="">Assign Resolver Department</option>
+                                        <option value="0">Assign Resolver Department</option>
                                         <option value="1">IT Helpdesk</option>
                                         <option value="2">Security</option>
                                         <option value="3">IT System Development</option>
@@ -185,10 +185,11 @@
                                     </div>
                                 </div>
             
-                            <!-- </form> -->
+                            </form>
     
-                            <!-- <br>
-                            <h5 th:text="${berhasil}" style="color: green;"></h5> -->
+                            <br>
+                            <h5 th:text="${gagal}" style="color: red;"></h5>
+                            <h5 th:text="${berhasil}" style="color: green;"></h5>
                         </div>
                         <div class="created-by">
                         created by
