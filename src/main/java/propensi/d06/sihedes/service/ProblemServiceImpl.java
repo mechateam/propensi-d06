@@ -27,4 +27,20 @@ public class ProblemServiceImpl implements ProblemService{
     public void updateProblem(ProblemModel problem) {
         problemDb.save(problem);
     }
+
+    @Override
+    public List<ProblemModel> findAll() { return problemDb.findAll(); }
+//
+//    @Override
+//    public List<ProblemModel> findAllDesc() { return problemDb.findAllByOrderByIdDesc();}
+
+    @Override
+    public ProblemModel findProblemById(Long id) {
+        return problemDb.findById(id).get();
+    }
+
+    @Override
+    public void addProblem(ProblemModel problem) {
+        problemDb.save(problem);
+    }
 }

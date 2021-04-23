@@ -27,4 +27,13 @@ public class RequestServiceImpl implements RequestService{
     public void updateRequest(RequestModel request) {
         requestDb.save(request);
     }
+
+    @Override
+    public List<RequestModel> findAll() { return requestDb.findAll(); }
+
+//    @Override
+//    public List<RequestModel> findAllDesc() { return requestDb.findAllByOrderById_requestDesc(); }
+
+    @Override
+    public RequestModel findRequestById(Long id) { return requestDb.findById(id).get(); }
 }
