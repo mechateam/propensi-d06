@@ -25,6 +25,10 @@ public class ProblemModel implements Serializable {
     @Column(name = "real_date", nullable = false)
     private Date real_date;
 
+    public Date getReal_date() { return real_date; }
+
+    public void setReal_date(Date real_date) { this.real_date = real_date; }
+
     @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "created_date", nullable = false)

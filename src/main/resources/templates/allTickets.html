@@ -81,53 +81,32 @@
 <!--                                            mulai table-->
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <table>
-                                            <thead>
-                                            <tr>
-                                                <th title="Field #1">No</th>
-                                                <th title="Field #2">ID</th>
-                                                <th title="Field #3">Subject</th>
-                                                <th title="Field #4">Date</th>
-                                                <th title="Field #5">Status</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-
+                                        <div th:if="${hasProblem}">
+                                            <table>
+                                                <thead>
                                                 <tr>
-                                                    <td><a th:href="@{/problem/detail}">1 </a></td>
-                                                    <td>PR21092020QB71</td>
-                                                    <td>Tidak dapat mengakses aplikasi untuk absen</td>
-                                                    <td>21 Februari 2021</td>
-                                                    <td>OPEN</td>
-
+                                                    <th title="Field #1">No</th>
+                                                    <th title="Field #2">ID</th>
+                                                    <th title="Field #3">Subject</th>
+                                                    <th title="Field #4">Date</th>
+                                                    <th title="Field #5">Status</th>
                                                 </tr>
-
-                                            <tr>
-                                                <td>2</td>
-                                                <td>PR21092020QB72</td>
-                                                <td>Tidak dapat mengakses aplikasi untuk absen</td>
-                                                <td>21 Februari 2021</td>
-                                                <td>DONE</td>
-
-                                            </tr>
-                                            <tr>
-                                                <td>3</td>
-                                                <td>PR21092020QB73</td>
-                                                <td>Tidak dapat mengakses aplikasi untuk absen</td>
-                                                <td>21 Februari 2021</td>
-                                                <td>ASSIGNED</td>
-
-                                            </tr>
-                                            <tr>
-                                                <td>4</td>
-                                                <td>PR21092020QB74</td>
-                                                <td>Tidak dapat mengakses aplikasi untuk absen</td>
-                                                <td>21 Februari 2021</td>
-                                                <td>CLOSED</td>
-
-                                            </tr>
-                                            </tbody>
-                                        </table>
+                                                </thead>
+                                                <tbody>
+                                                <tr th:each="problem, iterationStatus : ${listProblem}">
+                                                    <td th:text="${iterationStatus.count}"></td>
+                                                    <td th:text="${problem.id_problem}"></td>
+                                                    <td th:text="${problem.subject}"></td>
+                                                    <td th:text="${problem.real_date}"></td>
+                                                    <td th:text="${problem.status.nama_status}"></td>
+                                                    <td><a th:href="@{/problem/detail/}+${problem.id_problem}"> Detail </a></td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div th:unless="${hasProblem}">
+                                            <h2 th:text="'Problem belum tersedia'"></h2>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -178,52 +157,35 @@
                                 <!--                                            mulai table-->
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <table>
-                                            <thead>
-                                            <tr>
-                                                <th title="Field #1">No</th>
-                                                <th title="Field #2">ID</th>
-                                                <th title="Field #3">Subject</th>
-                                                <th title="Field #4">Service Catalog</th>
-                                                <th title="Field #5">Date</th>
-                                                <th title="Field #6">Status</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            <tr>
-                                                <td><a th:href="@{/request/detail}">1 </a></td>
-                                                <td>RQ21092020QB76</td>
-                                                <td>Lorem ipsum dolor sit amet, constectetur</td>
-                                                <td>IT Infrasctructure</td>
-                                                <td>21 Februari 2021</td>
-                                                <td>DONE</td>
-                                            </tr>
-                                            <tr>
-                                                <td>2</td>
-                                                <td>RQ21092020QB77</td>
-                                                <td>Lorem ipsum dolor sit amet, constectetur</td>
-                                                <td>IT Support</td>
-                                                <td>21 Februari 2021</td>
-                                                <td>OPEN</td>
-                                            </tr>
-                                            <tr>
-                                                <td>3</td>
-                                                <td>RQ21092020QB78</td>
-                                                <td>Lorem ipsum dolor sit amet, constectetur</td>
-                                                <td>IT Network</td>
-                                                <td>21 Februari 2021</td>
-                                                <td>ASSIGNED</td>
-                                            </tr>
-                                            <tr>
-                                                <td>4</td>
-                                                <td>RQ21092020QB79</td>
-                                                <td>Lorem ipsum dolor sit amet, constectetur</td>
-                                                <td>Security</td>
-                                                <td>21 Februari 2021</td>
-                                                <td>Waiting for Approval</td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
+                                        <div th:if="${hasRequest}">
+                                            <table>
+                                                <thead>
+                                                <tr>
+                                                    <th title="Field #1">No</th>
+                                                    <th title="Field #2">ID</th>
+                                                    <th title="Field #3">Subject</th>
+                                                    <th title="Field #4">Service Catalog</th>
+                                                    <th title="Field #5">Date</th>
+                                                    <th title="Field #6">Status</th>
+                                                    <th title="Field #6">Detail</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr th:each="request, iterationStatus : ${listRequest}">
+                                                    <td th:text="${iterationStatus.count}"></td>
+                                                    <td th:text="${request.id_request}"></td>
+                                                    <td th:text="${request.subject}"></td>
+                                                    <td th:text="${request.sla}"></td>
+                                                    <td th:text="${request.created_date}"></td>
+                                                    <td th:text="${request.status}"></td>
+                                                    <td><a th:href="@{/request/detail/}+${request.id_request}"> Detail </a></td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div th:unless="${hasRequest}">
+                                            <h2 th:text="'Request belum tersedia'"></h2>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="row">
