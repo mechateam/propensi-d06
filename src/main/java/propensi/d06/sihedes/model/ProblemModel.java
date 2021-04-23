@@ -59,7 +59,7 @@ public class ProblemModel implements Serializable {
 //    private Integer request_type;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_resolver", referencedColumnName = "id_user", nullable = false)
+    @JoinColumn(name = "id_resolver", referencedColumnName = "id_user", nullable = true)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private UserModel resolver;
