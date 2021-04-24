@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title> Problem </title>
+    <title> Request </title>
     <object th:include="fragments/fragment :: js" th:remove="tag"></object>
 
     <object th:include="fragments/fragment :: css" th:remove="tag"></object>
@@ -22,7 +22,7 @@
             <div class="col-sm-6">
                 <div class="pageName">
                     <h3>Detail Ticket</h3>
-                    <p><a th:href="@{/tickets}">All Tickets</a> > Detail PR21092020QB71 </p>
+                    <p><a th:href="@{/tickets}">All Tickets</a> > Detail RQ21092020QB76 </p>
                 </div>
             </div>
             <div class="col-sm-6">
@@ -38,7 +38,7 @@
         <!--Tab Nav-->
         <div class="col-md-12">
             <ul class="nav nav-tabs">
-                <li class="active"><a data-toggle="tab" href="#detail">Problem</a></li>
+                <li class="active"><a data-toggle="tab" href="#detail">Request</a></li>
             </ul>
 
             <div class="tab-content">
@@ -50,7 +50,7 @@
                             <div class="row">
                                 <div class="col-sm-7">
                                     <div class="pageName">
-                                        <h4>Detail for Problem : PR21092020QB71</h4>
+                                        <h4>Detail for Request : RQ21092020QB76</h4>
                                     </div>
                                 </div>
                                 <div class="col-sm-3"></div>
@@ -62,7 +62,15 @@
                                     Requestor
                                 </div>
                                 <div class="col-sm-9">
-                                    <h4 th:text="': '+ ${problem.nama_pengaju}"></h4>
+                                    :
+                                </div>
+                            </div>
+                            <div class="row detail-row">
+                                <div class="col-sm-3">
+                                    Approver
+                                </div>
+                                <div class="col-sm-9">
+                                    <p th:text="${userApproval.nama}"></p>
                                 </div>
                             </div>
                             <div class="row detail-row">
@@ -70,7 +78,15 @@
                                     Subject
                                 </div>
                                 <div class="col-sm-9">
-                                    <h4 th:text="': '+ ${problem.subject}"></h4>
+                                    :
+                                </div>
+                            </div>
+                            <div class="row detail-row">
+                                <div class="col-sm-3">
+                                    Manager's Name
+                                </div>
+                                <div class="col-sm-9">
+                                    :
                                 </div>
                             </div>
                             <div class="row detail-row">
@@ -78,20 +94,88 @@
                                     Date Requested
                                 </div>
                                 <div class="col-sm-9">
-                                    <h4 th:text="': '+ ${problem.real_date}"></h4>
+                                    :
                                 </div>
                             </div>
                             <div class="row detail-row">
                                 <div class="col-sm-3">
-                                    Description
+                                    Target Date Required
                                 </div>
                                 <div class="col-sm-9">
-                                    <h4 th:text="': '+ ${problem.description}"></h4>
+                                    :
+                                </div>
+                            </div>
+                            <div class="row detail-row">
+                                <div class="col-sm-3">
+                                    Department
+                                </div>
+                                <div class="col-sm-9">
+                                    :
+                                </div>
+                            </div>
+                            <div class="row detail-row">
+                                <div class="col-sm-3">
+                                    Phone/ext#
+                                </div>
+                                <div class="col-sm-9">
+                                    :
+                                </div>
+                            </div>
+                            <div class="row detail-row">
+                                <div class="col-sm-3">
+                                    Location
+                                </div>
+                                <div class="col-sm-9">
+                                    :
+                                </div>
+                            </div>
+                            <div class="row detail-row">
+                                <div class="col-sm-3">
+                                    Request Divison
+                                </div>
+                                <div class="col-sm-9">
+                                    :
+                                </div>
+                            </div>
+                            <div class="row detail-row">
+                                <div class="col-sm-3">
+                                    Services
+                                </div>
+                                <div class="col-sm-9">
+                                    :
+                                </div>
+                            </div>
+                            <div class="row detail-row">
+                                <div class="col-sm-3">
+                                    Request Description
+                                </div>
+                                <div class="col-sm-9">
+                                    :
+                                </div>
+                            </div>
+                            <div class="row detail-row">
+                                <div class="col-sm-3">
+                                    Request Background
+                                </div>
+                                <div class="col-sm-9">
+                                    :
                                 </div>
                             </div>
                         </div>
                         <div class="created-by">
                         created by
+                        </div>
+                        <div th:if="${user.id_user == userApproval.id_user}" class="row detail-row">
+                            <div class="col-sm-3">
+                                <form class="button btn-primary" th:action="@{/request/approve}" th:object="${request}" method="POST">
+                                    <input type="hidden" th:field="*{id_request}"/>
+                                    <input type="submit" value="Approve"/>
+                                </form>
+                                <form class="button btn-warning" th:action="@{/request/reject}" th:object="${request}" method="POST">
+                                    <input type="hidden" th:field="*{id_request}"/>
+                                    <input type="submit" value="Reject"/>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>

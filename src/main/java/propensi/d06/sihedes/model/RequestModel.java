@@ -27,6 +27,10 @@ public class RequestModel implements Serializable {
 
     @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Column(name = "target_date", nullable = false)
+    private Date target_date;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "finished_date", nullable = true)
     private Date finished_date;
 
@@ -37,18 +41,42 @@ public class RequestModel implements Serializable {
 
     @NotNull
     @Size(max = 255)
+    @Column(name = "phone_number", nullable = false)
+    private Integer phone_number;
+
+    public Integer getPhone_number() { return phone_number; }
+
+    public void setPhone_number(Integer phone_number) { this.phone_number = phone_number; }
+
+    @NotNull
+    @Size(max = 255)
+    @Column(name = "background", nullable = false)
+    private String background;
+
+    public String getBackground() { return background; }
+
+    public void setBackground(String background) { this.background = background; }
+
+    @NotNull
+    @Size(max = 255)
     @Column(name = "nama_pengaju", nullable = false)
     private String nama_pengaju;
 
     @Column(name = "id_approver", nullable = true)
-    private Integer id_approver;
+    private Long id_approver;
 
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_resolver", referencedColumnName = "id_user", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    @JoinColumn(name = "id_resolver", referencedColumnName = "id_user", nullable = true)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private UserModel resolver;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    @JoinColumn(name = "id_departemen", referencedColumnName = "id_dept", nullable = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private DepartemenModel resolver_departemen;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_sla", referencedColumnName = "id_sla", nullable = false)
@@ -100,6 +128,10 @@ public class RequestModel implements Serializable {
     public void setCreated_date(Date created_date) {
         this.created_date = created_date;
     }
+
+    public Date getTarget_date() { return target_date; }
+
+    public void setTarget_date(Date target_date) { this.target_date = target_date; }
 
     public Date getFinished_date() {
         return finished_date;
@@ -171,6 +203,22 @@ public class RequestModel implements Serializable {
 
     public void setListFeedback(List<FeedbackRequest> listFeedback) {
         this.listFeedback = listFeedback;
+    }
+
+    public Long getId_approver() {
+        return id_approver;
+    }
+
+    public void setId_approver(Long id_approver) {
+        this.id_approver = id_approver;
+    }
+
+    public DepartemenModel getResolver_departemen() {
+        return resolver_departemen;
+    }
+
+    public void setResolver_departemen(DepartemenModel resolver_departemen) {
+        this.resolver_departemen = resolver_departemen;
     }
 }
 

@@ -287,3 +287,8 @@ tr:hover td {
 .log-content{
     padding: 1px 25px;
 }
+
+#dropdown{
+    margin-left: 1.5px; 
+    padding: 2px 12px;
+}

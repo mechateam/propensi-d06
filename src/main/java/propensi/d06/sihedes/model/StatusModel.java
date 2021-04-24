@@ -21,14 +21,14 @@ public class StatusModel implements Serializable {
     @NotNull
     @Size(max = 50)
     @Column(name = "nama_status", nullable = false)
-    private String nama_status;
+    private String namaStatus;
 
-    @OneToMany(mappedBy = "id_request", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "status", fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private List<RequestModel> listRequest;
 
-    @OneToMany(mappedBy = "id_problem", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "status", fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private List<ProblemModel> listProblem;
@@ -41,12 +41,12 @@ public class StatusModel implements Serializable {
         this.id_status = id_status;
     }
 
-    public String getNama_status() {
-        return nama_status;
+    public String getNamaStatus() {
+        return namaStatus;
     }
 
-    public void setNama_status(String nama_status) {
-        this.nama_status = nama_status;
+    public void setNamaStatus(String namaStatus) {
+        this.namaStatus = namaStatus;
     }
 
     public List<RequestModel> getListRequest() {
@@ -64,4 +64,5 @@ public class StatusModel implements Serializable {
     public void setListProblem(List<ProblemModel> listProblem) {
         this.listProblem = listProblem;
     }
+
 }

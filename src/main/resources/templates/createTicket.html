@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title> Create Ticket </title>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+
+
+</head>
+
+<body>
+<div th:replace="fragments/fragment :: header"></div>
+<nav th:replace="fragments/fragment :: navbar"></nav>
+
+<div class="content-container">
+    <div class="container-fluid">
+        <div class="row">
+
+            <!--Page Name Header-->
+            <div class="col-md-6">
+                <div class="pageName">
+                    <h3>Tickets</h3>
+                    <p><a th:href="@{/tickets}">All Tickets</a> > Create Ticket </p>
+                </div>
+            </div>
+
+        </div>
+        <br>
+
+        <!--                        START YOUR CONTENT                      -->
+
+        <!--Tab Nav-->
+        <div class="col-md-12">
+            <ul class="nav nav-tabs">
+                <li class="active"><a data-toggle="tab" href="#problem">Problem</a></li>
+                <li><a data-toggle="tab" href="#request">Request</a></li>
+            </ul>
+
+
+
+
+            <div class="tab-content">
+                <!--                    START TAB PROBLEM-->
+                <div class="tab-pane fade in active" id="problem">
+                    <div class="card">
+                        <div class="card-content">
+                            <!--                                for row header-->
+                            <div class="row">
+                                <div class="col-sm-7">
+                                    <div class="pageName">
+                                        <h4>Problem</h4>
+                                    </div>
+                                </div>
+                                <div class="col-sm-5"></div>
+                            </div>
+
+
+                            <!--                                            mulai table-->
+                            <div class="row">
+                                <br>
+                                <div class="col-sm-12">
+                                    <form th:action="@{/problem/add}" th:object="${problem}" method="POST">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                Requestor's Name <br>
+                                                <input type="text" class="form-control"  name="nama_pengaju"/>
+                                            </div>
+                                            <div class="col-sm-1"></div>
+                                            <div class="col-sm-5">
+                                                Subject <br>
+                                                <input type="text" class="form-control"  name="subject"/>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <br>
+                                            <div class="col-sm-6">
+                                                Date <br>
+                                                <input type="datetime-local" class="form-control"  name="real_date"/>
+                                            </div>
+                                            <div class="col-sm-6"></div>
+                                        </div>
+                                        <div class="row">
+                                            <br>
+                                            <div class="col-sm-12">
+                                                Description <br>
+                                                <input type="text" class="form-control"  name="description"/>
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <button type = "submit" class="btn btn-fill btn-create text-center" >Create</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--                    START TAB REQUEST-->
+                <div class="tab-pane fade" id="request">
+                    <div class="card">
+                        <div class="card-content">
+                            <!--                                for row header-->
+                            <div class="row">
+                                <div class="col-sm-7">
+                                    <div class="pageName">
+                                        <h4>Request</h4>
+                                    </div>
+                                </div>
+                                <div class="col-sm-5"></div>
+                            </div>
+
+
+                            <!--                                            mulai table-->
+                            <div class="row">
+                                <br>
+                                <div class="col-sm-12">
+                                    <form th:action="@{/request/add}" th:object="${request}" method="POST">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                Requestor's Name <br>
+                                                <input type="text" class="form-control"  name="nama_pengaju"/>
+                                            </div>
+                                            <div class="col-sm-1"></div>
+                                            <div class="col-sm-5">
+                                                Subject <br>
+                                                <input type="text" class="form-control"  name="subject"/>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <br>
+                                            <div class="col-sm-3">
+                                                Department <br>
+                                                <input type="text" class="form-control"  name="nama_pengaju"/>
+                                            </div>
+<!--                                            <div class="col-sm-1"></div>-->
+                                            <div class="col-sm-3">
+                                                Manager's Name <br>
+                                                <input type="text" class="form-control"  name="nama_pengaju"/>
+                                            </div>
+                                            <div class="col-sm-1"></div>
+                                            <div class="col-sm-5">
+                                                Target Date Required <br>
+                                                <input type="datetime-local" class="form-control"  name="target_date"/>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <br>
+                                            <div class="col-sm-6">
+                                                Location <br>
+                                                <input type="text" class="form-control"  name="location"/>
+                                            </div>
+                                            <div class="col-sm-1"></div>
+                                            <div class="col-sm-5">
+                                                Phone/ext# <br>
+                                                <input type="text" class="form-control"  name="phone_number"/>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <br>
+                                            <div class="col-sm-6">
+                                                SLA <br>
+                                                <input type="text" class="form-control"  name="location"/>
+                                            </div>
+                                            <div class="col-sm-1"></div>
+                                            <div class="col-sm-5">
+                                                Services <br>
+                                                <input type="text" class="form-control"  name="phone_number"/>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <br>
+                                            <div class="col-sm-12">
+                                                Description <br>
+                                                <input type="text" class="form-control"  name="description"/>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <br>
+                                            <div class="col-sm-12">
+                                                Request Background <br>
+                                                <input type="text" class="form-control"  name="background"/>
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <button type = "submit" class="btn btn-fill btn-create text-center" >Create</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--END OF TAB REQUEST-->
+
+            </div>
+        </div>
+
+        <!--                         END OF CONTENT                      -->
+
+    </div>
+</div>
+
+</body>
+
+
+
+</html>
