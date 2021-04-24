@@ -5,11 +5,19 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import propensi.d06.sihedes.model.*;
 import propensi.d06.sihedes.service.*;
 import org.springframework.beans.factory.annotation.*;
+import propensi.d06.sihedes.model.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import propensi.d06.sihedes.service.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -19,16 +27,23 @@ import javax.print.DocFlavor.STRING;
 public class TicketController {
 
     @Autowired
-    private ProblemService problemService;
+    private SLAService slaService;
+
+    @Autowired
+    private SLABOAService slaboaService;
 
     @Autowired
     private RequestService requestService;
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private StatusService statusService;
 
     @Autowired
-    private UserService userService;
+    private ProblemService problemService;
+
 
     @GetMapping("/tickets")
     public String listTickets(
@@ -72,14 +87,6 @@ public class TicketController {
     ){
         ProblemModel problem = problemService.findProblemById(id_problem);
         model.addAttribute("problem",problem);
-        // if (problem.getStatus().getId_status() == 1){
-        //     return "detailProblem";
-        // }
-        // else if (problem.getStatus().getId_status() == 4){
-        //     return "assignResolverProblem";
-        // } else{
-        //     return "allTickets";
-        // } 
         return "assignResolverProblem";
     }
 
@@ -99,7 +106,7 @@ public class TicketController {
         return "redirect:/tickets";
     }
 
-
+    @Deprecated
     @GetMapping("/request/detail")
     public String detailRequest(
             @ModelAttribute RequestModel request,
@@ -134,6 +141,7 @@ public class TicketController {
         return "assignResolverRequest";
     }
 
+<<<<<<< HEAD
     // Cancelled
     // @PostMapping("/request/resolver")
     // public String ResolveRequest(
@@ -149,6 +157,22 @@ public class TicketController {
     //         return "redirect:/tickets";
     //     }
     // }
+=======
+    @PostMapping("/request/resolver")
+    public String ResolveRequest(
+        @RequestParam(value = "jenisResolver") Long id,
+        @ModelAttribute RequestModel request,
+        RedirectAttributes redir) {
+        if (id == 0){
+            redir.addFlashAttribute("gagal", "Resolver Departemen belum dipilih!");
+            return "redirect:/request/resolver";
+        } else {
+            request.setResolver_departemen(requestService.getDepById(id));
+            requestService.updateRequest(request);
+            return "redirect:/tickets";
+        }
+    }
+>>>>>>> 3f774e20f97fa871367dc845719b82e1aa480505
 
     @GetMapping("/ticket/add")
     public String addTicket(Model model) {
@@ -184,5 +208,50 @@ public class TicketController {
 
         model.addAttribute("request", new RequestModel());
         return "detailRequest";
+    }
+
+    // ini buat approval, mau digabung sama yg atas juga gapapa
+    @GetMapping("/request/detail/{id}")
+    public String detailRequestApproval(@PathVariable Long id, HttpServletRequest req, Model model){
+
+        UserModel userLoggedin = userService.getUserbyUsername(req.getRemoteUser());
+        RequestModel request = requestService.getRequestById(id);
+        SLAModel sla = request.getSla();
+        List<SLABOAModel> listBOA = slaboaService.getSLABOABySLAId(sla.getId_sla());
+
+        if (request.getStatus().getNamaStatus().equals("Waiting for Approval")){
+
+            if (request.getId_approver() == null){
+                for (SLABOAModel boa: listBOA) {
+                    if (boa.getBoa().getRank() ==1){
+                        request.setId_approver(boa.getBoa().getUser().getId_user());
+                    }
+                }
+
+            }
+
+            Long idApprover = new Long(request.getId_approver());
+            model.addAttribute("user",userLoggedin);
+            model.addAttribute("request",request);
+            model.addAttribute("userApproval", userService.getUserbyId(idApprover));
+
+            return "detailRequestApproval";
+        }
+
+        return null;
+    }
+
+    @PostMapping("/request/approve")
+    public String approveRequest(@ModelAttribute RequestModel request, Model model){
+        requestService.updateApprovalRequest(request);
+        model.addAttribute("request",request);
+        return "redirect:/tickets";
+    }
+
+    @PostMapping("/request/reject")
+    public String rejectRequest(@ModelAttribute RequestModel request, Model model){
+        requestService.rejectApprovalRequest(request);
+        model.addAttribute("request",request);
+        return "redirect:/tickets";
     }
 }

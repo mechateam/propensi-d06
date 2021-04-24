@@ -22,4 +22,9 @@ public class StatusServiceImpl implements StatusService{
     public StatusModel findStatusById(Long id) {
         return statusDb.findById(id).get();
     }
+
+    @Override
+    public StatusModel getStatusByStatusName(String name){
+        return statusDb.findByNamaStatus(name);
+    }
 }
