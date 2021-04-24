@@ -106,6 +106,8 @@ public class TicketController {
         return "redirect:/tickets";
     }
 
+
+
     @Deprecated
     @GetMapping("/request/detail")
     public String detailRequest(
@@ -141,7 +143,6 @@ public class TicketController {
         return "assignResolverRequest";
     }
 
-<<<<<<< HEAD
     // Cancelled
     // @PostMapping("/request/resolver")
     // public String ResolveRequest(
@@ -157,22 +158,6 @@ public class TicketController {
     //         return "redirect:/tickets";
     //     }
     // }
-=======
-    @PostMapping("/request/resolver")
-    public String ResolveRequest(
-        @RequestParam(value = "jenisResolver") Long id,
-        @ModelAttribute RequestModel request,
-        RedirectAttributes redir) {
-        if (id == 0){
-            redir.addFlashAttribute("gagal", "Resolver Departemen belum dipilih!");
-            return "redirect:/request/resolver";
-        } else {
-            request.setResolver_departemen(requestService.getDepById(id));
-            requestService.updateRequest(request);
-            return "redirect:/tickets";
-        }
-    }
->>>>>>> 3f774e20f97fa871367dc845719b82e1aa480505
 
     @GetMapping("/ticket/add")
     public String addTicket(Model model) {
