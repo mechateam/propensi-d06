@@ -51,11 +51,9 @@ public class RequestServiceImpl implements RequestService{
     @Override
     public List<RequestModel> findAll() { return requestDb.findAll(); }
 
-//    @Override
-//    public List<RequestModel> findAllDesc() { return requestDb.findAllByOrderById_requestDesc(); }
-
     @Override
-    public RequestModel findRequestById(Long id) { return requestDb.findById(id).get(); }
+    public List<RequestModel> getRequestByDepartment(DepartemenModel departemen){ return  requestDb.findAllByResolver_departemen(departemen); }
+
 
     @Override
     public RequestModel getRequestById(Long id){

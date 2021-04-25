@@ -64,6 +64,20 @@ public class ProblemModel implements Serializable {
     @JsonIgnore
     private UserModel resolver;
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    @JoinColumn(name = "id_departemen", referencedColumnName = "id_dept", nullable = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private DepartemenModel resolverDepartemen;
+
+    public DepartemenModel getResolverDepartemen() {
+        return resolverDepartemen;
+    }
+
+    public void setResolverDepartemen(DepartemenModel resolverDepartemen) {
+        this.resolverDepartemen = resolverDepartemen;
+    }
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_pengaju", referencedColumnName = "id_user", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -173,6 +187,14 @@ public class ProblemModel implements Serializable {
     public void setListFeedback(List<FeedbackProblem> listFeedback) {
         this.listFeedback = listFeedback;
     }
+
+//    public DepartemenModel getResolver_departemen() {
+//        return resolver_departemen;
+//    }
+//
+//    public void setResolver_departemen(DepartemenModel resolver_departemen) {
+//        this.resolver_departemen = resolver_departemen;
+//    }
 }
 
 

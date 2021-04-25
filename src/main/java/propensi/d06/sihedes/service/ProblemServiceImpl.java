@@ -30,9 +30,10 @@ public class ProblemServiceImpl implements ProblemService{
 
     @Override
     public List<ProblemModel> findAll() { return problemDb.findAll(); }
-//
-//    @Override
-//    public List<ProblemModel> findAllDesc() { return problemDb.findAllByOrderByIdDesc();}
+
+    @Override
+    public List<ProblemModel> getProblemByDepartemen(DepartemenModel departemen) {
+        return problemDb.findAllByResolverDepartemen(departemen);}
 
     @Override
     public ProblemModel findProblemById(Long id) {

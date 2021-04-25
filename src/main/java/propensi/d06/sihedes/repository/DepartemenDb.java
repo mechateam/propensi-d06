@@ -1,5 +1,6 @@
 package propensi.d06.sihedes.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -14,4 +15,5 @@ import propensi.d06.sihedes.model.SLAModel;
 @Transactional
 public interface DepartemenDb extends JpaRepository<DepartemenModel, Long> {
     Optional<DepartemenModel> findById(Long id);
+
 }

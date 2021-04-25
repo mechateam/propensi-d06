@@ -11,6 +11,5 @@ import java.util.Optional;
 @Repository
 @Transactional
 public interface RequestDb extends JpaRepository<RequestModel, Long> {
-//    Optional<RequestModel> findById_request(Long id);
-//    List<RequestModel> findAllByOrderById_requestDesc();
+    List<RequestModel> findAllByResolver_departemen(DepartemenModel departemen);
 }

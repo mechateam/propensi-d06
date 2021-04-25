@@ -25,9 +25,13 @@ a{
     margin-left: 30px;
 }
 .header-container {
-    /*margin-bottom: 10px;*/
+    background-color: white;
+    position: sticky;
+    top: 0;
+    z-index: 1;
 }
 #fixHeader{
+    background-color: white;
     position: sticky;
     border-bottom: 1px solid #CBCBCB;
     padding: 10px 25px 10px 30px;
@@ -288,7 +292,7 @@ tr:hover td {
     padding: 1px 25px;
 }
 
-#dropdown{
+.dropdown{
     margin-left: 1.5px; 
     padding: 2px 12px;
 }
