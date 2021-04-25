@@ -27,7 +27,8 @@
             </div>
             <div class="col-sm-6">
                 <div class="statusName">
-                    <h3>For Status</h3>
+                    <br>
+                    <h4 th:text="${problem.status.namaStatus}"></h4>
                 </div>
             </div>
         </div>
@@ -87,6 +88,24 @@
                                 </div>
                                 <div class="col-sm-9">
                                     <h4 th:text="': '+ ${problem.description}"></h4>
+                                </div>
+                            </div>
+
+                            <div class="row detail-row" th:unless = "${problem.status.id_status == 1 || problem.status.id_status == 4}"> 
+                                <div class="col-sm-3">
+                                    Assign Resolver
+                                </div>
+                                <div class="col-sm-9">
+                                    : 
+                                    <select name="jenisResolver" class="dropdown" th:field= "*{problem.resolver_departemen}" disabled>
+                                        <option value="1">IT Helpdesk</option>
+                                        <option value="2">Security</option>
+                                        <option value="3">IT System Development</option>
+                                        <option value="4">IT User Admin</option>
+                                        <option value="5">IT Network</option>
+                                        <option value="6">IT Infrastructure</option>
+                                    </select>
+                                   
                                 </div>
                             </div>
                         </div>

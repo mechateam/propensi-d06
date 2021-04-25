@@ -21,6 +21,8 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
+import javax.print.DocFlavor.STRING;
+
 @Controller
 public class TicketController {
 
@@ -74,34 +76,35 @@ public class TicketController {
     {
         System.out.println("Ini Jawabannya " + id_problem);
         ProblemModel problem = problemService.findProblemById(id_problem);
-        model.addAttribute("problem",problem);
-        if (problem.getStatus().getId_status() == 1){
-            return "detailProblem";
-        }
-        else if (problem.getStatus().getId_status() == 4){
-            return "assignResolverProblem";
-        } else{
-            return "allTickets";
-        }
+        model.addAttribute("problem",problem);  
+        return "detailProblem";
     }
 
-    // @GetMapping("/problem/resolver")
-    // public String detailResolverProblem(
-    //         @ModelAttribute ProblemModel problem,
-    //         Model model) {
+    @GetMapping("/problem/resolver/{id_problem}")
+    public String detailResolveProblem(
+        @PathVariable(value="id_problem") Long id_problem,
+        Model model
+    ){
+        ProblemModel problem = problemService.findProblemById(id_problem);
+        model.addAttribute("problem",problem);
+        return "assignResolverProblem";
+    }
 
-    //     return "assignResolverProblem";
-    // }
-
-    // @PostMapping("/problem/detail")
-    // public String ResolveProblem(
-    //     @RequestParam(value = "jenisResolver") Long id,
-    //     @ModelAttribute ProblemModel problem,
-    //     RedirectAttributes redir) {
-    //     problem.setResolver_departemen(problemService.getDepById(id));
-    //     problemService.updateProblem(problem);
-    //     return "allTickets";
-    // }
+    @PostMapping("/problem/resolver/{id_problem}")
+    public String ResolveProblem(
+        @RequestParam(value = "jenisResolver") Long id,
+        @PathVariable Long id_problem, Model model,
+        RedirectAttributes redir) {
+        ProblemModel problem = problemService.findProblemById(id_problem);
+        long idStatus = 5;
+        StatusModel status = statusService.findStatusById(idStatus);
+        problem.setStatus(status);
+        
+        System.out.println(problem.getId_problem());
+        problem.setResolver_departemen(problemService.getDepById(id));
+        problemService.updateProblem(problem);
+        return "redirect:/tickets";
+    }
 
 
 
@@ -123,10 +126,10 @@ public class TicketController {
 //
 //        model.addAttribute("listHotel", listHotel);
 //        // Return view template yang diinginkan
-        // if (request.getStatus().getNama_status() == "open"){
+        // if (request.getStatus().getId_status() == 1){
         //         return "detailRequest";
         //     }
-        // else if (request.getStatus().getNama_status() == "Waiting for Assignment"){
+        // else if (request.getStatus().getId_status() == 4){
         //     return "assignResolverRequest";
         // }
         return "detailRequest";
@@ -140,20 +143,21 @@ public class TicketController {
         return "assignResolverRequest";
     }
 
-    @PostMapping("/request/resolver")
-    public String ResolveRequest(
-        @RequestParam(value = "jenisResolver") Long id,
-        @ModelAttribute RequestModel request,
-        RedirectAttributes redir) {
-        if (id == 0){
-            redir.addFlashAttribute("gagal", "Resolver Departemen belum dipilih!");
-            return "redirect:/request/resolver";
-        } else {
-            request.setResolver_departemen(requestService.getDepById(id));
-            requestService.updateRequest(request);
-            return "redirect:/tickets";
-        }
-    }
+    // Cancelled
+    // @PostMapping("/request/resolver")
+    // public String ResolveRequest(
+    //     @RequestParam(value = "jenisResolver") Long id,
+    //     @ModelAttribute RequestModel request,
+    //     RedirectAttributes redir) {
+    //     if (id == 0){
+    //         redir.addFlashAttribute("gagal", "Resolver Departemen belum dipilih!");
+    //         return "redirect:/request/resolver"; 
+    //     } else {
+    //         request.setResolver_departemen(requestService.getDepById(id));
+    //         requestService.updateRequest(request);
+    //         return "redirect:/tickets";
+    //     }
+    // }
 
     @GetMapping("/ticket/add")
     public String addTicket(Model model) {
