@@ -36,22 +36,24 @@ public class SLAController {
         return "daftar-sla";
     }
 
-        @GetMapping(value="/sla/daftar/{id_dept}")
+    @GetMapping(value="/sla/daftar/{id_dept}")
     public String viewSlaDept(
             @PathVariable(value="id_dept") Long id_dept, Model model){
-            DepartemenModel departemenNama = departemenService.findDepartemenById(id_dept);
-            List<SLAModel> listSLA = slaService.getAllSLAByDepartemen(departemenNama);
+            DepartemenModel departemenSpesifik = departemenService.findDepartemenById(id_dept);
+            List<SLAModel> listSLA = slaService.getAllSLAByDepartemen(departemenSpesifik);
+            String departemenNama = departemenSpesifik.getNama_departemen();
+            model.addAttribute("departemenNama",departemenNama);
             model.addAttribute("listSLA",listSLA);
         return "daftar-sla";
     }
 
     @GetMapping("/sla/daftar/detail/{id}")
     public String detailSLA(
-            @PathVariable(value = "id") Long id,
-            Model model
-    ){
+            @PathVariable(value = "id") Long id, Model model){
         SLAModel sla = slaService.getSLAById(id);
+        String namaSla = sla.getNama_sla();
         model.addAttribute("sla",sla);
+        model.addAttribute("namaSla",namaSla);
         model.addAttribute("listBOA",sla.getListSLABOA());
         return "detail-sla";
     }
