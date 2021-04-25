@@ -22,7 +22,11 @@
             <div class="col-md-6">
                 <div class="pageName">
                     <h3>Service Catalog</h3>
-                    <p>Service Catalog > IT Helpdesk</p>
+                    <p>
+                        <a th:href="@{/sla}" >Service Catalog</a>
+                        <span> > </span>
+                        <span th:text="${departemenNama}"></span>
+                    </p>
                 </div>
             </div>
 
@@ -43,7 +47,7 @@
                             <div class="row">
                                 <div class="col-sm-7">
                                     <div class="pageName">
-                                        <h4>IT Helpdesk</h4>
+                                        <h4 th:text="${departemenNama}"></h4>
                                     </div>
                                 </div>
                                 <div class="col-sm-3"></div>
@@ -51,26 +55,6 @@
                                     <a th:href="@{/sla/daftar/tambah}"type="submit" class="btn btn-fill btn-create text-center"> Create </a>
                                 </div>
                             </div>
-
-                            <!--                                for row search-->
-                            <!--                            <div class="row">-->
-                            <!--                                <div class="col-sm-3">-->
-                            <!--                                    <div class="col-items">-->
-                            <!--                                        show brp-->
-                            <!--                                    </div>-->
-                            <!--                                </div>-->
-                            <!--                                <div class="col-sm-3"></div>-->
-                            <!--                                <div class="col-sm-6">-->
-                            <!--                                    <div class="col-search">-->
-                            <!--                                        <div class="row">-->
-                            <!--                                            &lt;!&ndash; Search form &ndash;&gt;-->
-                            <!--                                            <input id="problemBar" class="searchbar" type="search" placeholder="Search...">-->
-                            <!--                                            <a class="btn-search"><i class="fa fa-search"></i></a>-->
-                            <!--                                        </div>-->
-                            <!--                                    </div>-->
-                            <!--                                </div>-->
-                            <!--                            </div>-->
-
                             <!--                                            mulai table-->
                             <div class="row">
                                 <div class="col-md-12">
@@ -91,7 +75,7 @@
                                     <tr th:each="sla, iterationStatus: ${listSLA}">
                                         <td th:text="${iterationStatus.count}"></td>
                                         <td>
-                                            <a th:href="@{sla/daftar/detail/} + ${sla.id_sla}" th:text="${sla.nama_sla}"></a>
+                                            <a th:href="@{detail/} + ${sla.id_sla}" th:text="${sla.nama_sla}"></a>
                                         </td>
                                         <td th:text="${sla.completion_time}"></td>
                                         <td th:text="${sla.description}"></td>
@@ -110,7 +94,7 @@
                         <div th:unless="${!listSLA.isEmpty()}">
                             <br>
                             <br>
-                            <h2 class="text-center">Tidak ada SLA</h2>
+                            <p class="text-center">Tidak ada SLA</p>
                         </div>
                         </div>
                     </div>

@@ -99,7 +99,9 @@
                                                     <td th:text="${problem.subject}"></td>
                                                     <td th:text="${problem.real_date}"></td>
                                                     <td th:text="${problem.status.namaStatus}"></td>
-                                                    <td><a th:href="@{/problem/detail/}+${problem.id_problem}"> Detail </a></td>
+                                                    <td th:if = "${problem.status.id_status == 1}"><a th:href="@{/problem/detail/}+${problem.id_problem}"> Detail </a></td>
+                                                    <td th:if = "${problem.status.id_status == 4}"><a th:href="@{/problem/resolver/}+${problem.id_problem}"> Detail </a></td>
+                                                    <td th:if = "${problem.status.id_status == 5}"><a th:href="@{/problem/detail/}+${problem.id_problem}"> Detail </a></td>
                                                 </tr>
                                                 </tbody>
                                             </table>
