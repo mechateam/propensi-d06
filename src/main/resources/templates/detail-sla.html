@@ -2,105 +2,142 @@
 <html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title> Home </title>
+    <title> Service Catalog </title>
     <object th:include="fragments/fragment :: js" th:remove="tag"></object>
 
     <object th:include="fragments/fragment :: css" th:remove="tag"></object>
 
 
 </head>
-<title>Hai bela</title>
+
 <body>
 <div th:replace="fragments/fragment :: header"></div>
 <nav th:replace="fragments/fragment :: navbar"></nav>
 
 <div class="content-container">
     <section>
-        <div class="card" style="width: 50%; margin-left: 23%;">
-            <div class="card-header"><center><Strong>Detail SLA</Strong></center></div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col col-4">
-                        <p>Nama SLA</p>
-                    </div>
-                    <div class="col" style="width: 66%">
-                        <p th:text="':  ' + ${sla.nama_sla}"></p>
+        <div class="container-fluid">
+            <div class="row">
+
+                <!--Page Name Header-->
+                <div class="col-sm-6">
+                    <div class="pageName">
+                        <h3>Service Catalog</h3>
+                        <p>
+                            <a th:href="@{/sla}">Service Catalog</a>
+                            <span> > </span>
+                            <span th:text="${sla.departemen.nama_departemen}"></span>
+                            <span> > </span>
+                            <span th:text="${sla.nama_sla}"></span>
+                        </p>
                     </div>
                 </div>
-
-                <div class="row">
-                    <div class="col col-4">
-                        <p>Completion Time</p>
-                    </div>
-                    <div class="col" style="width: 66%">
-                        <p th:text="':  ' + ${sla.completion_time}"></p>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col col-4">
-                        <p>Description</p>
-                    </div>
-                    <div class="col" style="width: 66%">
-                        <p th:text="':  ' + ${sla.description}"></p>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col col-4">
-                        <p>Departemen</p>
-                    </div>
-                    <div class="col" style="width: 66%">
-                        <p th:text="':  ' + ${sla.departemen.nama_departemen}"></p>
-                    </div>
-                </div>
-
             </div>
-        </div>
-    </section>
-    <section>
-        <div class="card" style="width: 50%; margin-left: 23%;">
-            <div class="card-header"><center><Strong>Daftar Board of Approval</Strong></center></div>
-            <div class="card-body">
-                <div th:if="${!listBOA.isEmpty()}">
-                    <div class="card m-5 p-6 shadow p-3 mb-5 bg-white rounded">
-                        <table class="table">
-                            <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>Nama BoA</th>
-                                <th>Nama Departemen</th>
-                                <th>Rank</th>
-                            </tr>
-                            </thead>
+            <br>
 
-                            <tbody>
-                            <tr th:each="slaBOA, iterationStatus: ${listBOA}">
-                                <td th:text="${iterationStatus.count}"></td>
-                                <td th:text="${slaBOA.boa.user.getNama()}"></td>
-                                <td th:text="${slaBOA.boa.departemen.nama_departemen}"></td>
-                                <td th:text="${slaBOA.boa.rank}"></td>
-                                <td>
-<!--                                    <form th:action="@{/peserta/laporan}" method="POST">-->
-<!--                                        <input type="hidden" name="username" value="budak 1"/>-->
-<!--                                        <input type="hidden" name="jumlahPelatihan" value="1"/>-->
-<!--                                        <input type="hidden" name="noPeserta" th:value="${pesertaPelatihan.no_peserta}"/>-->
-<!--                                        <button type="submit" value="submit" class="btn btn-dark">Buat Laporan</button>-->
-<!--                                    </form>-->
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div th:unless="${!listBOA.isEmpty()}">
-                    <br>
-                    <br>
-                    <h2 class="text-center">Tidak ada BoA</h2>
-                </div>
+            <!--            START YOUR CONTENT                  -->
+
+            <!--Tab Nav-->
+            <div class="col-md-12">
+
+                <div class="tab-content">
+                    <!--                    START TAB PROBLEM-->
+                    <div class="tab-pane fade in active" id="detail">
+                        <div class="card">
+                            <div class="card-content">
+                                <!--                                for row header-->
+                                <div class="row">
+                                    <div class="col-sm-7">
+                                        <div class="pageName">
+                                            <h4 th:text="${sla.nama_sla}"></h4 >
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3"></div>
+                                    <div class="col-sm-2">
+                                        <a th:href="@{/sla/daftar/update/}+${sla.id_sla}"  class="btn btn-fill btn-create text-center"> Edit </a>
+                                    </div>
+                                    <div class="col-sm-2"></div>
+                                </div>
+                                <br><br>
+                                <div class="row detail-row">
+                                    <div class="col-sm-3">
+                                        Nama Service Catalog
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <p th:text="':  ' + ${sla.nama_sla}"></p>
+                                    </div>
+                                </div>
+                                <div class="row detail-row">
+                                    <div class="col-sm-3">
+                                        Completion Time
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <p th:text="':  ' + ${sla.completion_time}"></p>
+                                    </div>
+                                </div>
+                                <div class="row detail-row">
+                                    <div class="col-sm-3">
+                                        Description
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <p th:text="':  ' + ${sla.description}"></p>
+                                    </div>
+                                </div>
+                                <div class="row detail-row">
+                                    <div class="col-sm-3">
+                                        Departemen
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <p th:text="':  ' + ${sla.departemen.nama_departemen}"></p>
+                                    </div>
+                                </div>
+                                <br><br>
+                                <h4>Daftar Board of Approval</h4>
+                                <div class="log-content">
+                                    <div class="row" th:if="${!listBOA.isEmpty()}">
+                                        <div class="col-md-12">
+                                            <table>
+                                                <thead>
+                                                <tr>
+                                                    <th title="Field #1">No</th>
+                                                    <th title="Field #2">Nama</th>
+                                                    <th title="Field #3">Nama Departemen</th>
+                                                    <th title="Field #4">Rank</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr th:each="slaBOA, iterationStatus: ${listBOA}">
+                                                    <td th:text="${iterationStatus.count}"></td>
+                                                    <td th:text="${slaBOA.boa.user.getNama()}"></td>
+                                                    <td th:text="${slaBOA.boa.departemen.nama_departemen}"></td>
+                                                    <td th:text="${slaBOA.boa.rank}"></td>
+                                                    <td>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div th:unless="${!listBOA.isEmpty()}">
+                                        <br>
+                                        <br>
+                                        <p class="text-center">Tidak ada BoA</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                 </div>
             </div>
         </div>
     </section>
 </div>
+
+
+<!--            END OF CONTENT                      -->
+</div>
+</div>
+
+
 </body>
+
 </html>

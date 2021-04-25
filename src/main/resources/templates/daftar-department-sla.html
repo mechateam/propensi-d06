@@ -39,7 +39,7 @@
                 <div class="tab-pane fade in active" id="problem">
                     <div class="card">
                         <div class="card-content">
-                            <!--                                for row header-->
+                            <!--for row header-->
                             <div class="row">
                                 <div class="col-sm-7">
                                     <div class="pageName">
@@ -51,25 +51,6 @@
                                     <a th:href="@{/sla/daftar/tambah}"type="submit" class="btn btn-fill btn-create text-center"> Create </a>
                                 </div>
                             </div>
-
-                            <!--                                for row search-->
-<!--                            <div class="row">-->
-<!--                                <div class="col-sm-3">-->
-<!--                                    <div class="col-items">-->
-<!--                                        show brp-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                                <div class="col-sm-3"></div>-->
-<!--                                <div class="col-sm-6">-->
-<!--                                    <div class="col-search">-->
-<!--                                        <div class="row">-->
-<!--                                            &lt;!&ndash; Search form &ndash;&gt;-->
-<!--                                            <input id="problemBar" class="searchbar" type="search" placeholder="Search...">-->
-<!--                                            <a class="btn-search"><i class="fa fa-search"></i></a>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
 
                             <!--                                            mulai table-->
                             <div class="row">
@@ -88,7 +69,7 @@
                                             <td>
                                                 <a th:href="@{sla/daftar/} + ${department.id_dept}" th:text="${department.nama_departemen}"></a>
                                             </td>
-                                            <td>1</td>
+                                            <td th:text="${department.listSLA.size()}"></td>
                                         </tr>
 
                                         </tbody>
