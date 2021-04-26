@@ -1,41 +1,132 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title> Home </title>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Home</title>
     <object th:include="fragments/fragment :: js" th:remove="tag"></object>
 
     <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+  </head>
 
+  <body>
+    <div th:replace="fragments/fragment :: header"></div>
+    <nav th:replace="fragments/fragment :: navbar"></nav>
 
-</head>
-
-<body>
-<div th:replace="fragments/fragment :: header"></div>
-<nav th:replace="fragments/fragment :: navbar"></nav>
-
-<div class="content-container">
-    <div class="container-fluid">
+    <div class="content-container">
+      <div class="container-fluid">
         <div class="row">
-
-            <!--Page Name Header-->
-            <div class="col-md-6">
-                <div class="pageName">
-                    <h3>Dashboard</h3>
-                    <p>Dashboard</p>
-                </div>
+          <!--Page Name Header-->
+          <div class="col-md-6">
+            <div class="pageName">
+              <h3>Dashboard</h3>
+              <p>Dashboard</p>
             </div>
-            <div class="col-md-6"></div>
+          </div>
+          <div class="col-md-6"></div>
         </div>
-        <br>
+        <br />
 
         <!--            START YOUR CONTENT                  -->
 
+        <div class="row">
+          <div class="col-sm-4">
+            <div class="card">
+              <div class="log-content">
+                <p class="card-title">Welcome</p>
+                <h3 class="card-text">Fadil</h3>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-2">
+            <div class="card">
+              <div class="log-content">
+                <p class="card-title text-center">Unassigned Tickets</p>
+                <h3 class="card-text text-center">1</h3>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-2">
+            <div class="card">
+              <div class="log-content">
+                <p class="card-title text-center">Unassigned Tickets</p>
+                <h3 class="card-text text-center">1</h3>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-2">
+            <div class="card">
+              <div class="log-content">
+                <p class="card-title text-center">Unassigned Tickets</p>
+                <h3 class="card-text text-center">1</h3>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-2">
+            <div class="card">
+              <div class="log-content">
+                <p class="card-title text-center">Unassigned Tickets</p>
+                <h3 class="card-text text-center">1</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <h3>IT Helpdesk Dashboard</h3>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-9 h-100">
+            <div class="card h-100">
+              <div class="log-content">
+                <p class="card-title text-center">Unassigned Tickets</p>
+                <h3 class="card-text text-center">1</h3>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <div class="row">
+              <div class="card">
+                <div class="log-content">
+                  <p class="card-title text-center">Unassigned Tickets</p>
+                  <h3 class="card-text text-center">1</h3>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="card">
+                <div class="log-content">
+                  <p class="card-title text-center">Unassigned Tickets</p>
+                  <h3 class="card-text text-center">1</h3>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-9">
+            <div class="card">
+              <div class="log-content">
+                <p class="card-title text-center">Unassigned Tickets</p>
+                <h3 class="card-text text-center">1</h3>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <div class="card">
+              <div class="log-content">
+                <p class="card-title text-center">Unassigned Tickets</p>
+                <h3 class="card-text text-center">1</h3>
+              </div>
+            </div>
+          </div>
+        </div>
 
         <!--            END OF CONTENT                      -->
+      </div>
     </div>
-</div>
-
-</body>
-
+  </body>
 </html>

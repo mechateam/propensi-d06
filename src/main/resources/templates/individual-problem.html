@@ -26,8 +26,7 @@
           </div>
           <div class="col-sm-6">
             <div class="statusName">
-              <br />
-              <h4 th:text="${problem.status.namaStatus}"></h4>
+              <h3>For Status</h3>
             </div>
           </div>
         </div>
@@ -83,25 +82,27 @@
                       <h4 th:text="': '+ ${problem.description}"></h4>
                     </div>
                   </div>
-
                   <form
-                    th:action="@{/problem/resolver/} + ${problem.id_problem}"
+                    th:action="@{/problem/individual/} + ${problem.id_problem}"
                     method="POST"
                   >
                     <div class="row detail-row">
                       <div class="col-sm-3">Assign Resolver</div>
-                      <div class="col-sm-9">
-                        :
-                        <select name="jenisResolver" class="dropdown">
-                          <option selected disabled>
-                            Assign Resolver Department
+                      <div class="col-sm-1">:</div>
+                      <div class="col-sm-3">
+                        <select
+                          name="individual"
+                          id="individual"
+                          style="width: 150%; margin-left: 0"
+                        >
+                          <option selected value="">
+                            -- Assign Individual Resolver --
                           </option>
-                          <option value="1">IT Helpdesk</option>
-                          <option value="2">Security</option>
-                          <option value="3">IT System Development</option>
-                          <option value="4">IT User Admin</option>
-                          <option value="5">IT Network</option>
-                          <option value="6">IT Infrastructure</option>
+                          <option
+                            th:each="individual : ${resolvers}"
+                            th:value="${individual.id_user}"
+                            th:text="${individual.nama}"
+                          ></option>
                         </select>
                       </div>
                     </div>
@@ -109,8 +110,16 @@
                     <br />
                     <div class="row">
                       <div class="col-sm-7"></div>
-                      <div class="col-sm-3"></div>
                       <div class="col-sm-2">
+                        <a
+                          th:if="${user.id_role == 4}"
+                          th:href="@{/problem/individual/return/} + ${problem.id_problem}"
+                          class="btn btn-outline-danger btn-delete text-center"
+                        >
+                          Reject
+                        </a>
+                      </div>
+                      <div class="col-sm-3">
                         <button
                           type="submit"
                           class="btn btn-fill btn-create text-center"
@@ -121,9 +130,8 @@
                     </div>
                   </form>
 
-                  <br />
-                  <h5 th:text="${gagal}" style="color: red"></h5>
-                  <h5 th:text="${berhasil}" style="color: green"></h5>
+                  <!-- <br>
+                            <h5 th:text="${berhasil}" style="color: green;"></h5> -->
                 </div>
                 <div class="created-by">created by</div>
               </div>
