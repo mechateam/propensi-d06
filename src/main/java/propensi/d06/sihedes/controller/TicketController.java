@@ -228,7 +228,7 @@ public class TicketController {
             Model model
     ){
         ProblemModel problem = problemService.findProblemById(id_problem);
-        List<UserModel> resolvers = userService.getListUserbyDepartemen(problem.getResolver_departemen());
+        List<UserModel> resolvers = userService.getListUserbyDepartemen(problem.getResolverDepartemen());
         UserModel user = userService.getUserbyUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         List<LogProblemModel> logs = problem.getListLog();
         model.addAttribute("logs", logs);
@@ -270,7 +270,7 @@ public class TicketController {
         long idStatus = 4;
         StatusModel status = statusService.findStatusById(idStatus);
         problem.setStatus(status);
-        problem.setResolver_departemen(null);
+        problem.setResolverDepartemen(null);
         problemService.updateProblem(problem);
 
         LogProblemModel log = new LogProblemModel();
