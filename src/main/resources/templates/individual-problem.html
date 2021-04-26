@@ -112,6 +112,7 @@
                       <div class="col-sm-7"></div>
                       <div class="col-sm-2">
                         <a
+                          th:if="${user.id_role == 4}"
                           th:href="@{/problem/individual/return/} + ${problem.id_problem}"
                           class="btn btn-outline-danger btn-delete text-center"
                         >
@@ -155,18 +156,14 @@
                       <table>
                         <thead>
                           <tr>
-                            <th title="Field #1">Progress</th>
+                            <th title="Field #1">Status</th>
                             <th title="Field #2">Time</th>
-                            <th title="Field #3">Created by</th>
-                            <th title="Field #4">Status</th>
                           </tr>
                         </thead>
                         <tbody>
-                          <tr>
-                            <td>Lorem ipsum dolor sit amet, constectetur</td>
-                            <td>Feb. 21, 2021, 10:45 a.m.</td>
-                            <td>Hantigo</td>
-                            <td>DONE</td>
+                          <tr th:each="log : ${logs}">
+                            <td th:text="${log.description}"></td>
+                            <td th:text="${log.posted_date}"></td>
                           </tr>
                         </tbody>
                       </table>

@@ -55,6 +55,9 @@ public class TicketController {
     private DepartemenService departemenService;
 
     @Autowired
+    private LogProblemService logProblemService;
+
+    @Autowired
     private SLADb slaDb;
 
 
@@ -115,6 +118,8 @@ public class TicketController {
     {
         System.out.println("Ini Jawabannya " + id_problem);
         ProblemModel problem = problemService.findProblemById(id_problem);
+        List<LogProblemModel> logs = problem.getListLog();
+        model.addAttribute("logs",logs);
         model.addAttribute("problem",problem);  
         return "detailProblem";
     }
@@ -125,6 +130,8 @@ public class TicketController {
         Model model
     ){
         ProblemModel problem = problemService.findProblemById(id_problem);
+        List<LogProblemModel> logs = problem.getListLog();
+        model.addAttribute("logs", logs);
         model.addAttribute("problem",problem);
         return "assignResolverProblem";
     }
@@ -142,6 +149,13 @@ public class TicketController {
         System.out.println(problem.getId_problem());
         problem.setResolver_departemen(problemService.getDepById(id));
         problemService.updateProblem(problem);
+
+        LogProblemModel log = new LogProblemModel();
+        log.setDescription(status.getNamaStatus());
+        log.setPosted_date(new Date());
+        log.setProblem(problem);
+        logProblemService.addLog(log);
+
         return "redirect:/tickets";
     }
 
@@ -153,6 +167,8 @@ public class TicketController {
         ProblemModel problem = problemService.findProblemById(id_problem);
         List<UserModel> resolvers = userService.getListUserbyDepartemen(problem.getResolver_departemen());
         UserModel user = userService.getUserbyUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        List<LogProblemModel> logs = problem.getListLog();
+        model.addAttribute("logs", logs);
         model.addAttribute("user",user);
         model.addAttribute("problem",problem);
         model.addAttribute("resolvers", resolvers);
@@ -173,6 +189,13 @@ public class TicketController {
 //        System.out.println(problem.getId_problem());
 //        problem.setResolver_departemen(problemService.getDepById(id));
         problemService.updateProblem(problem);
+
+        LogProblemModel log = new LogProblemModel();
+        log.setDescription(status.getNamaStatus());
+        log.setPosted_date(new Date());
+        log.setProblem(problem);
+        logProblemService.addLog(log);
+
         return "redirect:/tickets";
     }
 
@@ -181,11 +204,17 @@ public class TicketController {
             @PathVariable Long id_problem, Model model,
             RedirectAttributes redir) {
         ProblemModel problem = problemService.findProblemById(id_problem);
-        long idStatus = 5;
+        long idStatus = 4;
         StatusModel status = statusService.findStatusById(idStatus);
         problem.setStatus(status);
         problem.setResolver_departemen(null);
         problemService.updateProblem(problem);
+
+        LogProblemModel log = new LogProblemModel();
+        log.setDescription("Returned to Helpdesk");
+        log.setPosted_date(new Date());
+        log.setProblem(problem);
+        logProblemService.addLog(log);
         return "redirect:/tickets";
     }
 
@@ -287,6 +316,15 @@ public class TicketController {
         problem.setCreated_date(dateNow);
 
         problemService.addProblem(problem);
+
+        LogProblemModel log = new LogProblemModel();
+        log.setDescription(status.getNamaStatus());
+        log.setPosted_date(dateNow);
+        log.setProblem(problem);
+        logProblemService.addLog(log);
+
+
+
         return "redirect:/tickets";
     }
 

@@ -154,8 +154,12 @@ a {
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
-.tab-content{
-margin-bottom: 25px;
+.tab-content {
+  margin-bottom: 25px;
+}
+
+.card-content {
+  padding: 10px 25px;
 }
 
 .btn-create {
@@ -291,11 +295,11 @@ tr:hover td {
   padding: 1px 25px;
 }
 
-.dropdown{
-    margin-left: 1.5px; 
-    padding: 2px 12px;
+.dropdown {
+  margin-left: 1.5px;
+  padding: 2px 12px;
 }
 
-#log{
-    margin-bottom: 40px;
+#log {
+  margin-bottom: 40px;
 }
