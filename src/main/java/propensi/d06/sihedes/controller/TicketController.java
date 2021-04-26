@@ -114,6 +114,8 @@ public class TicketController {
     ){
         ProblemModel problem = problemService.findProblemById(id_problem);
         List<UserModel> resolvers = userService.getListUserbyDepartemen(problem.getResolver_departemen());
+        UserModel user = userService.getUserbyUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        model.addAttribute("user",user);
         model.addAttribute("problem",problem);
         model.addAttribute("resolvers", resolvers);
         return "individual-problem";
