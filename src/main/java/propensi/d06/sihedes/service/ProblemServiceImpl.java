@@ -1,12 +1,17 @@
 package propensi.d06.sihedes.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import propensi.d06.sihedes.model.*;
 import propensi.d06.sihedes.repository.*;
 
 import javax.transaction.Transactional;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -42,5 +47,24 @@ public class ProblemServiceImpl implements ProblemService{
     @Override
     public void addProblem(ProblemModel problem) {
         problemDb.save(problem);
+    }
+
+    @Override
+    public Page<ProblemModel> findPaginated(Pageable pageable){
+        List<ProblemModel> requests = problemDb.findAll();
+        int pageSize = pageable.getPageSize();
+        int currentPage = pageable.getPageNumber();
+        int startItem = currentPage * pageSize;
+        List<ProblemModel> list;
+        if (requests.size() < startItem) {
+            list = Collections.emptyList();
+        } else {
+            int toIndex = Math.min(startItem + pageSize, requests.size());
+            list = requests.subList(startItem, toIndex);
+        }
+
+        Page<ProblemModel> requestPage
+                = new PageImpl<ProblemModel>(list, PageRequest.of(currentPage, pageSize), requests.size());
+        return requestPage;
     }
 }

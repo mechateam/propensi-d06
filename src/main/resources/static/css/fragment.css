@@ -161,7 +161,7 @@ a{
 }
 
 .tab-content{
-
+margin-bottom: 25px;
 }
 
 .card-content{
@@ -291,4 +291,8 @@ tr:hover td {
 .dropdown{
     margin-left: 1.5px; 
     padding: 2px 12px;
+}
+
+#log{
+    margin-bottom: 40px;
 }

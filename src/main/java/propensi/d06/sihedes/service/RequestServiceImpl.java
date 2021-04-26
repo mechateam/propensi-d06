@@ -2,6 +2,11 @@ package propensi.d06.sihedes.service;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import propensi.d06.sihedes.model.BOAModel;
 import propensi.d06.sihedes.model.RequestModel;
@@ -17,7 +22,11 @@ import org.springframework.stereotype.Service;
 import propensi.d06.sihedes.model.*;
 import propensi.d06.sihedes.repository.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
+import java.awt.print.Book;
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -37,6 +46,10 @@ public class RequestServiceImpl implements RequestService{
 
     @Autowired
     StatusDb statusDb;
+
+    @Autowired
+    UserDb userDb;
+
 
     @Override
     public DepartemenModel getDepById(Long id){
@@ -110,5 +123,35 @@ public class RequestServiceImpl implements RequestService{
             return null;
         }
 
+    }
+
+    @Override
+    public Page<RequestModel> findPaginated(Pageable pageable){
+        List<RequestModel> requests = requestDb.findAll();
+        int pageSize = pageable.getPageSize();
+        int currentPage = pageable.getPageNumber();
+        int startItem = currentPage * pageSize;
+        List<RequestModel> list;
+        if (requests.size() < startItem) {
+            list = Collections.emptyList();
+        } else {
+            int toIndex = Math.min(startItem + pageSize, requests.size());
+            list = requests.subList(startItem, toIndex);
+        }
+
+        Page<RequestModel> requestPage
+                = new PageImpl<RequestModel>(list, PageRequest.of(currentPage, pageSize), requests.size());
+        return requestPage;
+    }
+
+    @Override
+    public void addRequest(RequestModel request){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+
+        request.setCreated_date(new Date());
+        request.setPengaju(userDb.findByUsername(currentPrincipalName));
+        request.setStatus(statusDb.findByNamaStatus("Requested"));
+        requestDb.save(request);
     }
 }
