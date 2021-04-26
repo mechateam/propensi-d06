@@ -11,4 +11,5 @@ public interface ProblemService {
     List<ProblemModel> getProblemByDepartemen(DepartemenModel departemen);
     ProblemModel findProblemById(Long id);
     void addProblem(ProblemModel problem);
+    ProblemModel updateProblemStatus(ProblemModel problem);
 }

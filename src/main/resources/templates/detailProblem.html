@@ -99,7 +99,7 @@
                                 </div>
                                 <div class="col-sm-9">
                                     : 
-                                    <select name="jenisResolver" class="dropdown" th:field= "*{problem.resolver_departemen}" disabled>
+                                    <select name="jenisResolver" class="dropdown" th:field= "*{problem.resolverDepartemen}" disabled>
                                         <option value="1">IT Helpdesk</option>
                                         <option value="2">Security</option>
                                         <option value="3">IT System Development</option>
@@ -110,6 +110,31 @@
                                    
                                 </div>
                             </div>
+                        </div>
+                        <div class="row-action" th:if = "${problem.status.id_status == 5}">
+                            <!--                                <form th:action="@{/project/}+${project.id}" method="POST">-->
+                            <div class="col-sm-9">
+                            </div>
+                            <div class="col-sm-3">
+                                <form th:action="@{/problem/update/}"  th:object="${problem}" method="POST">
+                                    <input type="hidden" th:field="*{id_problem}"/>
+                                <button class="btn btn-fill btn-create text-center" data-toggle="modal"
+                                        data-target="#changeStatus"> Accept </button>
+                                </form>
+                            </div>
+                            <!--                                </form>-->
+                        </div>
+                        <div class="row-action" th:if = "${problem.status.id_status == 6}">
+                            <div class="col-sm-9">
+                            </div>
+                            <div class="col-sm-3">
+                                <form th:action="@{/problem/update/}"  th:object="${problem}" method="POST">
+                                    <input type="hidden" th:field="*{id_problem}"/>
+                                    <button class="btn btn-fill btn-create text-center" data-toggle="modal"
+                                            data-target="#changeStatus"> Accept </button>
+                                </form>
+                            </div>
+                            <!--                                </form>-->
                         </div>
                         <div class="created-by">
                             <p th:text="'Created by '+ ${problem.pengaju.username}"></p>
@@ -163,7 +188,34 @@
 
         <!--            END OF CONTENT                      -->
     </div>
+
+    <div class="modal fade" id="changeStatus" tabindex="-1" role="dialog" aria-labelledby="successTitle"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="successTitle">Success</h5>
+                </div>
+                <div class="modal-body">
+                    Audit Project status has been updated.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="btn-submit2" data-dismiss="modal">Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#changeStatus").on('click', function () {
+            $('#success').modal('show');
+            setTimeout(function() {$('#success').modal('hide');},
+                100000000);
+        });
+    });
+</script>
 
 
 </body>

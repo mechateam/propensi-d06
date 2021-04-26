@@ -283,8 +283,13 @@ tr:hover td {
     margin-bottom: 15px;
 }
 
+.row-action{
+    padding: 10px;
+    margin-top: 15px;
+}
+
 .created-by{
-    margin-top: 30px;
+    /*margin-top: 30px;*/
     padding: 10px;
 }
 

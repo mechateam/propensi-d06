@@ -102,10 +102,20 @@ public class TicketController {
 
         // ProblemModel
         List<ProblemModel> listProblem = problemService.getProblemByDepartemen(user.getDepartemen());
-        System.out.println("Ini getdept " + user.getDepartemen());
-        System.out.println("Ini id" + user.getDepartemen().getId_dept());
-        System.out.println("Ini Jawabannya " + listProblem.size());
-        model.addAttribute("listProblem", listProblem);
+        List<ProblemModel> listPendingProblem = new ArrayList<>();
+        for(ProblemModel pendingProblem : listProblem){
+            if(pendingProblem.getStatus().getId_status() == 5){
+                listPendingProblem.add(pendingProblem);
+            }
+            else if ((pendingProblem.getStatus().getId_status() == 6) && (pendingProblem.getResolver().getId_user() == user.getId_user())){
+                listPendingProblem.add(pendingProblem);
+            }
+            else if ((user.getId_role().getId_role() == 2) && (pendingProblem.getStatus().getId_status() == 4)){
+                listPendingProblem.add(pendingProblem);
+            }
+
+        }
+        model.addAttribute("listProblem", listPendingProblem);
 
         // RequestModel
         List<RequestModel> listRequest = requestService.getRequestByDepartment(user.getDepartemen());
@@ -118,7 +128,7 @@ public class TicketController {
         model.addAttribute("hasRequest", hasRequest);
 
         // Return view template yang diinginkan
-        return "allTickets";
+        return "pendingTickets";
     }
 
     @GetMapping("/problem/detail/{id_problem}")
@@ -159,6 +169,15 @@ public class TicketController {
     }
 
 
+    @PostMapping("/problem/update")
+    public String acceptProblem(
+            @ModelAttribute ProblemModel problem,
+            Model model) {
+        System.out.println("Ini controller :" + problem.getDescription());
+        ProblemModel newProb = problemService.updateProblemStatus(problem);
+        model.addAttribute("problem",newProb);
+        return "detailProblem";
+    }
 
     @Deprecated
     @GetMapping("/request/detail")
