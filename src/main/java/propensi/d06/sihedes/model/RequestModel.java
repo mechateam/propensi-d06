@@ -91,14 +91,6 @@ public class RequestModel implements Serializable {
     @JsonIgnore
     private UserModel manager;
 
-    public UserModel getManager() {
-        return manager;
-    }
-
-    public void setManager(UserModel manager) {
-        this.manager = manager;
-    }
-
     @ManyToOne(fetch = FetchType.LAZY, optional = true)
     @JoinColumn(name = "id_departemen", referencedColumnName = "id_dept", nullable = true)
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -260,6 +252,14 @@ public class RequestModel implements Serializable {
 
     public void setResolver_departemen(DepartemenModel resolver_departemen) {
         this.resolver_departemen = resolver_departemen;
+    }
+
+    public UserModel getManager() {
+        return manager;
+    }
+
+    public void setManager(UserModel manager) {
+        this.manager = manager;
     }
 }
 

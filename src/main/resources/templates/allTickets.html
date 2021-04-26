@@ -112,8 +112,11 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-12">
-                                        INI PAGINATION
+                                    <div th:if="${problemPage.totalPages > 0}" class="pagination"
+                                         th:each="pageNumber : ${pageNumbersProblem}">
+                                        <a th:href="@{/tickets(size=${requestPage.size}, page=${pageNumber})}"
+                                           th:text=${pageNumber}
+                                           th:class="${pageNumber==requestPage.number + 1} ? active"></a>
                                     </div>
                                 </div>
                             </div>
@@ -173,7 +176,7 @@
                                                 </tr>
                                                 </thead>
                                                 <tbody>
-                                                <tr th:each="request, iterationStatus : ${listRequest}">
+                                                <tr th:each="request, iterationStatus : ${requestPage.content}">
                                                     <td th:text="${iterationStatus.count}"></td>
                                                     <td th:text="${request.id_request}"></td>
                                                     <td th:text="${request.subject}"></td>
@@ -191,8 +194,11 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-12">
-                                        INI PAGINATION
+                                    <div th:if="${requestPage.totalPages > 0}" class="pagination"
+                                         th:each="pageNumber : ${pageNumbers}">
+                                        <a th:href="@{/tickets(size=${requestPage.size}, page=${pageNumber})}"
+                                           th:text=${pageNumber}
+                                           th:class="${pageNumber==requestPage.number + 1} ? active"></a>
                                     </div>
                                 </div>
                             </div>

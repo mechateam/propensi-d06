@@ -2,6 +2,10 @@ package propensi.d06.sihedes.service;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import propensi.d06.sihedes.model.BOAModel;
 import propensi.d06.sihedes.model.RequestModel;
@@ -18,6 +22,8 @@ import propensi.d06.sihedes.model.*;
 import propensi.d06.sihedes.repository.*;
 
 import javax.transaction.Transactional;
+import java.awt.print.Book;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -37,6 +43,9 @@ public class RequestServiceImpl implements RequestService{
 
     @Autowired
     StatusDb statusDb;
+
+
+
 
     @Override
     public DepartemenModel getDepById(Long id){
@@ -110,5 +119,24 @@ public class RequestServiceImpl implements RequestService{
             return null;
         }
 
+    }
+
+    @Override
+    public Page<RequestModel> findPaginated(Pageable pageable){
+        List<RequestModel> requests = requestDb.findAll();
+        int pageSize = pageable.getPageSize();
+        int currentPage = pageable.getPageNumber();
+        int startItem = currentPage * pageSize;
+        List<RequestModel> list;
+        if (requests.size() < startItem) {
+            list = Collections.emptyList();
+        } else {
+            int toIndex = Math.min(startItem + pageSize, requests.size());
+            list = requests.subList(startItem, toIndex);
+        }
+
+        Page<RequestModel> requestPage
+                = new PageImpl<RequestModel>(list, PageRequest.of(currentPage, pageSize), requests.size());
+        return requestPage;
     }
 }
