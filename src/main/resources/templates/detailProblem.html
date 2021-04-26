@@ -114,8 +114,7 @@
                         </div>
                         <div class="row-action" th:if = "${problem.status.id_status == 5}">
                             <!--                                <form th:action="@{/project/}+${project.id}" method="POST">-->
-                            <div class="col-sm-9">
-                            </div>
+                            <div class="col-sm-9"></div>
                             <div class="col-sm-3">
                                 <form th:action="@{/problem/update/}"  th:object="${problem}" method="POST">
                                     <input type="hidden" th:field="*{id_problem}"/>
@@ -181,20 +180,16 @@
             </div>
           </div>
         </div>
-
-        <!--            END OF CONTENT                      -->
       </div>
-    </div>
-
     <div class="modal fade" id="changeStatus" tabindex="-1" role="dialog" aria-labelledby="successTitle"
-         aria-hidden="true">
+             aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="successTitle">Success</h5>
                 </div>
                 <div class="modal-body">
-                    Audit Project status has been updated.
+                    Ticket Updated
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" id="btn-submit2" data-dismiss="modal">Ok</button>

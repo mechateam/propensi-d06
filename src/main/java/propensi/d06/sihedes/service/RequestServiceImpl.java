@@ -123,6 +123,32 @@ public class RequestServiceImpl implements RequestService{
     }
 
     @Override
+    public RequestModel updateRequestStatus(RequestModel request) {
+        RequestModel targetRequest = requestDb.findById(request.getId_request()).get();
+        try{
+            UserModel user = userDb.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+            long idStatus = targetRequest.getStatus().getId_status();
+            if(idStatus == 5){
+                targetRequest.setResolver(request.getResolver());
+            }
+            long newStatus = idStatus+1;
+            targetRequest.setResolver(request.getResolver());
+            StatusModel status = statusDb.findById(newStatus).get();
+            targetRequest.setStatus(status);
+            if(targetRequest.getStatus().getId_status() == 7){
+                Date dateNow = new java.util.Date();
+                targetRequest.setFinished_date(dateNow);
+            }
+            requestDb.save(targetRequest);
+            return targetRequest;
+        }
+        catch (NullPointerException nullPointerException) {
+            return null;
+        }
+
+    }
+
+    @Override
     public Page<RequestModel> findPaginated(Pageable pageable){
         List<RequestModel> requests = requestDb.findAll();
         int pageSize = pageable.getPageSize();

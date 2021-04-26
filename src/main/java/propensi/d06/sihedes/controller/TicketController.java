@@ -293,12 +293,16 @@ public class TicketController {
         return "detailProblem";
     }
 
-    @Deprecated
+//    @Deprecated
     @GetMapping("/request/detailin/{id_request}")
     public String detailRequest(
             @PathVariable(value="id_request") Long id_request,
             Model model){
         RequestModel request = requestService.getRequestById(id_request);
+        if(request.getStatus().getId_status() == 5){
+            List<UserModel> listResolver = userService.getListUserbyDepartemen(request.getResolverDepartemen());
+            model.addAttribute("resolverList", listResolver);
+        }
         model.addAttribute("request",request);
         return "detailRequest";
 
@@ -313,6 +317,15 @@ public class TicketController {
 
         return "assignResolverRequest";
     }
+    @PostMapping("/request/update")
+    public String accReq(
+            @ModelAttribute RequestModel request,
+            Model model) {
+        RequestModel newReq = requestService.updateRequestStatus(request);
+        model.addAttribute("request",newReq);
+        return "detailRequest";
+    }
+
 
     // Cancelled
     // @PostMapping("/request/resolver")
@@ -329,6 +342,7 @@ public class TicketController {
     //         return "redirect:/tickets";
     //     }
     // }
+
 
     @GetMapping("/ticket/add")
     public String addTicket(Model model) {
