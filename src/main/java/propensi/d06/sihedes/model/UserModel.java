@@ -15,7 +15,7 @@ import java.math.BigInteger;
 import java.util.List;
 
 @Entity
-@Table(name="user")
+@Table(name="pengguna")
 public class UserModel implements Serializable {
 
     @Id
