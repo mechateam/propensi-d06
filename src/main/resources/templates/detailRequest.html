@@ -22,12 +22,13 @@
             <div class="col-sm-6">
                 <div class="pageName">
                     <h3>Detail Ticket</h3>
-                    <p><a th:href="@{/tickets}">All Tickets</a> > Detail RQ21092020QB76 </p>
+                    <p><a th:href="@{/tickets}">All Tickets</a> > Detail </p>
                 </div>
             </div>
             <div class="col-sm-6">
                 <div class="statusName">
-                    <h3>For Status</h3>
+                    <br>
+                    <h4 th:text="${request.status.namaStatus}"></h4>
                 </div>
             </div>
         </div>
@@ -50,7 +51,7 @@
                             <div class="row">
                                 <div class="col-sm-7">
                                     <div class="pageName">
-                                        <h4>Detail for Request : RQ21092020QB76</h4>
+                                        <h4 th:text="'Detail for Request : '+ ${request.id_request}"></h4>
                                     </div>
                                 </div>
                                 <div class="col-sm-3"></div>
@@ -62,7 +63,7 @@
                                     Requestor
                                 </div>
                                 <div class="col-sm-9">
-                                    :
+                                    <p th:text="': '+ ${request.nama_pengaju}"></p>
                                 </div>
                             </div>
                             <div class="row detail-row">
@@ -70,7 +71,7 @@
                                     Subject
                                 </div>
                                 <div class="col-sm-9">
-                                    :
+                                    <p th:text="': '+ ${request.subject}"></p>
                                 </div>
                             </div>
                             <div class="row detail-row">
@@ -78,7 +79,7 @@
                                     Manager's Name
                                 </div>
                                 <div class="col-sm-9">
-                                    :
+                                    <p th:text="': '+ ${request.manager.nama}"></p>
                                 </div>
                             </div>
                             <div class="row detail-row">
@@ -86,7 +87,7 @@
                                     Date Requested
                                 </div>
                                 <div class="col-sm-9">
-                                    :
+                                    <p th:text="': '+ ${request.created_date}"></p>
                                 </div>
                             </div>
                             <div class="row detail-row">
@@ -94,7 +95,7 @@
                                     Target Date Required
                                 </div>
                                 <div class="col-sm-9">
-                                    :
+                                    <p th:text="': '+ ${request.target_date}"></p>
                                 </div>
                             </div>
                             <div class="row detail-row">
@@ -102,7 +103,7 @@
                                     Department
                                 </div>
                                 <div class="col-sm-9">
-                                    :
+                                    <p th:text="': '+ ${request.requestDepartemen.nama_departemen}"></p>
                                 </div>
                             </div>
                             <div class="row detail-row">
@@ -110,7 +111,7 @@
                                     Phone/ext#
                                 </div>
                                 <div class="col-sm-9">
-                                    :
+                                    <p th:text="': '+ ${request.phone_number}"></p>
                                 </div>
                             </div>
                             <div class="row detail-row">
@@ -118,7 +119,7 @@
                                     Location
                                 </div>
                                 <div class="col-sm-9">
-                                    :
+                                    <p th:text="': '+ ${request.location}"></p>
                                 </div>
                             </div>
                             <div class="row detail-row">
@@ -126,7 +127,7 @@
                                     Request Divison
                                 </div>
                                 <div class="col-sm-9">
-                                    :
+                                    <p th:text="': '+ ${request.resolverDepartemen.nama_departemen}"></p>
                                 </div>
                             </div>
                             <div class="row detail-row">
@@ -134,7 +135,7 @@
                                     Services
                                 </div>
                                 <div class="col-sm-9">
-                                    :
+                                    <p th:text="': '+ ${request.sla.nama_sla}"></p>
                                 </div>
                             </div>
                             <div class="row detail-row">
@@ -142,7 +143,7 @@
                                     Request Description
                                 </div>
                                 <div class="col-sm-9">
-                                    :
+                                    <p th:text="': '+ ${request.description}"></p>
                                 </div>
                             </div>
                             <div class="row detail-row">
@@ -150,12 +151,12 @@
                                     Request Background
                                 </div>
                                 <div class="col-sm-9">
-                                    :
+                                    <p th:text="': '+ ${request.background}"></p>
                                 </div>
                             </div>
                         </div>
                         <div class="created-by">
-                        created by
+                            <p th:text="'Created by '+ ${request.pengaju.username}"></p>
                         </div>
                     </div>
                 </div>

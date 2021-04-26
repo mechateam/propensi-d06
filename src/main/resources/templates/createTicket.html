@@ -132,7 +132,7 @@
                                             <br>
                                             <div class="col-sm-3">
                                                 Department <br>
-                                                <input type="text" class="form-control"  name="request_departemen" th:value="${departemen.id_dept}" th:field="*{request_departemen}" th:placeholder="${departemen.nama_departemen}" th:readonly="true"/>
+                                                <input type="text" class="form-control"  name="requestDepartemen" th:value="${departemen.id_dept}" th:field="*{requestDepartemen}" th:placeholder="${departemen.nama_departemen}" th:readonly="true"/>
                                             </div>
 <!--                                            <div class="col-sm-1"></div>-->
                                             <div class="col-sm-3">
@@ -161,22 +161,19 @@
                                             <br>
                                             <div class="col-sm-6">
                                                 SLA <br>
-<!--                                                <select id="sla" class="browser-default custom-select">-->
-<!--                                                    <option th:each="dept : ${deptList}"-->
-<!--                                                            th:value="${sla.id_departemen}"-->
-<!--                                                            th:utext="${sla.nama_departemen}"/>-->
+                                                <select id="sla_departemen" class="browser-default custom-select">
+                                                    <option th:each="dept : ${deptList}"
+                                                            th:value="${dept.id_dept}"
+                                                            th:text="${dept.nama_departemen}"></option>
 
-<!--                                                </select>-->
+                                                </select>
                                             </div>
                                             <div class="col-sm-1"></div>
                                             <div class="col-sm-5">
                                                 Services <br>
-<!--                                                <select id="services" class="browser-default custom-select" name="sla" th:field="*{sla}" th:value="*{sla}">-->
-<!--                                                    <option th:each="service : ${serviceList}"-->
-<!--                                                            th:value="${service.id_sla}"-->
-<!--                                                            th:utext="${service.nama_sla}"/>-->
+                                                <select name="sla" id="sla_service" class="browser-default custom-select">
 
-<!--                                                </select>-->
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -211,7 +208,27 @@
     </div>
 </div>
 
-<script>
+<script type="text/javascript">
+    $(document).ready(function(){
+
+        $('#sla_departemen').on('change', function(){
+            var deptId = $(this).val();
+            $.ajax({
+                type: 'GET',
+                url: 'http://localhost:2020/loadslabydepartemen/' + deptId,
+                success: function(result) {
+                    var s = '';
+                    for(var i = 0; i < result.length; i++) {
+                        // s+= '<option th:value="'+ result[i].id_sla+'" th:text="' + result[i].nama_sla + '" ></option>';
+                        s+= '<option value="'+ result[i].id_sla+'" >'+ result[i].nama_sla+'</option>';
+                        console.log(s);
+                    }
+                    $('#sla_service').html(s);
+                }
+            });
+        });
+    });
+
 
 </script>
 

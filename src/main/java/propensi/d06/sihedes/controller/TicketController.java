@@ -1,8 +1,14 @@
 package propensi.d06.sihedes.controller;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import org.springframework.beans.factory.parsing.Problem;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
 import propensi.d06.sihedes.model.*;
+import propensi.d06.sihedes.repository.SLADb;
 import propensi.d06.sihedes.service.*;
 import org.springframework.beans.factory.annotation.*;
 import propensi.d06.sihedes.model.*;
@@ -15,7 +21,11 @@ import propensi.d06.sihedes.service.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.awt.print.Book;
+import java.lang.reflect.Type;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import javax.print.DocFlavor.STRING;
 
@@ -43,12 +53,41 @@ public class TicketController {
     @Autowired
     private DepartemenService departemenService;
 
+    @Autowired
+    private SLADb slaDb;
+
 
     @GetMapping("/tickets")
     public String listTickets(
             @ModelAttribute ProblemModel problem,
             RequestModel request,
+            @RequestParam("page") Optional<Integer> page,
+            @RequestParam("size") Optional<Integer> size,
             Model model) {
+        int currentPage = page.orElse(1);
+        int pageSize = size.orElse(5);
+
+        Page<RequestModel> requestPage = requestService.findPaginated(PageRequest.of(currentPage - 1, pageSize));
+        Page<ProblemModel> problemPage = problemService.findPaginated(PageRequest.of(currentPage - 1, pageSize));
+
+        model.addAttribute("requestPage", requestPage);
+        model.addAttribute("problemPage", problemPage);
+
+        int totalPagesRequest = requestPage.getTotalPages();
+        int totalPagesProblem = problemPage.getTotalPages();
+        if (totalPagesRequest > 0) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPagesRequest)
+                    .boxed()
+                    .collect(Collectors.toList());
+            model.addAttribute("pageNumbers", pageNumbers);
+        }
+
+        if (totalPagesProblem > 0) {
+            List<Integer> pageNumbersProblem = IntStream.rangeClosed(1, totalPagesProblem)
+                    .boxed()
+                    .collect(Collectors.toList());
+            model.addAttribute("pageNumbersProblem", pageNumbersProblem);
+        }
 
         // ProblemModel
         List<ProblemModel> listProblem = problemService.findAll();
@@ -180,31 +219,17 @@ public class TicketController {
     }
 
     @Deprecated
-    @GetMapping("/request/detail")
+    @GetMapping("/request/detailin/{id_request}")
     public String detailRequest(
-            @ModelAttribute RequestModel request,
-            Model model) {
-
-//        // Mendapatkan semua HotelModel
-//        List<HotelModel> listHotel = hotelService.getHotelListOrderByIdDesc();
-//
-//        // Add variabel semua HotelModel ke 'listHotel' untuk dirender pada thymeleaf
-//        model.addAttribute("listHotel", listHotel);
-//
-//
-//        boolean hasHotel = listHotel.size() > 0;
-//        model.addAttribute("hasHotel", hasHotel);
-//
-//        model.addAttribute("listHotel", listHotel);
-//        // Return view template yang diinginkan
-        // if (request.getStatus().getId_status() == 1){
-        //         return "detailRequest";
-        //     }
-        // else if (request.getStatus().getId_status() == 4){
-        //     return "assignResolverRequest";
-        // }
+            @PathVariable(value="id_request") Long id_request,
+            Model model){
+        RequestModel request = requestService.getRequestById(id_request);
+        model.addAttribute("request",request);
         return "detailRequest";
+
     }
+
+
 
     @GetMapping("/request/resolver")
     public String detailResolveRequest(
@@ -251,6 +276,7 @@ public class TicketController {
 //        }
 
 
+        model.addAttribute("deptList",departemenService.getListDepartment());
         model.addAttribute("departemen", departemen);
         model.addAttribute("request", new RequestModel());
         return "createTicket";
@@ -280,9 +306,8 @@ public class TicketController {
     public String requestSubmit(
             @ModelAttribute RequestModel request,
             Model model) {
-
-        model.addAttribute("request", new RequestModel());
-        return "detailRequest";
+        requestService.addRequest(request);
+        return "redirect:/tickets";
     }
 
     // ini buat approval, mau digabung sama yg atas juga gapapa
@@ -328,5 +353,11 @@ public class TicketController {
         requestService.rejectApprovalRequest(request);
         model.addAttribute("request",request);
         return "redirect:/tickets";
+    }
+
+    @ResponseBody
+    @GetMapping("/loadslabydepartemen/{id}")
+    public List<SLAModel> loadSLAByDepartemen(@PathVariable Long id){
+        return this.slaDb.findAllByDepartemen(departemenService.findDepartemenById(id));
     }
 }

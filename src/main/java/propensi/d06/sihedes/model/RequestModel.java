@@ -41,6 +41,19 @@ public class RequestModel implements Serializable {
 
     @NotNull
     @Size(max = 255)
+    @Column(name = "location", nullable = false)
+    private String location;
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    @NotNull
+    @Size(max = 255)
     @Column(name = "subject", nullable = false)
     private String subject;
 
@@ -53,7 +66,6 @@ public class RequestModel implements Serializable {
     }
 
     @NotNull
-    @Size(max = 255)
     @Column(name = "phone_number", nullable = false)
     private Integer phone_number;
 
@@ -91,32 +103,24 @@ public class RequestModel implements Serializable {
     @JsonIgnore
     private UserModel manager;
 
-    public UserModel getManager() {
-        return manager;
-    }
-
-    public void setManager(UserModel manager) {
-        this.manager = manager;
-    }
-
     @ManyToOne(fetch = FetchType.LAZY, optional = true)
     @JoinColumn(name = "id_departemen", referencedColumnName = "id_dept", nullable = true)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
-    private DepartemenModel resolver_departemen;
+    private DepartemenModel resolverDepartemen;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = true)
     @JoinColumn(name = "req_departemen", referencedColumnName = "id_dept", nullable = true)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
-    private DepartemenModel request_departemen;
+    private DepartemenModel requestDepartemen;
 
-    public DepartemenModel getRequest_departemen() {
-        return request_departemen;
+    public DepartemenModel getRequestDepartemen() {
+        return requestDepartemen;
     }
 
-    public void setRequest_departemen(DepartemenModel request_departemen) {
-        this.request_departemen = request_departemen;
+    public void setRequestDepartemen(DepartemenModel requestDepartemen) {
+        this.requestDepartemen = requestDepartemen;
     }
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -254,12 +258,20 @@ public class RequestModel implements Serializable {
         this.id_approver = id_approver;
     }
 
-    public DepartemenModel getResolver_departemen() {
-        return resolver_departemen;
+    public DepartemenModel getResolverDepartemen() {
+        return resolverDepartemen;
     }
 
-    public void setResolver_departemen(DepartemenModel resolver_departemen) {
-        this.resolver_departemen = resolver_departemen;
+    public void setResolverDepartemen(DepartemenModel resolverDepartemen) {
+        this.resolverDepartemen = resolverDepartemen;
+    }
+
+    public UserModel getManager() {
+        return manager;
+    }
+
+    public void setManager(UserModel manager) {
+        this.manager = manager;
     }
 }
 
