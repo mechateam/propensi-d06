@@ -22,6 +22,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.print.DocFlavor.STRING;
+import javax.validation.constraints.Null;
 
 @Controller
 public class TicketController {
@@ -105,6 +106,49 @@ public class TicketController {
         problemService.updateProblem(problem);
         return "redirect:/tickets";
     }
+
+    @GetMapping("/problem/individual/{id_problem}")
+    public String detailIndividualProblem(
+            @PathVariable(value="id_problem") Long id_problem,
+            Model model
+    ){
+        ProblemModel problem = problemService.findProblemById(id_problem);
+        List<UserModel> resolvers = userService.getListUserbyDepartemen(problem.getResolver_departemen());
+        model.addAttribute("problem",problem);
+        model.addAttribute("resolvers", resolvers);
+        return "individual-problem";
+    }
+
+    @PostMapping("/problem/individual/{id_problem}")
+    public String resolveIndividualProblem(
+            @RequestParam(value = "individual") Long id,
+            @PathVariable Long id_problem, Model model,
+            RedirectAttributes redir) {
+        ProblemModel problem = problemService.findProblemById(id_problem);
+        long idStatus = 6;
+        StatusModel status = statusService.findStatusById(idStatus);
+        problem.setStatus(status);
+        problem.setResolver(userService.getUserbyId(id));
+
+//        System.out.println(problem.getId_problem());
+//        problem.setResolver_departemen(problemService.getDepById(id));
+        problemService.updateProblem(problem);
+        return "redirect:/tickets";
+    }
+
+    @GetMapping("/problem/individual/return/{id_problem}")
+    public String returnIndividualProblem(
+            @PathVariable Long id_problem, Model model,
+            RedirectAttributes redir) {
+        ProblemModel problem = problemService.findProblemById(id_problem);
+        long idStatus = 5;
+        StatusModel status = statusService.findStatusById(idStatus);
+        problem.setStatus(status);
+        problem.setResolver_departemen(null);
+        problemService.updateProblem(problem);
+        return "redirect:/tickets";
+    }
+
 
 
 

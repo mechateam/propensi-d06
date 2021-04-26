@@ -60,54 +60,74 @@
                   <br /><br />
                   <div class="row detail-row">
                     <div class="col-sm-3">Requestor</div>
-                    <div class="col-sm-9">:</div>
+                    <div class="col-sm-9">
+                      <h4 th:text="': '+ ${problem.nama_pengaju}"></h4>
+                    </div>
                   </div>
                   <div class="row detail-row">
                     <div class="col-sm-3">Subject</div>
-                    <div class="col-sm-9">:</div>
+                    <div class="col-sm-9">
+                      <h4 th:text="': '+ ${problem.subject}"></h4>
+                    </div>
                   </div>
                   <div class="row detail-row">
                     <div class="col-sm-3">Date Requested</div>
-                    <div class="col-sm-9">:</div>
+                    <div class="col-sm-9">
+                      <h4 th:text="': '+ ${problem.real_date}"></h4>
+                    </div>
                   </div>
                   <div class="row detail-row">
                     <div class="col-sm-3">Description</div>
-                    <div class="col-sm-9">:</div>
-                  </div>
-                  <!-- <form th:action="@{/lowongan/add}" th:object="${lowongan}" method="POST"> -->
-                  <div class="row detail-row">
-                    <div class="col-sm-3">Assign Resolver</div>
-                    <div class="col-sm-1">:</div>
-                    <div class="col-sm-3">
-                      <select
-                        name="jenisResolver"
-                        id="resolver"
-                        style="width: 150%; margin-left: 0"
-                      >
-                        <option value="">Assign Individual Resolver</option>
-                        <option value="1">Rizki</option>
-                        <option value="2">Fadil</option>
-                        <option value="3">Erwin</option>
-                      </select>
+                    <div class="col-sm-9">
+                      <h4 th:text="': '+ ${problem.description}"></h4>
                     </div>
                   </div>
-
-                  <br />
-                  <div class="row">
-                    <div class="col-sm-7"></div>
-                    <div class="col-sm-3"></div>
-                    <div class="col-sm-2">
-                      <a
-                        th:href="@{/problem/detail/assign}"
-                        type="submit"
-                        class="btn btn-fill btn-create text-center"
-                      >
-                        Assign
-                      </a>
+                  <form
+                    th:action="@{/problem/individual/} + ${problem.id_problem}"
+                    method="POST"
+                  >
+                    <div class="row detail-row">
+                      <div class="col-sm-3">Assign Resolver</div>
+                      <div class="col-sm-1">:</div>
+                      <div class="col-sm-3">
+                        <select
+                          name="individual"
+                          id="individual"
+                          style="width: 150%; margin-left: 0"
+                        >
+                          <option selected value="">
+                            -- Assign Individual Resolver --
+                          </option>
+                          <option
+                            th:each="individual : ${resolvers}"
+                            th:value="${individual.id_user}"
+                            th:text="${individual.nama}"
+                          ></option>
+                        </select>
+                      </div>
                     </div>
-                  </div>
 
-                  <!-- </form> -->
+                    <br />
+                    <div class="row">
+                      <div class="col-sm-7"></div>
+                      <div class="col-sm-2">
+                        <a
+                          th:href="@{/problem/individual/return/} + ${problem.id_problem}"
+                          class="btn btn-fill btn-create text-center"
+                        >
+                          Reject
+                        </a>
+                      </div>
+                      <div class="col-sm-3">
+                        <button
+                          type="submit"
+                          class="btn btn-fill btn-create text-center"
+                        >
+                          Assign
+                        </button>
+                      </div>
+                    </div>
+                  </form>
 
                   <!-- <br>
                             <h5 th:text="${berhasil}" style="color: green;"></h5> -->
