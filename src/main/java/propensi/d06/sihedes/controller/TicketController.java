@@ -28,6 +28,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import javax.print.DocFlavor.STRING;
+import javax.validation.constraints.Null;
 
 @Controller
 public class TicketController {
@@ -52,6 +53,9 @@ public class TicketController {
 
     @Autowired
     private DepartemenService departemenService;
+
+    @Autowired
+    private LogProblemService logProblemService;
 
     @Autowired
     private SLADb slaDb;
@@ -177,6 +181,8 @@ public class TicketController {
     {
 
         ProblemModel problem = problemService.findProblemById(id_problem);
+        List<LogProblemModel> logs = problem.getListLog();
+        model.addAttribute("logs",logs);
         model.addAttribute("problem",problem);  
         return "detailProblem";
     }
@@ -187,6 +193,8 @@ public class TicketController {
         Model model
     ){
         ProblemModel problem = problemService.findProblemById(id_problem);
+        List<LogProblemModel> logs = problem.getListLog();
+        model.addAttribute("logs", logs);
         model.addAttribute("problem",problem);
         return "assignResolverProblem";
     }
@@ -204,8 +212,75 @@ public class TicketController {
         System.out.println(problem.getId_problem());
         problem.setResolverDepartemen(problemService.getDepById(id));
         problemService.updateProblem(problem);
+
+        LogProblemModel log = new LogProblemModel();
+        log.setDescription(status.getNamaStatus());
+        log.setPosted_date(new Date());
+        log.setProblem(problem);
+        logProblemService.addLog(log);
+
         return "redirect:/tickets";
     }
+
+    @GetMapping("/problem/individual/{id_problem}")
+    public String detailIndividualProblem(
+            @PathVariable(value="id_problem") Long id_problem,
+            Model model
+    ){
+        ProblemModel problem = problemService.findProblemById(id_problem);
+        List<UserModel> resolvers = userService.getListUserbyDepartemen(problem.getResolver_departemen());
+        UserModel user = userService.getUserbyUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        List<LogProblemModel> logs = problem.getListLog();
+        model.addAttribute("logs", logs);
+        model.addAttribute("user",user);
+        model.addAttribute("problem",problem);
+        model.addAttribute("resolvers", resolvers);
+        return "individual-problem";
+    }
+
+    @PostMapping("/problem/individual/{id_problem}")
+    public String resolveIndividualProblem(
+            @RequestParam(value = "individual") Long id,
+            @PathVariable Long id_problem, Model model,
+            RedirectAttributes redir) {
+        ProblemModel problem = problemService.findProblemById(id_problem);
+        long idStatus = 6;
+        StatusModel status = statusService.findStatusById(idStatus);
+        problem.setStatus(status);
+        problem.setResolver(userService.getUserbyId(id));
+
+//        System.out.println(problem.getId_problem());
+//        problem.setResolver_departemen(problemService.getDepById(id));
+        problemService.updateProblem(problem);
+
+        LogProblemModel log = new LogProblemModel();
+        log.setDescription(status.getNamaStatus());
+        log.setPosted_date(new Date());
+        log.setProblem(problem);
+        logProblemService.addLog(log);
+
+        return "redirect:/tickets";
+    }
+
+    @GetMapping("/problem/individual/return/{id_problem}")
+    public String returnIndividualProblem(
+            @PathVariable Long id_problem, Model model,
+            RedirectAttributes redir) {
+        ProblemModel problem = problemService.findProblemById(id_problem);
+        long idStatus = 4;
+        StatusModel status = statusService.findStatusById(idStatus);
+        problem.setStatus(status);
+        problem.setResolver_departemen(null);
+        problemService.updateProblem(problem);
+
+        LogProblemModel log = new LogProblemModel();
+        log.setDescription("Returned to Helpdesk");
+        log.setPosted_date(new Date());
+        log.setProblem(problem);
+        logProblemService.addLog(log);
+        return "redirect:/tickets";
+    }
+
 
 
     @PostMapping("/problem/update")
@@ -299,6 +374,15 @@ public class TicketController {
         problem.setCreated_date(dateNow);
 
         problemService.addProblem(problem);
+
+        LogProblemModel log = new LogProblemModel();
+        log.setDescription(status.getNamaStatus());
+        log.setPosted_date(dateNow);
+        log.setProblem(problem);
+        logProblemService.addLog(log);
+
+
+
         return "redirect:/tickets";
     }
 
