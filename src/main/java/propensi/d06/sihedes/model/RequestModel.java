@@ -53,7 +53,6 @@ public class RequestModel implements Serializable {
     }
 
     @NotNull
-    @Size(max = 255)
     @Column(name = "phone_number", nullable = false)
     private Integer phone_number;
 

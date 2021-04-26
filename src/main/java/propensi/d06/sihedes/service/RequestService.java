@@ -15,5 +15,6 @@ public interface RequestService {
     RequestModel getRequestById(Long id);
     RequestModel updateApprovalRequest(RequestModel request);
     RequestModel rejectApprovalRequest(RequestModel request);
+    void addRequest(RequestModel request);
     Page<RequestModel> findPaginated(Pageable pageable);
 }

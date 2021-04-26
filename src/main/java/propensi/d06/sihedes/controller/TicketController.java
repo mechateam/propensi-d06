@@ -248,9 +248,8 @@ public class TicketController {
     public String requestSubmit(
             @ModelAttribute RequestModel request,
             Model model) {
-
-        model.addAttribute("request", new RequestModel());
-        return "detailRequest";
+        requestService.addRequest(request);
+        return "redirect:/tickets";
     }
 
     // ini buat approval, mau digabung sama yg atas juga gapapa

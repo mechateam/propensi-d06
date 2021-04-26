@@ -217,12 +217,10 @@
                 type: 'GET',
                 url: 'http://localhost:2020/loadslabydepartemen/' + deptId,
                 success: function(result) {
-                    // var result = JSON.parse(result);
-                    console.log(result);
                     var s = '';
                     for(var i = 0; i < result.length; i++) {
-                        // s += '<option th:value="' + result[i].id_sla + ' th:text="'+ result[i].nama_sla + '>' +'</option>';
-                        s+= '<option value='+ result[i].id_sla +'>'+ result[i].nama_sla+'</option>';
+                        // s+= '<option th:value="'+ result[i].id_sla+'" th:text="' + result[i].nama_sla + '" ></option>';
+                        s+= '<option value="'+ result[i].id_sla+'" >'+ result[i].nama_sla+'</option>';
                         console.log(s);
                     }
                     $('#sla_service').html(s);

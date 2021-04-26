@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import propensi.d06.sihedes.model.BOAModel;
 import propensi.d06.sihedes.model.RequestModel;
@@ -21,9 +22,11 @@ import org.springframework.stereotype.Service;
 import propensi.d06.sihedes.model.*;
 import propensi.d06.sihedes.repository.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import java.awt.print.Book;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -44,7 +47,8 @@ public class RequestServiceImpl implements RequestService{
     @Autowired
     StatusDb statusDb;
 
-
+    @Autowired
+    UserDb userDb;
 
 
     @Override
@@ -138,5 +142,16 @@ public class RequestServiceImpl implements RequestService{
         Page<RequestModel> requestPage
                 = new PageImpl<RequestModel>(list, PageRequest.of(currentPage, pageSize), requests.size());
         return requestPage;
+    }
+
+    @Override
+    public void addRequest(RequestModel request){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+
+        request.setCreated_date(new Date());
+        request.setPengaju(userDb.findByUsername(currentPrincipalName));
+        request.setStatus(statusDb.findByNamaStatus("Requested"));
+        requestDb.save(request);
     }
 }
