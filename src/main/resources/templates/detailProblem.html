@@ -22,7 +22,7 @@
             <div class="col-sm-6">
                 <div class="pageName">
                     <h3>Detail Ticket</h3>
-                    <p><a th:href="@{/tickets}">All Tickets</a> > Detail PR21092020QB71 </p>
+                    <p><a th:href="@{/tickets}">All Tickets</a> > Detail </p>
                 </div>
             </div>
             <div class="col-sm-6">
@@ -51,7 +51,7 @@
                             <div class="row">
                                 <div class="col-sm-7">
                                     <div class="pageName">
-                                        <h4>Detail for Problem : PR21092020QB71</h4>
+                                        <h4 th:text="'Detail for Problem : '+ ${problem.id_problem}"></h4>
                                     </div>
                                 </div>
                                 <div class="col-sm-3"></div>
@@ -91,12 +91,12 @@
                                 </div>
                             </div>
 
-                            <div class="row detail-row" th:unless = "${problem.status.id_status == 1 || problem.status.id_status == 4}"> 
+                            <div class="row detail-row" th:unless = "${problem.status.id_status == 1 || problem.status.id_status == 4}">
                                 <div class="col-sm-3">
                                     Assign Resolver
                                 </div>
                                 <div class="col-sm-9">
-                                    : 
+                                    :
                                     <select name="jenisResolver" class="dropdown" th:field= "*{problem.resolver_departemen}" disabled>
                                         <option value="1">IT Helpdesk</option>
                                         <option value="2">Security</option>
@@ -105,12 +105,12 @@
                                         <option value="5">IT Network</option>
                                         <option value="6">IT Infrastructure</option>
                                     </select>
-                                   
+
                                 </div>
                             </div>
                         </div>
                         <div class="created-by">
-                        created by
+                            <p th:text="'Created by '+ ${problem.pengaju.username}"></p>
                         </div>
                     </div>
                 </div>

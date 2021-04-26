@@ -11,35 +11,31 @@
 
 <!-- ======= Hero Section ======= -->
 <section id="hero" class="d-flex align-items-center">
-    <div class="container">
-        <br><br><br>
-        <div class="row">
-            <div class="col-lg-6 pt-5 pt-lg-0 order-2 order-lg-1 d-flex flex-column justify-content-center">
-                <div class="card">
-                    <div class="card-header">
-                        Log In
-                    </div>
-                    <div class="card-body">
-                        <form th:action="@{/login}" method="POST">
-                            <p th:if="${param.error}" class="alert alert-info" role="alert">Invalid username or password</p>
-                            <div class="row form-group">
-                                <label class="col-sm-4">Username:</label>
-                                <input type="text" class="col-sm-8 form-control input-sm" name="username">
-                            </div>
-                            <div class="row form-group">
-                                <label class="col-sm-4">Password:</label>
-                                <input type="password" class="col-sm-8 form-control input-sm" name="password">
-                            </div>
-                            <div class="text-left">
-                                <button type="submit" class="btn btn-dark">Sign In</button>
-                            </div>
-                        </form>
-                    </div>
+    <div class="container d-flex flex-column">
+        <div class="container mt-5 col-md-4 d-flex">
+            <div class="upper-logo">
+                <img th:src="@{/images/Logo.png}" alt="image">
+            </div>
+        </div>
+        <div class="mt-4 col-md-4 align-self-center">
+            <h5>Masuk ke akun anda</h5>
+            <form th:action="@{/login}" method="POST" class="d-flex flex-column justify-content-center">
+                <small th:if="${param.error}" class="text-center">Terdapat kesalahan input username atau password</small>
+                <div class="form-group">
+                    <label class="col-sm-4">Username:</label>
+                    <input type="text" class="col-sm-8 form-control input-sm" name="username">
                 </div>
-            </div>
-            <div class="col-lg-6 order-1 order-lg-2 hero-img">
-                <img th:src="@{/img/hero-img.png}" class="img-fluid animated" alt="">
-            </div>
+                <div class="form-group">
+                    <label class="col-sm-4">Password:</label>
+                    <input type="password" class="col-sm-8 form-control input-sm" name="password">
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-primary btn-block" :disabled="loading">
+                        <span v-show="loading" class="spinner-border spinner-border-sm"></span>
+                        <span>Login</span>
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 

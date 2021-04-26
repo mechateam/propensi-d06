@@ -85,7 +85,7 @@
                                             <br>
                                             <div class="col-sm-12">
                                                 Description <br>
-                                                <input type="text" class="form-control"  name="description"/>
+                                                <textarea class="form-control" rows="5"  name="description"></textarea>
                                             </div>
                                         </div>
                                         <br>
@@ -132,12 +132,12 @@
                                             <br>
                                             <div class="col-sm-3">
                                                 Department <br>
-                                                <input type="text" class="form-control"  name="nama_pengaju"/>
+                                                <input type="text" class="form-control"  name="request_departemen" th:value="${departemen.id_dept}" th:field="*{request_departemen}" th:placeholder="${departemen.nama_departemen}" th:readonly="true"/>
                                             </div>
 <!--                                            <div class="col-sm-1"></div>-->
                                             <div class="col-sm-3">
                                                 Manager's Name <br>
-                                                <input type="text" class="form-control"  name="nama_pengaju"/>
+<!--                                                <input type="text" class="form-control"  name="manager"  th:value="${manager.id_user}" th:field="*{manager}" th:utext="${manager.nama}" th:readonly="true"/>-->
                                             </div>
                                             <div class="col-sm-1"></div>
                                             <div class="col-sm-5">
@@ -161,26 +161,33 @@
                                             <br>
                                             <div class="col-sm-6">
                                                 SLA <br>
-                                                <input type="text" class="form-control"  name="location"/>
+                                                <select id="sla_departemen" class="browser-default custom-select">
+                                                    <option th:each="dept : ${deptList}"
+                                                            th:value="${dept.id_dept}"
+                                                            th:text="${dept.nama_departemen}"></option>
+
+                                                </select>
                                             </div>
                                             <div class="col-sm-1"></div>
                                             <div class="col-sm-5">
                                                 Services <br>
-                                                <input type="text" class="form-control"  name="phone_number"/>
+                                                <select name="sla" id="sla_service" class="browser-default custom-select">
+
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <br>
                                             <div class="col-sm-12">
                                                 Description <br>
-                                                <input type="text" class="form-control"  name="description"/>
+                                                <textarea class="form-control" rows="5"  name="description"></textarea>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <br>
                                             <div class="col-sm-12">
                                                 Request Background <br>
-                                                <input type="text" class="form-control"  name="background"/>
+                                                <textarea class="form-control" rows="5" name="background"></textarea>
                                             </div>
                                         </div>
                                         <br>
@@ -200,6 +207,30 @@
 
     </div>
 </div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+
+        $('#sla_departemen').on('change', function(){
+            var deptId = $(this).val();
+            $.ajax({
+                type: 'GET',
+                url: 'http://localhost:2020/loadslabydepartemen/' + deptId,
+                success: function(result) {
+                    var s = '';
+                    for(var i = 0; i < result.length; i++) {
+                        // s+= '<option th:value="'+ result[i].id_sla+'" th:text="' + result[i].nama_sla + '" ></option>';
+                        s+= '<option value="'+ result[i].id_sla+'" >'+ result[i].nama_sla+'</option>';
+                        console.log(s);
+                    }
+                    $('#sla_service').html(s);
+                }
+            });
+        });
+    });
+
+
+</script>
 
 </body>
 
