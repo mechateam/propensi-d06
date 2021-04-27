@@ -209,13 +209,23 @@
 </div>
 
 <script type="text/javascript">
+
     $(document).ready(function(){
+        function getBaseUrl() {
+            var pathArray = location.href.split('/');
+            console.log(pathArray);
+            var protocol = pathArray[0];
+            var host = pathArray[2];
+            var url = protocol + '//' + host + '/';
+
+            return url;
+        }
 
         $('#sla_departemen').on('change', function(){
             var deptId = $(this).val();
             $.ajax({
                 type: 'GET',
-                url: 'http://localhost:2020/loadslabydepartemen/' + deptId,
+                url: getBaseUrl()+'loadslabydepartemen/' + deptId,
                 success: function(result) {
                     var s = '';
                     for(var i = 0; i < result.length; i++) {

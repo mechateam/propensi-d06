@@ -12,26 +12,25 @@
     <div th:replace="fragments/fragment :: header"></div>
     <nav th:replace="fragments/fragment :: navbar"></nav>
 
-    <div class="content-container">
-      <div class="container-fluid">
-        <div class="row">
-          <!--Page Name Header-->
-          <div class="col-sm-6">
-            <div class="pageName">
-              <h3>Detail Ticket</h3>
-              <p>
-                <a th:href="@{/tickets}">All Tickets</a> > Detail PR21092020QB71
-              </p>
-            </div>
-          </div>
-          <div class="col-sm-6">
-            <div class="statusName">
-              <br />
-              <h4 th:text="${problem.status.namaStatus}"></h4>
-            </div>
+  <div class="content-container">
+
+    <div class="container-fluid">
+      <div class="row">
+        <!--Page Name Header-->
+        <div class="col-sm-6">
+          <div class="pageName">
+            <h3>Detail Ticket</h3>
+            <p><a th:href="@{/tickets}">All Tickets</a> > Detail</p>
           </div>
         </div>
-        <br />
+        <div class="col-sm-6">
+          <div class="statusName">
+            <br />
+            <h4 th:text="${problem.status.namaStatus}"></h4>
+          </div>
+        </div>
+      </div>
+      <br />
 
         <!--            START YOUR CONTENT                  -->
 
@@ -51,9 +50,9 @@
                   <!--                                for row header-->
                   <div class="row">
                     <div class="col-sm-7">
-                      <div class="pageName">
-                        <h4>Detail for Problem : PR21092020QB71</h4>
-                      </div>
+                        <div class="pageName">
+                            <h4 th:text="'Detail for Problem : '+ ${problem.id_problem}"></h4>
+                        </div>
                     </div>
                     <div class="col-sm-3"></div>
                     <div class="col-sm-2"></div>
@@ -88,7 +87,7 @@
                     th:action="@{/problem/resolver/} + ${problem.id_problem}"
                     method="POST"
                   >
-                    <div class="row detail-row">
+                    <div class="row detail-row" th:if="${user.id_role.id_role == 2}">
                       <div class="col-sm-3">Assign Resolver</div>
                       <div class="col-sm-9">
                         :
@@ -110,7 +109,7 @@
                     <div class="row">
                       <div class="col-sm-7"></div>
                       <div class="col-sm-3"></div>
-                      <div class="col-sm-2">
+                      <div class="col-sm-2" th:if="${user.id_role.id_role == 2}">
                         <button
                           type="submit"
                           class="btn btn-fill btn-create text-center"
@@ -125,7 +124,9 @@
                   <h5 th:text="${gagal}" style="color: red"></h5>
                   <h5 th:text="${berhasil}" style="color: green"></h5>
                 </div>
-                <div class="created-by">created by</div>
+                <div class="created-by">
+                  <p th:text="'Created by '+ ${problem.pengaju.username}"></p>
+              </div>
               </div>
             </div>
           </div>

@@ -209,17 +209,17 @@ public class TicketController {
         }
     }
 
-    @GetMapping("/problem/resolver/{id_problem}")
-    public String detailResolveProblem(
-        @PathVariable(value="id_problem") Long id_problem,
-        Model model
-    ){
-        ProblemModel problem = problemService.findProblemById(id_problem);
-        List<LogProblemModel> logs = problem.getListLog();
-        model.addAttribute("logs", logs);
-        model.addAttribute("problem",problem);
-        return "assignResolverProblem";
-    }
+    // @GetMapping("/problem/resolver/{id_problem}")
+    // public String detailResolveProblem(
+    //     @PathVariable(value="id_problem") Long id_problem,
+    //     Model model
+    // ){
+    //     ProblemModel problem = problemService.findProblemById(id_problem);
+    //     List<LogProblemModel> logs = problem.getListLog();
+    //     model.addAttribute("logs", logs);
+    //     model.addAttribute("problem",problem);
+    //     return "assignResolverProblem";
+    // }
 
     @PostMapping("/problem/resolver/{id_problem}")
     public String ResolveProblem(
@@ -246,21 +246,21 @@ public class TicketController {
         return "redirect:/tickets";
     }
 
-    @GetMapping("/problem/individual/{id_problem}")
-    public String detailIndividualProblem(
-            @PathVariable(value="id_problem") Long id_problem,
-            Model model
-    ){
-        ProblemModel problem = problemService.findProblemById(id_problem);
-        List<UserModel> resolvers = userService.getListUserbyDepartemen(problem.getResolverDepartemen());
-        UserModel user = userService.getUserbyUsername(SecurityContextHolder.getContext().getAuthentication().getName());
-        List<LogProblemModel> logs = problem.getListLog();
-        model.addAttribute("logs", logs);
-        model.addAttribute("user",user);
-        model.addAttribute("problem",problem);
-        model.addAttribute("resolvers", resolvers);
-        return "individual-problem";
-    }
+    // @GetMapping("/problem/individual/{id_problem}")
+    // public String detailIndividualProblem(
+    //         @PathVariable(value="id_problem") Long id_problem,
+    //         Model model
+    // ){
+    //     ProblemModel problem = problemService.findProblemById(id_problem);
+    //     List<UserModel> resolvers = userService.getListUserbyDepartemen(problem.getResolverDepartemen());
+    //     UserModel user = userService.getUserbyUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+    //     List<LogProblemModel> logs = problem.getListLog();
+    //     model.addAttribute("logs", logs);
+    //     model.addAttribute("user",user);
+    //     model.addAttribute("problem",problem);
+    //     model.addAttribute("resolvers", resolvers);
+    //     return "individual-problem";
+    // }
 
     @GetMapping("/request/individual/{id_request}")
     public String detailRequestProblem(
@@ -423,25 +423,24 @@ public class TicketController {
             model.addAttribute("user",userLoggedin);
             model.addAttribute("request",request);
             model.addAttribute("userApproval", userService.getUserbyId(idApprover));
-            model.addAttribute("requestManager",userService.getUserbyId(request.getIdApprover()));
 
             return "detailRequestApproval";
         }
-
-        model.addAttribute("requestManager",userService.getUserbyId(request.getIdApprover()));
+        
         model.addAttribute("request",request);
         model.addAttribute("logs", logs);
         return "detailRequest";
 
     }
 
-    @GetMapping("/request/resolver")
-    public String detailResolveRequest(
-            @ModelAttribute RequestModel request,
-            Model model) {
+    // @GetMapping("/request/resolver")
+    // public String detailResolveRequest(
+    //         @ModelAttribute RequestModel request,
+    //         Model model) {
 
-        return "assignResolverRequest";
-    }
+    //     return "assignResolverRequest";
+    // }
+    
     @PostMapping("/request/update")
     public String accReq(
             @ModelAttribute RequestModel request,
@@ -526,6 +525,40 @@ public class TicketController {
         log.setRequest(request);
         logRequestService.addLog(log);
         return "redirect:/tickets";
+    }
+
+    // ini buat approval, mau digabung sama yg atas juga gapapa
+    @GetMapping("/request/detail/{id}")
+    public String detailRequestApproval(@PathVariable Long id, HttpServletRequest req, Model model){
+
+        UserModel userLoggedin = userService.getUserbyUsername(req.getRemoteUser());
+        RequestModel request = requestService.getRequestById(id);
+        SLAModel sla = request.getSla();
+        List<SLABOAModel> listBOA = slaboaService.getSLABOABySLAId(sla.getId_sla());
+        List<LogRequestModel> logs = request.getListLogRequest();
+
+        if (request.getStatus().getNamaStatus().equals("Waiting for Approval")){
+
+            if (request.getIdApprover() == null){
+                for (SLABOAModel boa: listBOA) {
+                    if (boa.getBoa().getRank() ==1){
+                        request.setIdApprover(boa.getBoa().getUser().getId_user());
+                    }
+                }
+
+            }
+
+            Long idApprover = new Long(request.getIdApprover());
+            model.addAttribute("user",userLoggedin);
+            model.addAttribute("request",request);
+            model.addAttribute("userApproval", userService.getUserbyId(idApprover));
+            model.addAttribute("logs", logs);
+
+
+            return "detailRequestApproval";
+        }
+
+        return null;
     }
 
     @PostMapping("/request/approve")
