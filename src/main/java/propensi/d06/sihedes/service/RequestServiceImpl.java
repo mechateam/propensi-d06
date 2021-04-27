@@ -101,7 +101,7 @@ public class RequestServiceImpl implements RequestService{
         }
 
         if (targetRequest.getIdApprover() == -1){
-            targetRequest.setStatus(statusDb.findByNamaStatus("Waiting for Assignment"));
+            targetRequest.setStatus(statusDb.findByNamaStatus("Assigned"));
         }
 
         return targetRequest;
