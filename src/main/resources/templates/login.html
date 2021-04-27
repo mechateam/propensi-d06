@@ -1,49 +1,87 @@
 <!DOCTYPE html>
 <html lang="en" xml:lang="http://thymeleaf.org" xmlns:th="http://www.springframework.org/schema/jdbc">
 <head>
-    <meta charset="UTF-8"> <title> Login </title>
+    <meta charset="UTF-8">
+    <title> Login </title>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <link rel="stylesheet" th:href="@{/css/login.css}">
+
+
 </head>
 
 <body>
 
-<header id="header" class="fixed-top">
-</header>
-
-<!-- ======= Hero Section ======= -->
-<section id="hero" class="d-flex align-items-center">
-    <div class="container d-flex flex-column">
-        <div class="container mt-5 col-md-4 d-flex">
-            <div class="upper-logo">
-                <img th:src="@{/images/Logo.png}" alt="image">
-            </div>
+<div th:replace="fragments/fragment :: header"></div>
+<div class="container" >
+    <div class="row-login">
+            <div class="login-content">
+                        <form th:action="@{/login}" method="POST">
+                            <small th:if="${param.error}" class="text-center">Terdapat kesalahan input username atau password</small>
+                            <div class="input-div one">
+                                <div class="i">
+                                    <i class="fas fa-user fa-2x"></i>
+                                </div>
+                                <div class="div">
+                                    <h5>Username</h5>
+                                    <input type="text" class="input" name="username">
+                                </div>
+                            </div>
+            <!--                <div class="form-group">-->
+            <!--                    <label class="col-sm-4">Username:</label>-->
+            <!--                    <input type="text" class="col-sm-8 form-control input-sm" name="username">-->
+            <!--                </div>-->
+                            <div class="input-div pass">
+                                <div class="i">
+                                    <i class="fas fa-lock fa-2x"></i>
+                                </div>
+                                <div class="div">
+                                    <h5>Password</h5>
+                                    <input type="password"class="input" name="password">
+                                </div>
+                            </div>
+            <!--                <div class="form-group">-->
+            <!--                    <label class="col-sm-4">Password:</label>-->
+            <!--                    <input type="password" class="col-sm-8 form-control input-sm" name="password">-->
+            <!--                </div>-->
+            <!--                <div class="form-group">-->
+            <!--                    <button class="btn btn-primary btn-block" :disabled="loading">-->
+            <!--                        <span v-show="loading" class="spinner-border spinner-border-sm"></span>-->
+            <!--                        <span>Login</span>-->
+            <!--                    </button>-->
+            <!--                </div>-->
+                            <input type="submit" class="btn" value="Login">
+                        </form>
+                </div>
         </div>
-        <div class="mt-4 col-md-4 align-self-center">
-            <h5>Masuk ke akun anda</h5>
-            <form th:action="@{/login}" method="POST" class="d-flex flex-column justify-content-center">
-                <small th:if="${param.error}" class="text-center">Terdapat kesalahan input username atau password</small>
-                <div class="form-group">
-                    <label class="col-sm-4">Username:</label>
-                    <input type="text" class="col-sm-8 form-control input-sm" name="username">
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-4">Password:</label>
-                    <input type="password" class="col-sm-8 form-control input-sm" name="password">
-                </div>
-                <div class="form-group">
-                    <button class="btn btn-primary btn-block" :disabled="loading">
-                        <span v-show="loading" class="spinner-border spinner-border-sm"></span>
-                        <span>Login</span>
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
+</div>
 
-</section><!-- End Hero -->
 
 
 <!-- Vendor JS Files -->
+<script>
+    const inputs = document.querySelectorAll(".input");
 
+    function addcl() {
+        let parent = this.parentNode.parentNode;
+        parent.classList.add("focus");
+    }
+
+    function remcl() {
+        let parent = this.parentNode.parentNode;
+        if (this.value == "") {
+            parent.classList.remove("focus");
+        }
+    }
+
+    inputs.forEach((input) => {
+        input.addEventListener("focus", addcl);
+        input.addEventListener("blur", remcl);
+    });
+
+
+</script>
 
 </body>
 
