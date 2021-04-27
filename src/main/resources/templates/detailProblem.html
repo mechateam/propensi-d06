@@ -164,12 +164,14 @@
                           <tr>
                             <th title="Field #1">Status</th>
                             <th title="Field #2">Time</th>
+                            <th title="Field #3">Created By</th>
                           </tr>
                         </thead>
                         <tbody>
                           <tr th:each="log : ${logs}">
                             <td th:text="${log.description}"></td>
                             <td th:text="${log.posted_date}"></td>
+                            <td th:text="${log.createdBy.nama}"></td>
                           </tr>
                         </tbody>
                       </table>

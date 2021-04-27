@@ -182,9 +182,22 @@ public class TicketController {
 
         ProblemModel problem = problemService.findProblemById(id_problem);
         List<LogProblemModel> logs = problem.getListLog();
+        List<UserModel> resolvers = userService.getListUserbyDepartemen(problem.getResolverDepartemen());
+        UserModel user = userService.getUserbyUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         model.addAttribute("logs",logs);
-        model.addAttribute("problem",problem);  
-        return "detailProblem";
+        model.addAttribute("problem",problem);
+        model.addAttribute("user",user);
+        model.addAttribute("resolvers", resolvers);
+//        if (problem.getStatus().getId_status() == 1 || problem.getStatus().getId_status() == 3 || problem.getStatus().getId_status() == 6 ){
+//            return "detailProblem";
+//        }
+        if (problem.getStatus().getId_status() == 4){
+            return "assignResolverProblem";
+        } else if (problem.getStatus().getId_status() == 5){
+            return "individual-problem";
+        } else {
+            return "detailProblem";
+        }
     }
 
     @GetMapping("/problem/resolver/{id_problem}")
@@ -204,6 +217,7 @@ public class TicketController {
         @RequestParam(value = "jenisResolver") Long id,
         @PathVariable Long id_problem, Model model,
         RedirectAttributes redir) {
+        UserModel user = userService.getUserbyUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         ProblemModel problem = problemService.findProblemById(id_problem);
         long idStatus = 5;
         StatusModel status = statusService.findStatusById(idStatus);
@@ -217,6 +231,7 @@ public class TicketController {
         log.setDescription(status.getNamaStatus());
         log.setPosted_date(new Date());
         log.setProblem(problem);
+        log.setCreatedBy(user);
         logProblemService.addLog(log);
 
         return "redirect:/tickets";
@@ -244,7 +259,7 @@ public class TicketController {
             Model model
     ){
         RequestModel request = requestService.getRequestById(id_request);
-        List<UserModel> resolvers = userService.getListUserbyDepartemen(request.getResolver_departemen());
+        List<UserModel> resolvers = userService.getListUserbyDepartemen(request.getResolverDepartemen());
         UserModel user = userService.getUserbyUsername(SecurityContextHolder.getContext().getAuthentication().getName());
 //        List<LogProblemModel> logs = problem.getListLog();
 //        model.addAttribute("logs", logs);
@@ -259,6 +274,7 @@ public class TicketController {
             @RequestParam(value = "individual") Long id,
             @PathVariable Long id_problem, Model model,
             RedirectAttributes redir) {
+        UserModel user = userService.getUserbyUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         ProblemModel problem = problemService.findProblemById(id_problem);
         long idStatus = 6;
         StatusModel status = statusService.findStatusById(idStatus);
@@ -271,6 +287,7 @@ public class TicketController {
         log.setDescription(status.getNamaStatus());
         log.setPosted_date(new Date());
         log.setProblem(problem);
+        log.setCreatedBy(user);
         logProblemService.addLog(log);
 
         return "redirect:/tickets";
@@ -302,6 +319,7 @@ public class TicketController {
     public String returnIndividualProblem(
             @PathVariable Long id_problem, Model model,
             RedirectAttributes redir) {
+        UserModel user = userService.getUserbyUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         ProblemModel problem = problemService.findProblemById(id_problem);
         long idStatus = 4;
         StatusModel status = statusService.findStatusById(idStatus);
@@ -313,6 +331,7 @@ public class TicketController {
         log.setDescription("Returned to Helpdesk");
         log.setPosted_date(new Date());
         log.setProblem(problem);
+        log.setCreatedBy(user);
         logProblemService.addLog(log);
         return "redirect:/tickets";
     }
@@ -325,7 +344,7 @@ public class TicketController {
         long idStatus = 4;
         StatusModel status = statusService.findStatusById(idStatus);
         request.setStatus(status);
-        request.setResolver_departemen(null);
+        request.setResolverDepartemen(null);
         requestService.updateRequest(request);
 
 //        LogProblemModel log = new LogProblemModel();
@@ -342,9 +361,17 @@ public class TicketController {
     public String acceptProblem(
             @ModelAttribute ProblemModel problem,
             Model model) {
+        UserModel user = userService.getUserbyUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         System.out.println("Ini controller :" + problem.getDescription());
         ProblemModel newProb = problemService.updateProblemStatus(problem);
         model.addAttribute("problem",newProb);
+
+        LogProblemModel log = new LogProblemModel();
+        log.setDescription(newProb.getStatus().getNamaStatus());
+        log.setPosted_date(new Date());
+        log.setProblem(newProb);
+        log.setCreatedBy(user);
+        logProblemService.addLog(log);
         return "detailProblem";
     }
 
@@ -448,6 +475,7 @@ public class TicketController {
         log.setDescription(status.getNamaStatus());
         log.setPosted_date(dateNow);
         log.setProblem(problem);
+        log.setCreatedBy(user);
         logProblemService.addLog(log);
 
 
