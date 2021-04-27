@@ -540,16 +540,16 @@ public class TicketController {
 
         if (request.getStatus().getNamaStatus().equals("Waiting for Approval")){
 
-            if (request.getId_approver() == null){
+            if (request.getIdApprover() == null){
                 for (SLABOAModel boa: listBOA) {
                     if (boa.getBoa().getRank() ==1){
-                        request.setId_approver(boa.getBoa().getUser().getId_user());
+                        request.setIdApprover(boa.getBoa().getUser().getId_user());
                     }
                 }
 
             }
 
-            Long idApprover = new Long(request.getId_approver());
+            Long idApprover = new Long(request.getIdApprover());
             model.addAttribute("user",userLoggedin);
             model.addAttribute("request",request);
             model.addAttribute("userApproval", userService.getUserbyId(idApprover));
