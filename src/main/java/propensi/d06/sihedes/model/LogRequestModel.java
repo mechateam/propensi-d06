@@ -36,6 +36,20 @@ public class LogRequestModel implements Serializable {
     @JsonIgnore
     private RequestModel request;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_user", referencedColumnName = "id_user", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private UserModel createdBy;
+
+    public UserModel getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(UserModel createdBy) {
+        this.createdBy = createdBy;
+    }
+
     public Long getId_log() {
         return id_log;
     }

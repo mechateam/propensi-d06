@@ -80,27 +80,27 @@ public class RequestServiceImpl implements RequestService{
         Integer currentRank=0;
 
         for (SLABOAModel boa:listBOA){
-            if (targetRequest.getId_approver().equals(boa.getBoa().getUser().getId_user())){
+            if (targetRequest.getIdApprover().equals(boa.getBoa().getUser().getId_user())){
                 currentRank = boa.getBoa().getRank();
             }
         }
 
         for (SLABOAModel boa: listBOA){
-            System.out.println("id approver"+targetRequest.getId_approver());
+            System.out.println("id approver"+targetRequest.getIdApprover());
             System.out.println(boa.getBoa().getUser().getId_user());
 
-            if (targetRequest.getId_approver() == boa.getBoa().getUser().getId_user()){
+            if (targetRequest.getIdApprover() == boa.getBoa().getUser().getId_user()){
                 if (currentRank == listBOA.size()){
-                    targetRequest.setId_approver(new Long(-1));
+                    targetRequest.setIdApprover(new Long(-1));
                 }
             }
 
             if (boa.getBoa().getRank() == currentRank+1){
-                targetRequest.setId_approver(boa.getBoa().getUser().getId_user());
+                targetRequest.setIdApprover(boa.getBoa().getUser().getId_user());
             }
         }
 
-        if (targetRequest.getId_approver() == -1){
+        if (targetRequest.getIdApprover() == -1){
             targetRequest.setStatus(statusDb.findByNamaStatus("Waiting for Assignment"));
         }
 
@@ -112,7 +112,7 @@ public class RequestServiceImpl implements RequestService{
         RequestModel targetRequest = requestDb.findById(request.getId_request()).get();
 
         try{
-            targetRequest.setId_approver(new Long(-1));
+            targetRequest.setIdApprover(new Long(-1));
             targetRequest.setStatus(statusDb.findByNamaStatus("Closed"));
             return targetRequest;
         }
@@ -172,9 +172,33 @@ public class RequestServiceImpl implements RequestService{
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
 
+        UserModel userPembuat = userDb.findByUsername(currentPrincipalName);
+
         request.setCreated_date(new Date());
-        request.setPengaju(userDb.findByUsername(currentPrincipalName));
-        request.setStatus(statusDb.findByNamaStatus("Requested"));
+        request.setPengaju(userPembuat);
+        request.setStatus(statusDb.findByNamaStatus("Waiting for Approval"));
+        request.setRequestDepartemen(userPembuat.getDepartemen());
+        request.setResolverDepartemen(request.getSla().getDepartemen());
+
+
+        SLAModel sla = request.getSla();
+        System.out.println("ini sla"+sla.getNama_sla());
+        List<SLABOAModel> listBOA = slaboaDb.findAllBySla(request.getSla());
+        System.out.println("Size BoA"+listBOA.size());
+
+        for (SLABOAModel boa: listBOA) {
+            System.out.println("BoA Rank"+ boa.getBoa().getRank());
+            if (boa.getBoa().getRank() == 1){
+                System.out.println("Masuk");
+                request.setIdApprover(boa.getBoa().getUser().getId_user());
+            }
+        }
+
         requestDb.save(request);
+    }
+
+    @Override
+    public List<RequestModel> findAllRequestBasedOnIdApprover(UserModel user){
+        return requestDb.findAllByIdApprover(user.getId_user());
     }
 }
