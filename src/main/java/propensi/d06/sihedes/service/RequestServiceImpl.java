@@ -103,7 +103,7 @@ public class RequestServiceImpl implements RequestService{
         }
 
         if (targetRequest.getIdApprover() == -1){
-            targetRequest.setStatus(statusDb.findByNamaStatus("Waiting for Assignment"));
+            targetRequest.setStatus(statusDb.findByNamaStatus("Assigned"));
         }
 
         return targetRequest;
@@ -151,8 +151,8 @@ public class RequestServiceImpl implements RequestService{
     }
 
     @Override
-    public Page<RequestModel> findPaginated(Pageable pageable){
-        List<RequestModel> requests = requestDb.findAll();
+    public Page<RequestModel> findPaginated(Pageable pageable, List<RequestModel> requests){
+
         int pageSize = pageable.getPageSize();
         int currentPage = pageable.getPageNumber();
         int startItem = currentPage * pageSize;

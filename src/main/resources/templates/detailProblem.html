@@ -8,12 +8,11 @@
     <object th:include="fragments/fragment :: css" th:remove="tag"></object>
   </head>
 
-<body>
-<div th:replace="fragments/fragment :: header"></div>
-<nav th:replace="fragments/fragment :: navbar"></nav>
+  <body>
+    <div th:replace="fragments/fragment :: header"></div>
+    <nav th:replace="fragments/fragment :: navbar"></nav>
 
-<div class="content-container">
-
+    <div class="content-container">
       <div class="container-fluid">
         <div class="row">
           <!--Page Name Header-->
@@ -36,114 +35,159 @@
 
         <!--Tab Nav-->
         <div class="col-md-12">
-            <ul class="nav nav-tabs">
-                <li class="active"><a data-toggle="tab" href="#detail">Problem</a></li>
-            </ul>
+          <ul class="nav nav-tabs">
+            <li class="active">
+              <a data-toggle="tab" href="#detail">Problem</a>
+            </li>
+          </ul>
 
-            <div class="tab-content">
-                <!--                    START TAB PROBLEM-->
-                <div class="tab-pane fade in active" id="detail">
-                    <div class="card">
-                        <div class="card-content">
-                            <!--                                for row header-->
-                            <div class="row">
-                                <div class="col-sm-7">
-                                    <div class="pageName">
-                                        <h4 th:text="'Detail for Problem : '+ ${problem.id_problem}"></h4>
-                                    </div>
-                                </div>
-                                <div class="col-sm-3"></div>
-                                <div class="col-sm-2"></div>
-                            </div>
-                            <br><br>
-                            <div class="row detail-row">
-                                <div class="col-sm-3">
-                                    Requestor
-                                </div>
-                                <div class="col-sm-9">
-                                    <p th:text="': '+ ${problem.nama_pengaju}"></p>
-                                </div>
-                            </div>
-                            <div class="row detail-row">
-                                <div class="col-sm-3">
-                                    Subject
-                                </div>
-                                <div class="col-sm-9">
-                                    <p th:text="': '+ ${problem.subject}"></p>
-                                </div>
-                            </div>
-                            <div class="row detail-row">
-                                <div class="col-sm-3">
-                                    Date Requested
-                                </div>
-                                <div class="col-sm-9">
-                                    <p th:text="': '+ ${problem.real_date}"></p>
-                                </div>
-                            </div>
-                            <div class="row detail-row">
-                                <div class="col-sm-3">
-                                    Description
-                                </div>
-                                <div class="col-sm-9">
-                                    <p th:text="': '+ ${problem.description}"></p>
-                                </div>
-                            </div>
-
-                            <div
-                                    class="row detail-row"
-                                    th:unless="${problem.status.id_status == 1 || problem.status.id_status == 4}"
-                            >
-                                <div class="col-sm-3">Assign Resolver</div>
-                                <div class="col-sm-9">
-                                    :
-                                    <select
-                                            name="jenisResolver"
-                                            class="dropdown"
-                                            th:field="*{problem.resolverDepartemen}"
-                                            disabled
-                                    >
-                                        <option value="1">IT Helpdesk</option>
-                                        <option value="2">Security</option>
-                                        <option value="3">IT System Development</option>
-                                        <option value="4">IT User Admin</option>
-                                        <option value="5">IT Network</option>
-                                        <option value="6">IT Infrastructure</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row-action" th:if = "${problem.status.id_status == 5}">
-                            <!--                                <form th:action="@{/project/}+${project.id}" method="POST">-->
-                            <div class="col-sm-9"></div>
-                            <div class="col-sm-3">
-                                <form th:action="@{/problem/update/}"  th:object="${problem}" method="POST">
-                                    <input type="hidden" th:field="*{id_problem}"/>
-                                <button class="btn btn-fill btn-create text-center" data-toggle="modal"
-                                        data-target="#changeStatus"> Accept </button>
-                                </form>
-                            </div>
-                            <!--                                </form>-->
-                        </div>
-                        <div class="row-action" th:if = "${problem.status.id_status == 6}">
-                            <div class="col-sm-9">
-                            </div>
-                            <div class="col-sm-3">
-                                <form th:action="@{/problem/update/}"  th:object="${problem}" method="POST">
-                                    <input type="hidden" th:field="*{id_problem}"/>
-                                    <button class="btn btn-fill btn-create text-center" data-toggle="modal"
-                                            data-target="#changeStatus"> Accept </button>
-                                </form>
-                            </div>
-                            <!--                                </form>-->
-                        </div>
-                        <div class="created-by">
-                            <p th:text="'Created by '+ ${problem.pengaju.username}"></p>
-                        </div>
+          <div class="tab-content">
+            <!--                    START TAB PROBLEM-->
+            <div class="tab-pane fade in active" id="detail">
+              <div class="card">
+                <div class="card-content">
+                  <!--                                for row header-->
+                  <div class="row">
+                    <div class="col-sm-7">
+                      <div class="pageName">
+                        <h4
+                          th:text="'Detail for Problem : '+ ${problem.id_problem}"
+                        ></h4>
+                      </div>
                     </div>
-                </div>
-            </div>
-        </div>
+                    <div class="col-sm-3"></div>
+                    <div class="col-sm-2"></div>
+                  </div>
+                  <br /><br />
+                  <div class="row detail-row">
+                    <div class="col-sm-3">Requestor</div>
+                    <div class="col-sm-9">
+                      <p th:text="': '+ ${problem.nama_pengaju}"></p>
+                    </div>
+                  </div>
+                  <div class="row detail-row">
+                    <div class="col-sm-3">Subject</div>
+                    <div class="col-sm-9">
+                      <p th:text="': '+ ${problem.subject}"></p>
+                    </div>
+                  </div>
+                  <div class="row detail-row">
+                    <div class="col-sm-3">Date Requested</div>
+                    <div class="col-sm-9">
+                      <p th:text="': '+ ${problem.real_date}"></p>
+                    </div>
+                  </div>
+                  <div class="row detail-row">
+                    <div class="col-sm-3">Description</div>
+                    <div class="col-sm-9">
+                      <p th:text="': '+ ${problem.description}"></p>
+                    </div>
+                  </div>
 
+                  <div
+                    class="row detail-row"
+                    th:unless="${problem.status.id_status == 1 || problem.status.id_status == 4}"
+                  >
+                    <div class="col-sm-3">Resolver Department</div>
+                    <div class="col-sm-9">
+                      :
+                      <select
+                        name="jenisResolver"
+                        class="dropdown"
+                        th:field="*{problem.resolverDepartemen}"
+                        disabled
+                      >
+                        <option value="1">IT Helpdesk</option>
+                        <option value="2">Security</option>
+                        <option value="3">IT System Development</option>
+                        <option value="4">IT User Admin</option>
+                        <option value="5">IT Network</option>
+                        <option value="6">IT Infrastructure</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="row-action"
+                  th:if="${problem.status.id_status == 5 && user.departemen.id_dept == problem.resolverDepartemen.id_dept}"
+                >
+                  <form
+                    th:action="@{/problem/individual/} + ${problem.id_problem}"
+                    method="POST"
+                  >
+                    <div class="col-sm-3">Assign Resolver</div>
+                    <div class="col-sm-9">
+                      :
+
+                      <select
+                        name="individual"
+                        id="individual"
+                        class="dropdown"
+                      >
+                        <option selected value="">
+                          -- Assign Individual Resolver --
+                        </option>
+                        <option
+                          th:each="individual : ${resolvers}"
+                          th:value="${individual.id_user}"
+                          th:text="${individual.nama}"
+                        ></option>
+                      </select>
+                    </div>
+
+                    <br />
+                    <div class="row">
+                      <div class="col-sm-7"></div>
+                      <div class="col-sm-2">
+                        <a
+                          th:if="${user.id_role.id_role == 4}"
+                          th:href="@{/problem/individual/return/} + ${problem.id_problem}"
+                          class="btn btn-outline-danger btn-delete text-center"
+                        >
+                          Decline
+                        </a>
+                      </div>
+                      <div class="col-sm-3">
+                        <button
+                          type="submit"
+                          class="btn btn-fill btn-create text-center"
+                        >
+                          Assign
+                        </button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+                <div
+                  class="row-action"
+                  th:if="${problem.status.id_status == 6}"
+                >
+                  <div class="col-sm-9"></div>
+                  <div class="col-sm-3">
+                    <form
+                      th:action="@{/problem/update/}"
+                      th:object="${problem}"
+                      method="POST"
+                    >
+                      <input type="hidden" th:field="*{id_problem}" />
+                      <button
+                        class="btn btn-fill btn-create text-center"
+                        data-toggle="modal"
+                        data-target="#changeStatus"
+                      >
+                        Accept
+                      </button>
+                    </form>
+                  </div>
+                  <!--                                </form>-->
+                </div>
+                <div class="created-by">
+                  <p th:text="'Created by '+ ${problem.pengaju.username}"></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
         <!--Tab Log-->
         <div class="col-md-12">
@@ -183,36 +227,44 @@
           </div>
         </div>
       </div>
-    <div class="modal fade" id="changeStatus" tabindex="-1" role="dialog" aria-labelledby="successTitle"
-             aria-hidden="true">
+      <div
+        class="modal fade"
+        id="changeStatus"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="successTitle"
+        aria-hidden="true"
+      >
         <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="successTitle">Success</h5>
-                </div>
-                <div class="modal-body">
-                    Ticket Updated
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="btn-submit2" data-dismiss="modal">Ok</button>
-                </div>
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="successTitle">Success</h5>
             </div>
+            <div class="modal-body">Ticket Updated</div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-primary"
+                id="btn-submit2"
+                data-dismiss="modal"
+              >
+                Ok
+              </button>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
-</div>
 
-<script type="text/javascript">
-    $(document).ready(function () {
-        $("#changeStatus").on('click', function () {
-            $('#success').modal('show');
-            setTimeout(function() {$('#success').modal('hide');},
-                100000000);
+    <script type="text/javascript">
+      $(document).ready(function () {
+        $("#changeStatus").on("click", function () {
+          $("#success").modal("show");
+          setTimeout(function () {
+            $("#success").modal("hide");
+          }, 100000000);
         });
-    });
-</script>
-
-
-</body>
-
+      });
+    </script>
+  </body>
 </html>
-

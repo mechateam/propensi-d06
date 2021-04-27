@@ -17,6 +17,6 @@ public interface ProblemService {
     void makeCode(ProblemModel problem);
     String getRandomChar(int length);
     String getRandomInt(int length);
-    Page<ProblemModel> findPaginated(Pageable pageable);
+    Page<ProblemModel> findPaginated(Pageable pageable, List<ProblemModel> requests);
 
 }

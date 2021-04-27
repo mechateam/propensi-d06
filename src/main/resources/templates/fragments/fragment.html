@@ -15,7 +15,8 @@
     <head th:fragment="js">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-        <script type="text/javascript" th:src="@{js/fragment.js}" src="../static/js.main.js"></script>
+        <script type="text/javascript" th:src="@{/js/fragment.js}"></script>
+        
         <script src="https://kit.fontawesome.com/a81368914c.js"></script>
     </head>
 </head>
@@ -35,9 +36,9 @@
                     Tickets
                     <div class='fa fa-caret-down right'></div></a>
                 <ul>
-                    <li><a th:href="@{/tickets}">All Tickets</a></li>
+                    <li><a th:href="@{/tickets?size=5&page=1}">All Tickets</a></li>
                     <li><a href='#'>My Ticket(s)</a></li>
-                    <li><a th:href="@{/pending}">Pending Ticket(s)</a></li>
+                    <li><a th:href="@{/pending?size=5&page=1}">Pending Ticket(s)</a></li>
                 </ul>
             </li>
 <!--            <li>-->
@@ -80,7 +81,14 @@
             </li>
         </ul>
     </div>
-
+    <script>
+        // Dropdown
+        $('.sub-menu ul').hide();
+        $(".sub-menu a").click(function () {
+            $(this).parent(".sub-menu").children("ul").slideToggle("100");
+            $(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+        });
+</script>
 </nav>
 
 <div th:fragment="header"class="header-container">
@@ -101,7 +109,6 @@
     </div>
 
 </div>
-
 
 </body>
 </html>

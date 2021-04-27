@@ -74,8 +74,8 @@ public class TicketController {
         int currentPage = page.orElse(1);
         int pageSize = size.orElse(5);
 
-        Page<RequestModel> requestPage = requestService.findPaginated(PageRequest.of(currentPage - 1, pageSize));
-        Page<ProblemModel> problemPage = problemService.findPaginated(PageRequest.of(currentPage - 1, pageSize));
+        Page<RequestModel> requestPage = requestService.findPaginated(PageRequest.of(currentPage - 1, pageSize), requestService.findAll());
+        Page<ProblemModel> problemPage = problemService.findPaginated(PageRequest.of(currentPage - 1, pageSize), problemService.findAll());
 
         model.addAttribute("requestPage", requestPage);
         model.addAttribute("problemPage", problemPage);
@@ -141,6 +141,8 @@ public class TicketController {
     @GetMapping("/pending")
     public String pendingTickets(
             @ModelAttribute ProblemModel problem,
+            @RequestParam("page") Optional<Integer> page,
+            @RequestParam("size") Optional<Integer> size,
             RequestModel request,
             Model model) {
 
@@ -169,6 +171,30 @@ public class TicketController {
         listRequest.addAll(listReqApproval);
         model.addAttribute("listRequest", listRequest);
 
+        int currentPage = page.orElse(1);
+        int pageSize = size.orElse(5);
+
+        Page<RequestModel> requestPage = requestService.findPaginated(PageRequest.of(currentPage - 1, pageSize), listRequest);
+        Page<ProblemModel> problemPage = problemService.findPaginated(PageRequest.of(currentPage - 1, pageSize), listPendingProblem);
+
+        model.addAttribute("requestPage", requestPage);
+        model.addAttribute("problemPage", problemPage);
+
+        int totalPagesRequest = requestPage.getTotalPages();
+        int totalPagesProblem = problemPage.getTotalPages();
+        if (totalPagesRequest > 0) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPagesRequest)
+                    .boxed()
+                    .collect(Collectors.toList());
+            model.addAttribute("pageNumbers", pageNumbers);
+        }
+
+        if (totalPagesProblem > 0) {
+            List<Integer> pageNumbersProblem = IntStream.rangeClosed(1, totalPagesProblem)
+                    .boxed()
+                    .collect(Collectors.toList());
+            model.addAttribute("pageNumbersProblem", pageNumbersProblem);
+        }
         //Checking
         boolean hasProblem = listProblem.size() > 0;
         model.addAttribute("hasProblem", hasProblem);
@@ -202,24 +228,25 @@ public class TicketController {
 //        }
         if (problem.getStatus().getId_status() == 4){
             return "assignResolverProblem";
-        } else if (problem.getStatus().getId_status() == 5){
-            return "individual-problem";
-        } else {
+        }
+//        else if (problem.getStatus().getId_status() == 5){
+//            return "individual-problem";
+        else {
             return "detailProblem";
         }
     }
 
-    @GetMapping("/problem/resolver/{id_problem}")
-    public String detailResolveProblem(
-        @PathVariable(value="id_problem") Long id_problem,
-        Model model
-    ){
-        ProblemModel problem = problemService.findProblemById(id_problem);
-        List<LogProblemModel> logs = problem.getListLog();
-        model.addAttribute("logs", logs);
-        model.addAttribute("problem",problem);
-        return "assignResolverProblem";
-    }
+    // @GetMapping("/problem/resolver/{id_problem}")
+    // public String detailResolveProblem(
+    //     @PathVariable(value="id_problem") Long id_problem,
+    //     Model model
+    // ){
+    //     ProblemModel problem = problemService.findProblemById(id_problem);
+    //     List<LogProblemModel> logs = problem.getListLog();
+    //     model.addAttribute("logs", logs);
+    //     model.addAttribute("problem",problem);
+    //     return "assignResolverProblem";
+    // }
 
     @PostMapping("/problem/resolver/{id_problem}")
     public String ResolveProblem(
@@ -246,21 +273,21 @@ public class TicketController {
         return "redirect:/tickets";
     }
 
-    @GetMapping("/problem/individual/{id_problem}")
-    public String detailIndividualProblem(
-            @PathVariable(value="id_problem") Long id_problem,
-            Model model
-    ){
-        ProblemModel problem = problemService.findProblemById(id_problem);
-        List<UserModel> resolvers = userService.getListUserbyDepartemen(problem.getResolverDepartemen());
-        UserModel user = userService.getUserbyUsername(SecurityContextHolder.getContext().getAuthentication().getName());
-        List<LogProblemModel> logs = problem.getListLog();
-        model.addAttribute("logs", logs);
-        model.addAttribute("user",user);
-        model.addAttribute("problem",problem);
-        model.addAttribute("resolvers", resolvers);
-        return "individual-problem";
-    }
+    // @GetMapping("/problem/individual/{id_problem}")
+    // public String detailIndividualProblem(
+    //         @PathVariable(value="id_problem") Long id_problem,
+    //         Model model
+    // ){
+    //     ProblemModel problem = problemService.findProblemById(id_problem);
+    //     List<UserModel> resolvers = userService.getListUserbyDepartemen(problem.getResolverDepartemen());
+    //     UserModel user = userService.getUserbyUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+    //     List<LogProblemModel> logs = problem.getListLog();
+    //     model.addAttribute("logs", logs);
+    //     model.addAttribute("user",user);
+    //     model.addAttribute("problem",problem);
+    //     model.addAttribute("resolvers", resolvers);
+    //     return "individual-problem";
+    // }
 
     @GetMapping("/request/individual/{id_request}")
     public String detailRequestProblem(
@@ -426,6 +453,8 @@ public class TicketController {
 
             return "detailRequestApproval";
         }
+
+        model.addAttribute("requestManager",userService.getUserbyId(userLoggedin.getId_user()));
         
         model.addAttribute("request",request);
         model.addAttribute("logs", logs);
@@ -433,19 +462,22 @@ public class TicketController {
 
     }
 
-    @GetMapping("/request/resolver")
-    public String detailResolveRequest(
-            @ModelAttribute RequestModel request,
-            Model model) {
+    // @GetMapping("/request/resolver")
+    // public String detailResolveRequest(
+    //         @ModelAttribute RequestModel request,
+    //         Model model) {
 
-        return "assignResolverRequest";
-    }
+    //     return "assignResolverRequest";
+    // }
+    
     @PostMapping("/request/update")
     public String accReq(
             @ModelAttribute RequestModel request,
             Model model) {
         RequestModel newReq = requestService.updateRequestStatus(request);
+        UserModel user = userService.getUserbyUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         List<LogRequestModel> logs = newReq.getListLogRequest();
+        model.addAttribute("requestManager",userService.getUserbyId(user.getId_user()));
         model.addAttribute("request",newReq);
         model.addAttribute("logs", logs);
         return "detailRequest";

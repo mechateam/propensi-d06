@@ -84,7 +84,31 @@
                                             <a class="btn btn-dark" th:href="@{/sla/daftar/update/}+${sla.id_sla}">Edit</a>
                                         </td>
                                         <td>
-                                            <a class="btn btn-dark" th:href="@{/sla/daftar/delete/}+${sla.id_sla}">Delete</a>
+                                            <!-- Button trigger modal -->
+                                            <a class="btn btn-dark" data-toggle="modal" data-target="#exampleModal">
+                                                Delete
+                                            </a>
+
+                                            <!-- Modal -->
+                                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-body">
+                                                            <p>
+                                                                <span>Are you sure to delete this</span>
+                                                                <span th:text="${sla.nama_sla}"></span>
+                                                            </p>
+<!--                                                            Are you sure to delete this service catalog?-->
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <a class="btn btn-secondary" data-dismiss="modal">Close</a>
+                                                            <a class="btn btn-dark" th:href="@{/sla/daftar/delete/}+${sla.id_sla}">Delete</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+<!--                                            <a class="btn btn-dark" th:href="@{/sla/daftar/delete/}+${sla.id_sla}">Delete</a>-->
                                         </td>
                                     </tr>
                                     </tbody>
