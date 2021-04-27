@@ -111,12 +111,75 @@ public class TicketController {
         return "allTickets";
     }
 
+    @GetMapping("/mytickets")
+    public String myTickets(
+            @ModelAttribute ProblemModel problem,
+            RequestModel request,
+            Model model) {
+
+        // ProblemModel
+        List<ProblemModel> listProblem = problemService.findAll();
+        model.addAttribute("listProblem", listProblem);
+
+        // RequestModel
+        List<RequestModel> listRequest = requestService.findAll();
+        model.addAttribute("listRequest", listRequest);
+
+        //Checking
+        boolean hasProblem = listProblem.size() > 0;
+        model.addAttribute("hasProblem", hasProblem);
+        boolean hasRequest = listRequest.size() > 0;
+        model.addAttribute("hasRequest", hasRequest);
+
+        // Return view template yang diinginkan
+        return "allTickets";
+    }
+
+    @GetMapping("/pending")
+    public String pendingTickets(
+            @ModelAttribute ProblemModel problem,
+            RequestModel request,
+            Model model) {
+
+        UserModel user = userService.getUserbyUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+
+        // ProblemModel
+        List<ProblemModel> listProblem = problemService.getProblemByDepartemen(user.getDepartemen());
+        List<ProblemModel> listPendingProblem = new ArrayList<>();
+        for(ProblemModel pendingProblem : listProblem){
+            if(pendingProblem.getStatus().getId_status() == 5){
+                listPendingProblem.add(pendingProblem);
+            }
+            else if ((pendingProblem.getStatus().getId_status() == 6) && (pendingProblem.getResolver().getId_user() == user.getId_user())){
+                listPendingProblem.add(pendingProblem);
+            }
+            else if ((user.getId_role().getId_role() == 2) && (pendingProblem.getStatus().getId_status() == 4)){
+                listPendingProblem.add(pendingProblem);
+            }
+
+        }
+        model.addAttribute("listProblem", listPendingProblem);
+
+        // RequestModel
+        List<RequestModel> listRequest = requestService.getRequestByDepartment(user.getDepartemen());
+        model.addAttribute("listRequest", listRequest);
+
+        //Checking
+        boolean hasProblem = listProblem.size() > 0;
+        model.addAttribute("hasProblem", hasProblem);
+        boolean hasRequest = listRequest.size() > 0;
+        model.addAttribute("hasRequest", hasRequest);
+
+        // Return view template yang diinginkan
+        return "pendingTickets";
+    }
+
     @GetMapping("/problem/detail/{id_problem}")
     public String detailProblem(
             @PathVariable(value="id_problem") Long id_problem,
             Model model)
     {
-        System.out.println("Ini Jawabannya " + id_problem);
+
         ProblemModel problem = problemService.findProblemById(id_problem);
         List<LogProblemModel> logs = problem.getListLog();
         model.addAttribute("logs",logs);
@@ -147,7 +210,7 @@ public class TicketController {
         problem.setStatus(status);
         
         System.out.println(problem.getId_problem());
-        problem.setResolver_departemen(problemService.getDepById(id));
+        problem.setResolverDepartemen(problemService.getDepById(id));
         problemService.updateProblem(problem);
 
         LogProblemModel log = new LogProblemModel();
@@ -165,7 +228,7 @@ public class TicketController {
             Model model
     ){
         ProblemModel problem = problemService.findProblemById(id_problem);
-        List<UserModel> resolvers = userService.getListUserbyDepartemen(problem.getResolver_departemen());
+        List<UserModel> resolvers = userService.getListUserbyDepartemen(problem.getResolverDepartemen());
         UserModel user = userService.getUserbyUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         List<LogProblemModel> logs = problem.getListLog();
         model.addAttribute("logs", logs);
@@ -243,7 +306,7 @@ public class TicketController {
         long idStatus = 4;
         StatusModel status = statusService.findStatusById(idStatus);
         problem.setStatus(status);
-        problem.setResolver_departemen(null);
+        problem.setResolverDepartemen(null);
         problemService.updateProblem(problem);
 
         LogProblemModel log = new LogProblemModel();
@@ -275,33 +338,32 @@ public class TicketController {
 
 
 
-
-    @Deprecated
-    @GetMapping("/request/detail")
-    public String detailRequest(
-            @ModelAttribute RequestModel request,
+    @PostMapping("/problem/update")
+    public String acceptProblem(
+            @ModelAttribute ProblemModel problem,
             Model model) {
-
-//        // Mendapatkan semua HotelModel
-//        List<HotelModel> listHotel = hotelService.getHotelListOrderByIdDesc();
-//
-//        // Add variabel semua HotelModel ke 'listHotel' untuk dirender pada thymeleaf
-//        model.addAttribute("listHotel", listHotel);
-//
-//
-//        boolean hasHotel = listHotel.size() > 0;
-//        model.addAttribute("hasHotel", hasHotel);
-//
-//        model.addAttribute("listHotel", listHotel);
-//        // Return view template yang diinginkan
-        // if (request.getStatus().getId_status() == 1){
-        //         return "detailRequest";
-        //     }
-        // else if (request.getStatus().getId_status() == 4){
-        //     return "assignResolverRequest";
-        // }
-        return "detailRequest";
+        System.out.println("Ini controller :" + problem.getDescription());
+        ProblemModel newProb = problemService.updateProblemStatus(problem);
+        model.addAttribute("problem",newProb);
+        return "detailProblem";
     }
+
+//    @Deprecated
+    @GetMapping("/request/detailin/{id_request}")
+    public String detailRequest(
+            @PathVariable(value="id_request") Long id_request,
+            Model model){
+        RequestModel request = requestService.getRequestById(id_request);
+        if(request.getStatus().getId_status() == 5){
+            List<UserModel> listResolver = userService.getListUserbyDepartemen(request.getResolverDepartemen());
+            model.addAttribute("resolverList", listResolver);
+        }
+        model.addAttribute("request",request);
+        return "detailRequest";
+
+    }
+
+
 
     @GetMapping("/request/resolver")
     public String detailResolveRequest(
@@ -310,6 +372,15 @@ public class TicketController {
 
         return "assignResolverRequest";
     }
+    @PostMapping("/request/update")
+    public String accReq(
+            @ModelAttribute RequestModel request,
+            Model model) {
+        RequestModel newReq = requestService.updateRequestStatus(request);
+        model.addAttribute("request",newReq);
+        return "detailRequest";
+    }
+
 
     // Cancelled
     // @PostMapping("/request/resolver")
@@ -326,6 +397,7 @@ public class TicketController {
     //         return "redirect:/tickets";
     //     }
     // }
+
 
     @GetMapping("/ticket/add")
     public String addTicket(Model model) {

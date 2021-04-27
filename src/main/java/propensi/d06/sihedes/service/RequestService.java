@@ -10,11 +10,11 @@ public interface RequestService {
     void updateRequest(RequestModel request);
     DepartemenModel getDepById(Long id);
     List<RequestModel> findAll();
-//    List<RequestModel> findAllDesc();
-    RequestModel findRequestById(Long id);
+    List<RequestModel> getRequestByDepartment(DepartemenModel departemen);
     RequestModel getRequestById(Long id);
     RequestModel updateApprovalRequest(RequestModel request);
     RequestModel rejectApprovalRequest(RequestModel request);
     void addRequest(RequestModel request);
     Page<RequestModel> findPaginated(Pageable pageable);
+    RequestModel updateRequestStatus(RequestModel request);
 }
