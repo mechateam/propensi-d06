@@ -209,17 +209,17 @@ public class TicketController {
         }
     }
 
-    @GetMapping("/problem/resolver/{id_problem}")
-    public String detailResolveProblem(
-        @PathVariable(value="id_problem") Long id_problem,
-        Model model
-    ){
-        ProblemModel problem = problemService.findProblemById(id_problem);
-        List<LogProblemModel> logs = problem.getListLog();
-        model.addAttribute("logs", logs);
-        model.addAttribute("problem",problem);
-        return "assignResolverProblem";
-    }
+    // @GetMapping("/problem/resolver/{id_problem}")
+    // public String detailResolveProblem(
+    //     @PathVariable(value="id_problem") Long id_problem,
+    //     Model model
+    // ){
+    //     ProblemModel problem = problemService.findProblemById(id_problem);
+    //     List<LogProblemModel> logs = problem.getListLog();
+    //     model.addAttribute("logs", logs);
+    //     model.addAttribute("problem",problem);
+    //     return "assignResolverProblem";
+    // }
 
     @PostMapping("/problem/resolver/{id_problem}")
     public String ResolveProblem(
@@ -433,13 +433,14 @@ public class TicketController {
 
     }
 
-    @GetMapping("/request/resolver")
-    public String detailResolveRequest(
-            @ModelAttribute RequestModel request,
-            Model model) {
+    // @GetMapping("/request/resolver")
+    // public String detailResolveRequest(
+    //         @ModelAttribute RequestModel request,
+    //         Model model) {
 
-        return "assignResolverRequest";
-    }
+    //     return "assignResolverRequest";
+    // }
+    
     @PostMapping("/request/update")
     public String accReq(
             @ModelAttribute RequestModel request,
