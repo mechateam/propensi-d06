@@ -95,7 +95,7 @@
                                                 <tbody>
                                                 <tr th:each="problem, iterationStatus : ${listProblem}">
                                                     <td th:text="${iterationStatus.count}"></td>
-                                                    <td th:text="${problem.id_problem}"></td>
+                                                    <td th:text="${problem.codeProblem}"></td>
                                                     <td th:text="${problem.subject}"></td>
                                                     <td th:text="${problem.real_date}"></td>
                                                     <td th:text="${problem.status.namaStatus}"></td>
@@ -178,7 +178,7 @@
                                                 <tbody>
                                                 <tr th:each="request, iterationStatus : ${requestPage.content}">
                                                     <td th:text="${iterationStatus.count}"></td>
-                                                    <td th:text="${request.id_request}"></td>
+                                                    <td th:text="${request.codeRequest}"></td>
                                                     <td th:text="${request.subject}"></td>
                                                     <td th:text="${request.sla.nama_sla}"></td>
                                                     <td th:text="${request.created_date}"></td>

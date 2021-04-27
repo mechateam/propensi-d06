@@ -496,6 +496,7 @@ public class TicketController {
 
         Date dateNow = new java.util.Date();
         problem.setCreated_date(dateNow);
+        problemService.makeCode(problem);
 
         problemService.addProblem(problem);
 
@@ -515,6 +516,9 @@ public class TicketController {
     public String requestSubmit(
             @ModelAttribute RequestModel request,
             Model model) {
+        Date dateNow = new java.util.Date();
+        request.setCreated_date(dateNow);
+        requestService.makeCode(request);
         requestService.addRequest(request);
         UserModel user = userService.getUserbyUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         LogRequestModel log = new LogRequestModel();

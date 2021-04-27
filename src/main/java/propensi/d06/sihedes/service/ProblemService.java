@@ -14,6 +14,9 @@ public interface ProblemService {
     ProblemModel findProblemById(Long id);
     void addProblem(ProblemModel problem);
     ProblemModel updateProblemStatus(ProblemModel problem);
+    void makeCode(ProblemModel problem);
+    String getRandomChar(int length);
+    String getRandomInt(int length);
     Page<ProblemModel> findPaginated(Pageable pageable);
 
 }
