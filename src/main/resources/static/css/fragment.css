@@ -24,13 +24,19 @@ a {
   margin-left: 30px;
 }
 .header-container {
+    background-color: white;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+#fixHeader{
+    background-color: white;
+    position: sticky;
+    border-bottom: 1px solid #CBCBCB;
+    padding: 10px 25px 10px 30px;
   /*margin-bottom: 10px;*/
 }
-#fixHeader {
-  position: sticky;
-  border-bottom: 1px solid #cbcbcb;
-  padding: 10px 25px 10px 30px;
-}
+
 .upper-logo {
   float: right;
 }
@@ -286,9 +292,15 @@ tr:hover td {
   margin-bottom: 15px;
 }
 
-.created-by {
-  margin-top: 30px;
-  padding: 10px;
+
+.row-action{
+    padding: 10px;
+    margin-top: 15px;
+}
+
+.created-by{
+    /*margin-top: 30px;*/
+    padding: 10px;
 }
 
 .log-content {

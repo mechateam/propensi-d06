@@ -11,6 +11,7 @@ import propensi.d06.sihedes.model.*;
 import propensi.d06.sihedes.repository.*;
 
 import javax.transaction.Transactional;
+import java.util.Date;
 import java.util.Collections;
 import java.util.List;
 
@@ -23,6 +24,12 @@ public class ProblemServiceImpl implements ProblemService{
     @Autowired
     DepartemenDb departemenDb;
 
+    @Autowired
+    StatusDb statusDb;
+
+    @Autowired
+    UserDb userDb;
+
     @Override
     public DepartemenModel getDepById(Long id){
         return departemenDb.findById(id).get();
@@ -34,10 +41,37 @@ public class ProblemServiceImpl implements ProblemService{
     }
 
     @Override
+    public ProblemModel updateProblemStatus(ProblemModel problem) {
+        ProblemModel targetProblem = problemDb.findById(problem.getId_problem()).get();
+        try{
+            UserModel user = userDb.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+            long idStatus = targetProblem.getStatus().getId_status();
+            if(idStatus == 5){
+                targetProblem.setResolver(user);
+            }
+            long newStatus = idStatus+1;
+            StatusModel status = statusDb.findById(newStatus).get();
+            targetProblem.setStatus(status);
+            if(targetProblem.getStatus().getId_status() == 7){
+                Date dateNow = new java.util.Date();
+                targetProblem.setFinished_date(dateNow);
+            }
+            problemDb.save(targetProblem);
+            System.out.println("Ini Status :" + targetProblem.getStatus().getNamaStatus());
+            return targetProblem;
+        }
+        catch (NullPointerException nullPointerException) {
+            return null;
+        }
+
+    }
+
+    @Override
     public List<ProblemModel> findAll() { return problemDb.findAll(); }
-//
-//    @Override
-//    public List<ProblemModel> findAllDesc() { return problemDb.findAllByOrderByIdDesc();}
+
+    @Override
+    public List<ProblemModel> getProblemByDepartemen(DepartemenModel departemen) {
+        return problemDb.findAllByResolverDepartemen(departemen);}
 
     @Override
     public ProblemModel findProblemById(Long id) {

@@ -37,10 +37,10 @@ public class DepartemenModel implements Serializable {
     @OneToMany(mappedBy = "departemen", fetch = FetchType.LAZY)
     private List<SLAModel> listSLA;
 
-    @OneToMany(mappedBy = "resolver_departemen", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "resolverDepartemen", fetch = FetchType.LAZY)
     private List<RequestModel> listRequest;
 
-    @OneToMany(mappedBy = "resolver_departemen", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "resolverDepartemen", fetch = FetchType.LAZY)
     private List<ProblemModel> listProblem;
 
     public Long getId_dept() {

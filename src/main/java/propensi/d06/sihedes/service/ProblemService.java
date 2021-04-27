@@ -10,8 +10,10 @@ public interface ProblemService {
     void updateProblem(ProblemModel problem);
     DepartemenModel getDepById(Long id);
     List<ProblemModel> findAll();
-//    List<ProblemModel> findAllDesc();
+    List<ProblemModel> getProblemByDepartemen(DepartemenModel departemen);
     ProblemModel findProblemById(Long id);
     void addProblem(ProblemModel problem);
+    ProblemModel updateProblemStatus(ProblemModel problem);
     Page<ProblemModel> findPaginated(Pageable pageable);
+
 }
