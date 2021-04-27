@@ -165,6 +165,8 @@ public class TicketController {
 
         // RequestModel
         List<RequestModel> listRequest = requestService.getRequestByDepartment(user.getDepartemen());
+        List<RequestModel> listReqApproval = requestService.findAllRequestBasedOnIdApprover(user);
+        listRequest.addAll(listReqApproval);
         model.addAttribute("listRequest", listRequest);
 
         //Checking
@@ -394,14 +396,39 @@ public class TicketController {
 //    @Deprecated
     @GetMapping("/request/detailin/{id_request}")
     public String detailRequest(
-            @PathVariable(value="id_request") Long id_request,
+            @PathVariable(value="id_request") Long id_request, HttpServletRequest req,
             Model model){
         RequestModel request = requestService.getRequestById(id_request);
         List<LogRequestModel> logs = request.getListLogRequest();
+        UserModel userLoggedin = userService.getUserbyUsername(req.getRemoteUser());
+        SLAModel sla = request.getSla();
+        List<SLABOAModel> listBOA = slaboaService.getSLABOABySLAId(sla.getId_sla());
+
         if(request.getStatus().getId_status() == 5){
             List<UserModel> listResolver = userService.getListUserbyDepartemen(request.getResolverDepartemen());
             model.addAttribute("resolverList", listResolver);
         }
+        else if (request.getStatus().getNamaStatus().equals("Waiting for Approval")){
+
+            if (request.getIdApprover() == null){
+                for (SLABOAModel boa: listBOA) {
+                    if (boa.getBoa().getRank() ==1){
+                        request.setIdApprover(boa.getBoa().getUser().getId_user());
+                    }
+                }
+
+            }
+
+            Long idApprover = new Long(request.getIdApprover());
+            model.addAttribute("user",userLoggedin);
+            model.addAttribute("request",request);
+            model.addAttribute("userApproval", userService.getUserbyId(idApprover));
+            model.addAttribute("requestManager",userService.getUserbyId(request.getIdApprover()));
+
+            return "detailRequestApproval";
+        }
+
+        model.addAttribute("requestManager",userService.getUserbyId(request.getIdApprover()));
         model.addAttribute("request",request);
         model.addAttribute("logs", logs);
         return "detailRequest";
@@ -449,21 +476,6 @@ public class TicketController {
         model.addAttribute("problem", new ProblemModel());
         UserModel user = userService.getUserbyUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         DepartemenModel departemen = user.getDepartemen();
-
-//        List<DepartemenModel> deptList = departemenService.getListDepartment();
-//        List<DepartemenModel> deptSLA = null;
-//        Hashtable<DepartemenModel, List<SLAModel>> my_dict = new Hashtable<DepartemenModel, List<SLAModel>>();
-//        for(DepartemenModel dept : deptList){
-//            if (dept.getListSLA().size() != 0){
-//                deptSLA.add(dept);
-//            }
-//        }
-//
-//        for(DepartemenModel dept : deptSLA){
-//            List<SLAModel> getSla = slaService.getAllSLAByDepartemen(dept);
-//            my_dict.put(dept, getSla);
-//        }
-
 
         model.addAttribute("deptList",departemenService.getListDepartment());
         model.addAttribute("departemen", departemen);

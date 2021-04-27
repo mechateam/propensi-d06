@@ -205,12 +205,4 @@ public class UserModel implements Serializable {
     public void setListPengajuProblem(List<ProblemModel> listPengajuProblem) {
         this.listPengajuProblem = listPengajuProblem;
     }
-
-    public List<RequestModel> getListManagerRequest() {
-        return listManagerRequest;
-    }
-
-    public void setListManagerRequest(List<RequestModel> listManagerRequest) {
-        this.listManagerRequest = listManagerRequest;
-    }
 }
