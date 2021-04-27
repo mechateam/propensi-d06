@@ -124,7 +124,9 @@
                   <h5 th:text="${gagal}" style="color: red"></h5>
                   <h5 th:text="${berhasil}" style="color: green"></h5>
                 </div>
-                <div class="created-by">created by</div>
+                <div class="created-by">
+                  <p th:text="'Created by '+ ${problem.pengaju.username}"></p>
+              </div>
               </div>
             </div>
           </div>
