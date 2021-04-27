@@ -106,7 +106,47 @@
                       </select>
                     </div>
                   </div>
+                <!-- </div> -->
+                <!-- assign to departemen resolver -->
+                <div 
+                  class="row detail-row" 
+                  th:if="${problem.status.id_status == 4 && user.id_role.id_role == 2}"
+                >
+                  <form
+                  th:action="@{/problem/resolver/} + ${problem.id_problem}"
+                  method="POST"
+                  >
+                  <div class="col-sm-3">Assign Resolver</div>
+                  <div class="col-sm-9">
+                    :
+                    <select name="jenisResolver" class="dropdown">
+                      <option selected disabled>
+                        Assign Resolver Department
+                      </option>
+                      <option value="1">IT Helpdesk</option>
+                      <option value="2">Security</option>
+                      <option value="3">IT System Development</option>
+                      <option value="4">IT User Admin</option>
+                      <option value="5">IT Network</option>
+                      <option value="6">IT Infrastructure</option>
+                    </select>
+                  </div>
+                <br/>
+                <div class="row">
+                  <div class="col-sm-7"></div>
+                  <div class="col-sm-3"></div>
+                  <div class="col-sm-2" th:if="${user.id_role.id_role == 2}">
+                    <button
+                      type="submit"
+                      class="btn btn-fill btn-create text-center"
+                    >
+                      Assign
+                    </button>
+                  </div>
                 </div>
+                </form>
+                </div>
+                <!-- assign to individual resolver -->
                 <div
                   class="row-action"
                   th:if="${problem.status.id_status == 5 && user.departemen.id_dept == problem.resolverDepartemen.id_dept}"
@@ -181,6 +221,7 @@
                   </div>
                   <!--                                </form>-->
                 </div>
+              </div>
                 <div class="created-by">
                   <p th:text="'Created by '+ ${problem.pengaju.username}"></p>
                 </div>
