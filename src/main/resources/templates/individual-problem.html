@@ -112,11 +112,11 @@
                       <div class="col-sm-7"></div>
                       <div class="col-sm-2">
                         <a
-                          th:if="${user.id_role == 4}"
+                          th:if="${user.id_role.id_role == 4}"
                           th:href="@{/problem/individual/return/} + ${problem.id_problem}"
                           class="btn btn-outline-danger btn-delete text-center"
                         >
-                          Reject
+                          Decline
                         </a>
                       </div>
                       <div class="col-sm-3">

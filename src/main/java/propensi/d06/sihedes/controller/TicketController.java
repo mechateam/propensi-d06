@@ -58,6 +58,9 @@ public class TicketController {
     private LogProblemService logProblemService;
 
     @Autowired
+    private LogRequestService logRequestService;
+
+    @Autowired
     private SLADb slaDb;
 
 
@@ -182,8 +185,12 @@ public class TicketController {
 
         ProblemModel problem = problemService.findProblemById(id_problem);
         List<LogProblemModel> logs = problem.getListLog();
-        List<UserModel> resolvers = userService.getListUserbyDepartemen(problem.getResolverDepartemen());
+        List<UserModel> resolvers = new ArrayList<>();
         UserModel user = userService.getUserbyUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        resolvers.add(user);
+        if (user.getId_role().getId_role()==4){
+            resolvers = userService.getListUserbyDepartemen(problem.getResolverDepartemen());
+        }
         model.addAttribute("logs",logs);
         model.addAttribute("problem",problem);
         model.addAttribute("user",user);
@@ -298,6 +305,7 @@ public class TicketController {
             @RequestParam(value = "individual") Long id,
             @PathVariable Long id_request, Model model,
             RedirectAttributes redir) {
+        UserModel user = userService.getUserbyUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         RequestModel request = requestService.getRequestById(id_request);
         long idStatus = 6;
         StatusModel status = statusService.findStatusById(idStatus);
@@ -305,6 +313,13 @@ public class TicketController {
         request.setResolver(userService.getUserbyId(id));
 
         requestService.updateRequest(request);
+
+        LogRequestModel log = new LogRequestModel();
+        log.setCreatedBy(user);
+        log.setDescription(status.getNamaStatus());
+        log.setPosted_date(new Date());
+        log.setRequest(request);
+        logRequestService.addLog(log);
 
 //        LogProblemModel log = new LogProblemModel();
 //        log.setDescription(status.getNamaStatus());
@@ -333,6 +348,7 @@ public class TicketController {
         log.setProblem(problem);
         log.setCreatedBy(user);
         logProblemService.addLog(log);
+
         return "redirect:/tickets";
     }
 
@@ -381,16 +397,16 @@ public class TicketController {
             @PathVariable(value="id_request") Long id_request,
             Model model){
         RequestModel request = requestService.getRequestById(id_request);
+        List<LogRequestModel> logs = request.getListLogRequest();
         if(request.getStatus().getId_status() == 5){
             List<UserModel> listResolver = userService.getListUserbyDepartemen(request.getResolverDepartemen());
             model.addAttribute("resolverList", listResolver);
         }
         model.addAttribute("request",request);
+        model.addAttribute("logs", logs);
         return "detailRequest";
 
     }
-
-
 
     @GetMapping("/request/resolver")
     public String detailResolveRequest(
@@ -404,7 +420,9 @@ public class TicketController {
             @ModelAttribute RequestModel request,
             Model model) {
         RequestModel newReq = requestService.updateRequestStatus(request);
+        List<LogRequestModel> logs = newReq.getListLogRequest();
         model.addAttribute("request",newReq);
+        model.addAttribute("logs", logs);
         return "detailRequest";
     }
 
@@ -459,7 +477,7 @@ public class TicketController {
             RedirectAttributes redir,
             Model model) {
 
-        long idStatus = 1;
+        long idStatus = 4;
         StatusModel status = statusService.findStatusById(idStatus);
         problem.setStatus(status);
 
@@ -472,7 +490,7 @@ public class TicketController {
         problemService.addProblem(problem);
 
         LogProblemModel log = new LogProblemModel();
-        log.setDescription(status.getNamaStatus());
+        log.setDescription("Created, Waiting for Assignment");
         log.setPosted_date(dateNow);
         log.setProblem(problem);
         log.setCreatedBy(user);
@@ -488,6 +506,13 @@ public class TicketController {
             @ModelAttribute RequestModel request,
             Model model) {
         requestService.addRequest(request);
+        UserModel user = userService.getUserbyUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        LogRequestModel log = new LogRequestModel();
+        log.setCreatedBy(user);
+        log.setDescription(request.getStatus().getNamaStatus());
+        log.setPosted_date(new Date());
+        log.setRequest(request);
+        logRequestService.addLog(log);
         return "redirect:/tickets";
     }
 
@@ -499,6 +524,7 @@ public class TicketController {
         RequestModel request = requestService.getRequestById(id);
         SLAModel sla = request.getSla();
         List<SLABOAModel> listBOA = slaboaService.getSLABOABySLAId(sla.getId_sla());
+        List<LogRequestModel> logs = request.getListLogRequest();
 
         if (request.getStatus().getNamaStatus().equals("Waiting for Approval")){
 
@@ -515,6 +541,8 @@ public class TicketController {
             model.addAttribute("user",userLoggedin);
             model.addAttribute("request",request);
             model.addAttribute("userApproval", userService.getUserbyId(idApprover));
+            model.addAttribute("logs", logs);
+
 
             return "detailRequestApproval";
         }
