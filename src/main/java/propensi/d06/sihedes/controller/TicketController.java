@@ -423,12 +423,10 @@ public class TicketController {
             model.addAttribute("user",userLoggedin);
             model.addAttribute("request",request);
             model.addAttribute("userApproval", userService.getUserbyId(idApprover));
-            model.addAttribute("requestManager",userService.getUserbyId(request.getIdApprover()));
 
             return "detailRequestApproval";
         }
-
-        model.addAttribute("requestManager",userService.getUserbyId(request.getIdApprover()));
+        
         model.addAttribute("request",request);
         model.addAttribute("logs", logs);
         return "detailRequest";
