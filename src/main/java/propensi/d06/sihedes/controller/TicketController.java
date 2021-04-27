@@ -526,6 +526,40 @@ public class TicketController {
         return "redirect:/tickets";
     }
 
+    // ini buat approval, mau digabung sama yg atas juga gapapa
+    @GetMapping("/request/detail/{id}")
+    public String detailRequestApproval(@PathVariable Long id, HttpServletRequest req, Model model){
+
+        UserModel userLoggedin = userService.getUserbyUsername(req.getRemoteUser());
+        RequestModel request = requestService.getRequestById(id);
+        SLAModel sla = request.getSla();
+        List<SLABOAModel> listBOA = slaboaService.getSLABOABySLAId(sla.getId_sla());
+        List<LogRequestModel> logs = request.getListLogRequest();
+
+        if (request.getStatus().getNamaStatus().equals("Waiting for Approval")){
+
+            if (request.getIdApprover() == null){
+                for (SLABOAModel boa: listBOA) {
+                    if (boa.getBoa().getRank() ==1){
+                        request.setIdApprover(boa.getBoa().getUser().getId_user());
+                    }
+                }
+
+            }
+
+            Long idApprover = new Long(request.getIdApprover());
+            model.addAttribute("user",userLoggedin);
+            model.addAttribute("request",request);
+            model.addAttribute("userApproval", userService.getUserbyId(idApprover));
+            model.addAttribute("logs", logs);
+
+
+            return "detailRequestApproval";
+        }
+
+        return null;
+    }
+
     @PostMapping("/request/approve")
     public String approveRequest(@ModelAttribute RequestModel request, Model model){
         requestService.updateApprovalRequest(request);
