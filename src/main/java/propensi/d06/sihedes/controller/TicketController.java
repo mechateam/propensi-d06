@@ -428,7 +428,7 @@ public class TicketController {
             return "detailRequestApproval";
         }
 
-        model.addAttribute("requestManager",userService.getUserbyId(request.getIdApprover()));
+        model.addAttribute("requestManager",userService.getUserbyId(userLoggedin.getId_user()));
         model.addAttribute("request",request);
         model.addAttribute("logs", logs);
         return "detailRequest";
@@ -447,7 +447,9 @@ public class TicketController {
             @ModelAttribute RequestModel request,
             Model model) {
         RequestModel newReq = requestService.updateRequestStatus(request);
+        UserModel user = userService.getUserbyUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         List<LogRequestModel> logs = newReq.getListLogRequest();
+        model.addAttribute("requestManager",userService.getUserbyId(user.getId_user()));
         model.addAttribute("request",newReq);
         model.addAttribute("logs", logs);
         return "detailRequest";
@@ -540,16 +542,16 @@ public class TicketController {
 
         if (request.getStatus().getNamaStatus().equals("Waiting for Approval")){
 
-            if (request.getId_approver() == null){
+            if (request.getIdApprover() == null){
                 for (SLABOAModel boa: listBOA) {
                     if (boa.getBoa().getRank() ==1){
-                        request.setId_approver(boa.getBoa().getUser().getId_user());
+                        request.setIdApprover(boa.getBoa().getUser().getId_user());
                     }
                 }
 
             }
 
-            Long idApprover = new Long(request.getId_approver());
+            Long idApprover = new Long(request.getIdApprover());
             model.addAttribute("user",userLoggedin);
             model.addAttribute("request",request);
             model.addAttribute("userApproval", userService.getUserbyId(idApprover));
