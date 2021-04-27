@@ -202,9 +202,10 @@ public class TicketController {
 //        }
         if (problem.getStatus().getId_status() == 4){
             return "assignResolverProblem";
-        } else if (problem.getStatus().getId_status() == 5){
-            return "individual-problem";
-        } else {
+        }
+//        else if (problem.getStatus().getId_status() == 5){
+//            return "individual-problem";
+        else {
             return "detailProblem";
         }
     }
