@@ -25,6 +25,14 @@ public class LogProblemModel implements Serializable {
     @Column(name = "description", nullable = false)
     private String description;
 
+    public UserModel getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(UserModel createdBy) {
+        this.createdBy = createdBy;
+    }
+
     @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSX")
     @Column(name = "posted_date", nullable = false)
@@ -35,6 +43,12 @@ public class LogProblemModel implements Serializable {
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private ProblemModel problem;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_user", referencedColumnName = "id_user", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private UserModel createdBy;
 
     public Long getId_log() {
         return id_log;

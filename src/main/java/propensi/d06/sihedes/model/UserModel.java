@@ -77,6 +77,31 @@ public class UserModel implements Serializable {
     @OneToMany(mappedBy = "pengaju", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<ProblemModel> listPengajuProblem;
 
+    @OneToMany(mappedBy = "manager", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<RequestModel> listManagerRequest;
+
+    @OneToMany(mappedBy = "createdBy", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<LogProblemModel> listLogProblem;
+
+    @OneToMany(mappedBy = "createdBy", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<LogRequestModel> listLogRequest;
+
+    public List<LogProblemModel> getListLogProblem() {
+        return listLogProblem;
+    }
+
+    public void setListLogProblem(List<LogProblemModel> listLogProblem) {
+        this.listLogProblem = listLogProblem;
+    }
+
+    public List<LogRequestModel> getListLogRequest() {
+        return listLogRequest;
+    }
+
+    public void setListLogRequest(List<LogRequestModel> listLogRequest) {
+        this.listLogRequest = listLogRequest;
+    }
+
     public Long getId_user() {
         return id_user;
     }
