@@ -2,38 +2,120 @@
 <html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title> Home </title>
+    <title> Edit Service Catalog </title>
     <object th:include="fragments/fragment :: js" th:remove="tag"></object>
 
     <object th:include="fragments/fragment :: css" th:remove="tag"></object>
 
 
 </head>
-<title>Hai bela</title>
+
 <body>
 <div th:replace="fragments/fragment :: header"></div>
 <nav th:replace="fragments/fragment :: navbar"></nav>
 
 <div class="content-container">
-    <h2 class="text-center">Form Tambah SLA</h2>
-    <form th:action="@{/sla/daftar/update}" th:object="${sla}" method="POST">
-        <input type="hidden" th:field="*{id_sla}"/>
-        Nama SLA: <br>
-        <input class="form-control" type="text" th:field="*{nama_sla}" required/>
+    <div class="container-fluid">
+        <div class="row">
+
+            <!--Page Name Header-->
+            <div class="col-md-6">
+                <div class="pageName">
+                    <h3>Service Catalog</h3>
+                    <p>
+                        <a th:href="@{/sla}" >Service Catalog</a>
+                        <span> > </span>
+                        <span>Edit Service Catalog</span>
+                    </p>
+                </div>
+            </div>
+
+        </div>
         <br>
-        Deskripsi : <br>
-        <input class="form-control" type="text" th:field="*{description}" required/>
-        <br>
-        Completion Time : <br>
-        <input class="form-control" type="datetime-local" th:field="*{completion_time}" required/>
-        <br>
-        Departemen : <br>
-        <select name="departemen" class="form-control">
-            <option th:selected="${sla.departemen}"></option>
-            <option th:field="${sla.departemen}" th:each="departemen: ${listDepartemen}" th:value="${departemen.id_dept}" th:text="${departemen.nama_departemen}"></option>
-        </select>
-        <button type="submit" class="btn btn-primary">Simpan</button>
-    </form>
-</div>
+
+        <!--                        START YOUR CONTENT                      -->
+
+        <!--Tab Nav-->
+        <div class="col-md-6">
+
+            <div class="tab-content">
+                <!--                    START TAB PROBLEM-->
+                    <div class="card">
+                        <div class="card-content">
+                            <!--for row header-->
+                            <div class="row">
+                                <div class="col-sm-7">
+                                    <div class="pageName">
+                                        <h4>Edit Service Catalog</h4>
+                                    </div>
+                                </div>
+                                <div class="col-sm-5"></div>
+                            </div>
+
+
+                            <!-- mulai table-->
+                            <div class="row">
+                                <br>
+                                <div class="col-sm-12">
+                                    <form th:action="@{/sla/daftar/update}" th:object="${sla}" method="POST">
+                                        <input type="hidden" th:field="*{id_sla}"/>
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                Service Catalog Name <br>
+                                                <input class="form-control" type="text" th:field="*{nama_sla}" required/>
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                Description <br>
+                                                <input class="form-control" type="text" th:field="*{description}" required/>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <br>
+                                            <div class="col-sm-6">
+                                                Completion Time <br>
+                                                <input class="form-control" type="text" th:field="*{completion_time}" required/>
+                                            </div>
+                                            <div class="col-sm-6"></div>
+                                        </div>
+                                        <div class="row">
+                                            <br>
+                                            <div class="col-sm-6">
+                                                Department <br>
+                                                <select name="departemen" class="form-control">
+                                                    <option th:selected="${sla.departemen}"></option>
+                                                    <option th:field="${sla.departemen}" th:each="departemen: ${listDepartemen}" th:value="${departemen.id_dept}" th:text="${departemen.nama_departemen}"></option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <br><br>
+
+                                        <!-- Button trigger modal -->
+                                        <button type="button" data-toggle="modal" data-target="#exampleModal" class="btn btn-fill btn-create text-center">
+                                            Update
+                                        </button>
+
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="exampleModal" tabindex="-3" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-body">
+                                                        Service Catalog Updated!
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="submit" class="btn btn-fill btn-create text-center">Ok</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form> </div></div></div></div>
 </body>
 </html>
