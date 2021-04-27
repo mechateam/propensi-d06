@@ -15,7 +15,7 @@ public interface RequestService {
     RequestModel updateApprovalRequest(RequestModel request);
     RequestModel rejectApprovalRequest(RequestModel request);
     void addRequest(RequestModel request);
-    Page<RequestModel> findPaginated(Pageable pageable);
+    Page<RequestModel> findPaginated(Pageable pageable, List<RequestModel> requests);
     RequestModel updateRequestStatus(RequestModel request);
     List<RequestModel> findAllRequestBasedOnIdApprover(UserModel user);
 }

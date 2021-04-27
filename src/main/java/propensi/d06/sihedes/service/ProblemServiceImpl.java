@@ -84,8 +84,8 @@ public class ProblemServiceImpl implements ProblemService{
     }
 
     @Override
-    public Page<ProblemModel> findPaginated(Pageable pageable){
-        List<ProblemModel> requests = problemDb.findAll();
+    public Page<ProblemModel> findPaginated(Pageable pageable, List<ProblemModel> requests){
+
         int pageSize = pageable.getPageSize();
         int currentPage = pageable.getPageNumber();
         int startItem = currentPage * pageSize;
@@ -101,4 +101,6 @@ public class ProblemServiceImpl implements ProblemService{
                 = new PageImpl<ProblemModel>(list, PageRequest.of(currentPage, pageSize), requests.size());
         return requestPage;
     }
+
+
 }

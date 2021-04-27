@@ -74,8 +74,8 @@ public class TicketController {
         int currentPage = page.orElse(1);
         int pageSize = size.orElse(5);
 
-        Page<RequestModel> requestPage = requestService.findPaginated(PageRequest.of(currentPage - 1, pageSize));
-        Page<ProblemModel> problemPage = problemService.findPaginated(PageRequest.of(currentPage - 1, pageSize));
+        Page<RequestModel> requestPage = requestService.findPaginated(PageRequest.of(currentPage - 1, pageSize), requestService.findAll());
+        Page<ProblemModel> problemPage = problemService.findPaginated(PageRequest.of(currentPage - 1, pageSize), problemService.findAll());
 
         model.addAttribute("requestPage", requestPage);
         model.addAttribute("problemPage", problemPage);
@@ -141,6 +141,8 @@ public class TicketController {
     @GetMapping("/pending")
     public String pendingTickets(
             @ModelAttribute ProblemModel problem,
+            @RequestParam("page") Optional<Integer> page,
+            @RequestParam("size") Optional<Integer> size,
             RequestModel request,
             Model model) {
 
@@ -169,6 +171,30 @@ public class TicketController {
         listRequest.addAll(listReqApproval);
         model.addAttribute("listRequest", listRequest);
 
+        int currentPage = page.orElse(1);
+        int pageSize = size.orElse(5);
+
+        Page<RequestModel> requestPage = requestService.findPaginated(PageRequest.of(currentPage - 1, pageSize), listRequest);
+        Page<ProblemModel> problemPage = problemService.findPaginated(PageRequest.of(currentPage - 1, pageSize), listPendingProblem);
+
+        model.addAttribute("requestPage", requestPage);
+        model.addAttribute("problemPage", problemPage);
+
+        int totalPagesRequest = requestPage.getTotalPages();
+        int totalPagesProblem = problemPage.getTotalPages();
+        if (totalPagesRequest > 0) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPagesRequest)
+                    .boxed()
+                    .collect(Collectors.toList());
+            model.addAttribute("pageNumbers", pageNumbers);
+        }
+
+        if (totalPagesProblem > 0) {
+            List<Integer> pageNumbersProblem = IntStream.rangeClosed(1, totalPagesProblem)
+                    .boxed()
+                    .collect(Collectors.toList());
+            model.addAttribute("pageNumbersProblem", pageNumbersProblem);
+        }
         //Checking
         boolean hasProblem = listProblem.size() > 0;
         model.addAttribute("hasProblem", hasProblem);

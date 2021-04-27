@@ -149,8 +149,8 @@ public class RequestServiceImpl implements RequestService{
     }
 
     @Override
-    public Page<RequestModel> findPaginated(Pageable pageable){
-        List<RequestModel> requests = requestDb.findAll();
+    public Page<RequestModel> findPaginated(Pageable pageable, List<RequestModel> requests){
+
         int pageSize = pageable.getPageSize();
         int currentPage = pageable.getPageNumber();
         int startItem = currentPage * pageSize;
