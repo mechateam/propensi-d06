@@ -88,7 +88,7 @@ public class RequestModel implements Serializable {
     private String nama_pengaju;
 
     @Column(name = "id_approver", nullable = true)
-    private Long id_approver;
+    private Long idApprover;
 
 
     @ManyToOne(fetch = FetchType.LAZY, optional = true)
@@ -96,12 +96,6 @@ public class RequestModel implements Serializable {
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private UserModel resolver;
-
-    @ManyToOne(fetch = FetchType.LAZY, optional = true)
-    @JoinColumn(name = "id_manager", referencedColumnName = "id_user", nullable = true)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonIgnore
-    private UserModel manager;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = true)
     @JoinColumn(name = "id_departemen", referencedColumnName = "id_dept", nullable = true)
@@ -250,12 +244,12 @@ public class RequestModel implements Serializable {
         this.listFeedback = listFeedback;
     }
 
-    public Long getId_approver() {
-        return id_approver;
+    public Long getIdApprover() {
+        return idApprover;
     }
 
-    public void setId_approver(Long id_approver) {
-        this.id_approver = id_approver;
+    public void setIdApprover(Long idApprover) {
+        this.idApprover = idApprover;
     }
 
     public DepartemenModel getResolverDepartemen() {
@@ -264,14 +258,6 @@ public class RequestModel implements Serializable {
 
     public void setResolverDepartemen(DepartemenModel resolverDepartemen) {
         this.resolverDepartemen = resolverDepartemen;
-    }
-
-    public UserModel getManager() {
-        return manager;
-    }
-
-    public void setManager(UserModel manager) {
-        this.manager = manager;
     }
 }
 
