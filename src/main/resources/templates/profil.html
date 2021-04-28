@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title> Create Ticket </title>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+
+
+</head>
+
+<body>
+<div th:replace="fragments/fragment :: header"></div>
+<nav th:replace="fragments/fragment :: navbar"></nav>
+
+<div class="content-container">
+    <div class="container-fluid">
+        <div class="row">
+
+            <!--Page Name Header-->
+            <div class="col-md-6">
+                <div class="pageName">
+                    <h3>Profil</h3>
+                    <p>
+                        <a th:href="@{/user/profil}">Profil</a>
+                    </p>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-12">
+
+            <div class="tab-content">
+                <!--                    START TAB PROBLEM-->
+                <div class="tab-pane fade in active" id="problem">
+                    <div class="card">
+                        <div class="card-content">
+                            <!--                                for row header-->
+                            <div class="row">
+                                <div class="col-sm-7">
+                                    <div class="pageName">
+                                        <h4>Profil</h4>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3"></div>
+                                <div class="col-sm-2">
+                                    <a th:href="@{/user/changepass}" type="submit"
+                                       class="btn btn-fill btn-create text-center"> Change Password </a>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <br>
+                                <div class="col-sm-12">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            Username <br>
+                                            <input th:value="${user.username}" disabled="disabled"/>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            Departement <br>
+                                            <input th:value="${user.departemen.nama_departemen}" disabled="disabled"/>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <br>
+                                        <div class="col-sm-6">
+                                            Email <br>
+                                            <input th:value="${user.email}" disabled="disabled"/>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            No. Telp <br>
+                                            <input th:value="${user.no_hp}" disabled="disabled"/>
+                                        </div>
+                                        <div class="col-sm-6"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

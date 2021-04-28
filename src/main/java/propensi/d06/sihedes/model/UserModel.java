@@ -65,6 +65,18 @@ public class UserModel implements Serializable {
     @JoinColumn(name = "id_boa", referencedColumnName = "id_boa")
     private BOAModel boa;
 
+    @Lob
+    @Column(name="new_pass",nullable = true)
+    private String new_pass;
+
+    public String getNew_pass() {
+        return new_pass;
+    }
+
+    public void setNew_pass(String new_pass) {
+        this.new_pass = new_pass;
+    }
+
     @OneToMany(mappedBy = "resolver", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<RequestModel> listResolverRequest;
 
