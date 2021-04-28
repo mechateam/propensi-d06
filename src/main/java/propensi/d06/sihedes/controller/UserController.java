@@ -2,12 +2,10 @@ package propensi.d06.sihedes.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import propensi.d06.sihedes.model.RoleModel;
 import propensi.d06.sihedes.model.UserModel;
@@ -47,5 +45,33 @@ public class UserController {
         userService.addUser(user);
 
         return "redirect:/user/add";
+    }
+
+    @GetMapping("/profil")
+    public String profilePage(Model model){
+        UserModel user = userService.getUserbyUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        model.addAttribute("user",user);
+        return "profil";
+    }
+
+    @GetMapping("/changepass")
+    public String changePassPage(Model model){
+        UserModel user = userService.getUserbyUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        model.addAttribute("user",user);
+        return "change_pass";
+
+    }
+    @PostMapping("/changepass")
+    public String changePassSubmit(@ModelAttribute UserModel user, Model model, RedirectAttributes attributes) {
+        UserModel userLoggedIn = userService.getUserbyUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        model.addAttribute("user",userLoggedIn);
+        if (userService.changePass(user) != null){
+            model.addAttribute("message","Password Berhasil Diganti");
+            return "change_pass";
+        }
+        else {
+            model.addAttribute("message","Password anda salah");
+            return "change_pass";
+        }
     }
 }

@@ -1,6 +1,7 @@
 package propensi.d06.sihedes.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import propensi.d06.sihedes.model.DepartemenModel;
@@ -49,4 +50,22 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserModel getUserbyId(Long id){ return userDb.findById(id).get();}
+
+    @Override
+    public UserModel changePass(UserModel user){
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        UserModel targetUser = userDb.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        String existingPassword = user.getPassword();
+        String dbPassword = targetUser.getPassword();
+
+        if (passwordEncoder.matches(existingPassword,dbPassword)){
+            String pass = encrypt(user.getNew_pass());
+            targetUser.setPassword(pass);
+            userDb.save(targetUser);
+            return targetUser;
+        }
+        else {
+            return null;
+        }
+    }
 }
