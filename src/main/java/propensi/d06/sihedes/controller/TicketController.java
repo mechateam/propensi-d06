@@ -226,14 +226,14 @@ public class TicketController {
 //        if (problem.getStatus().getId_status() == 1 || problem.getStatus().getId_status() == 3 || problem.getStatus().getId_status() == 6 ){
 //            return "detailProblem";
 //        }
-        if (problem.getStatus().getId_status() == 4){
-            return "assignResolverProblem";
-        }
+        // if (problem.getStatus().getId_status() == 4){
+        //     return "assignResolverProblem";
+        // }
 //        else if (problem.getStatus().getId_status() == 5){
 //            return "individual-problem";
-        else {
+        // else {
             return "detailProblem";
-        }
+        // }
     }
 
     // @GetMapping("/problem/resolver/{id_problem}")
