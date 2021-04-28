@@ -18,4 +18,7 @@ public interface RequestService {
     Page<RequestModel> findPaginated(Pageable pageable, List<RequestModel> requests);
     RequestModel updateRequestStatus(RequestModel request);
     List<RequestModel> findAllRequestBasedOnIdApprover(UserModel user);
+    void makeCode(RequestModel request);
+    String getRandomChar(int length);
+    String getRandomInt(int length);
 }

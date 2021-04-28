@@ -21,6 +21,19 @@ public class RequestModel implements Serializable {
     private Long id_request;
 
     @NotNull
+    @Size(max=14)
+    @Column(name="codeRequest", nullable = false, unique = true)
+    private String codeRequest;
+
+    public String getCodeRequest() {
+        return codeRequest;
+    }
+
+    public void setCodeRequest(String codeRequest) {
+        this.codeRequest = codeRequest;
+    }
+
+    @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "created_date", nullable = false)
     private Date created_date;
