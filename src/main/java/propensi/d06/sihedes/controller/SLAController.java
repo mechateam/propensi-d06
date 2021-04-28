@@ -2,13 +2,16 @@ package propensi.d06.sihedes.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import propensi.d06.sihedes.model.DepartemenModel;
 import propensi.d06.sihedes.model.SLAModel;
+import propensi.d06.sihedes.model.UserModel;
 import propensi.d06.sihedes.service.DepartemenService;
 import propensi.d06.sihedes.service.SLAService;
+import propensi.d06.sihedes.service.UserService;
 
 import java.util.List;
 
@@ -21,11 +24,18 @@ public class SLAController {
     @Autowired
     DepartemenService departemenService;
 
+    @Autowired
+    UserService userService;
+
 
     @GetMapping("/sla")
     public String viewDepartmentSLA(Model model){
         List<DepartemenModel> listDepartment = departemenService.getListDepartment();
         model.addAttribute("listDepartment",listDepartment);
+
+        UserModel user = userService.getUserbyUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        model.addAttribute("user",user);
+
         return "daftar-department-sla";
     }
 
@@ -33,6 +43,10 @@ public class SLAController {
     public String viewAllSLA(Model model){
         List<SLAModel> listSLA = slaService.getListSLA();
         model.addAttribute("listSLA",listSLA);
+
+        UserModel user = userService.getUserbyUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        model.addAttribute("user",user);
+
         return "daftar-sla";
     }
 
@@ -44,17 +58,25 @@ public class SLAController {
             String departemenNama = departemenSpesifik.getNama_departemen();
             model.addAttribute("departemenNama",departemenNama);
             model.addAttribute("listSLA",listSLA);
+
+            UserModel user = userService.getUserbyUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+            model.addAttribute("user",user);
+
         return "daftar-sla";
     }
 
     @GetMapping("/sla/daftar/detail/{id}")
     public String detailSLA(
             @PathVariable(value = "id") Long id, Model model){
-        SLAModel sla = slaService.getSLAById(id);
-        String namaSla = sla.getNama_sla();
-        model.addAttribute("sla",sla);
-        model.addAttribute("namaSla",namaSla);
-        model.addAttribute("listBOA",sla.getListSLABOA());
+            SLAModel sla = slaService.getSLAById(id);
+            String namaSla = sla.getNama_sla();
+            model.addAttribute("sla",sla);
+            model.addAttribute("namaSla",namaSla);
+            model.addAttribute("listBOA",sla.getListSLABOA());
+
+            UserModel user = userService.getUserbyUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+            model.addAttribute("user",user);
+
         return "detail-sla";
     }
 
