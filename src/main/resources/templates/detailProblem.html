@@ -188,12 +188,31 @@
                         </a>
                       </div>
                       <div class="col-sm-3">
-                        <button
-                          type="submit"
-                          class="btn btn-fill btn-create text-center"
-                        >
+<!--                        <button-->
+<!--                          type="submit"-->
+<!--                          class="btn btn-fill btn-create text-center"-->
+<!--                        >-->
+<!--                          Assign-->
+<!--                        </button>-->
+                        <!-- Button trigger modal -->
+                        <button type="button" data-toggle="modal" data-target="#exampleModal" class="btn btn-fill btn-create text-center">
                           Assign
                         </button>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModal" tabindex="-3" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                          <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                              <div class="modal-body">
+                                Resolver Assigned!
+                              </div>
+                              <div class="modal-footer">
+                                <button type="submit" class="btn btn-fill btn-create text-center">Ok</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
                       </div>
                     </div>
                   </form>

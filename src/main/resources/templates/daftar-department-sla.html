@@ -47,7 +47,7 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-3"></div>
-                                <div class="col-sm-2">
+                                <div class="col-sm-2" th:if="${user.id_role.id_role == 1}">
                                     <a th:href="@{/sla/daftar/tambah}"type="submit" class="btn btn-fill btn-create text-center"> Create </a>
                                 </div>
                             </div>

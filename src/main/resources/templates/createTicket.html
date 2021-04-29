@@ -130,15 +130,11 @@
                                         </div>
                                         <div class="row">
                                             <br>
-                                            <div class="col-sm-3">
+                                            <div class="col-sm-6">
                                                 Department <br>
                                                 <input type="text" class="form-control"  name="requestDepartemen" th:value="${departemen.id_dept}" th:field="*{requestDepartemen}" th:placeholder="${departemen.nama_departemen}" th:readonly="true"/>
                                             </div>
 <!--                                            <div class="col-sm-1"></div>-->
-                                            <div class="col-sm-3">
-                                                Manager's Name <br>
-<!--                                                <input type="text" class="form-control"  name="manager"  th:value="${manager.id_user}" th:field="*{manager}" th:utext="${manager.nama}" th:readonly="true"/>-->
-                                            </div>
                                             <div class="col-sm-1"></div>
                                             <div class="col-sm-5">
                                                 Target Date Required <br>
@@ -160,7 +156,7 @@
                                         <div class="row">
                                             <br>
                                             <div class="col-sm-6">
-                                                SLA <br>
+                                                Service Department <br>
                                                 <select id="sla_departemen" class="browser-default custom-select">
                                                     <option th:each="dept : ${deptList}"
                                                             th:value="${dept.id_dept}"
@@ -170,7 +166,7 @@
                                             </div>
                                             <div class="col-sm-1"></div>
                                             <div class="col-sm-5">
-                                                Services <br>
+                                                Service Catalog <br>
                                                 <select name="sla" id="sla_service" class="browser-default custom-select">
 
                                                 </select>

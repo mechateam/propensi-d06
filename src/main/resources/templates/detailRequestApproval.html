@@ -198,16 +198,20 @@
                         <div class="created-by">
                             <p th:text="'Created by '+ ${request.pengaju.username}"></p>
                         </div>
-                        <div th:if="${user.id_user == userApproval.id_user}" class="row detail-row">
-                            <div class="col-sm-3">
-                                <form class="button btn-primary" th:action="@{/request/approve}" th:object="${request}" method="POST">
+                        <div th:if="${user.id_user == userApproval.id_user}" class="row action">
+                            <div class="col-sm-2">
+                                <form th:action="@{/request/approve}" th:object="${request}" method="POST">
                                     <input type="hidden" th:field="*{id_request}"/>
-                                    <input type="submit" value="Approve"/>
+                                    <input type="submit" value="Approve" class="btn btn-fill btn-create text-center"/>
                                 </form>
-                                <form class="button btn-warning" th:action="@{/request/reject}" th:object="${request}" method="POST">
+                            </div>
+                            <div class="col-sm-8"></div>
+                                <div class="col-sm-2">
+                                <form th:action="@{/request/reject}" th:object="${request}" method="POST">
                                     <input type="hidden" th:field="*{id_request}"/>
-                                    <input type="submit" value="Reject"/>
+                                    <input type="submit" value="Reject" class="btn btn-fill btn-create text-center"/>
                                 </form>
+                                </div>
                             </div>
                         </div>
                     </div>
