@@ -23,9 +23,21 @@
             </div>
           </div>
           <div class="col-sm-6">
-            <div class="statusName">
-              <br />
-              <h4 th:text="${problem.status.namaStatus}"></h4>
+            <div class="statusName" th:if="${problem.status.id_status == 4}">
+              <br/>
+              <h5 class="wfa" th:text="${problem.status.namaStatus}"></h5>
+            </div>
+            <div class="statusName" th:if="${problem.status.id_status == 5}">
+              <br/>
+              <h5 class="statAssigned" th:text="${problem.status.namaStatus}"></h5>
+            </div>
+            <div class="statusName" th:if="${problem.status.id_status == 6}">
+              <br/>
+              <h5 class="statProgress" th:text="${problem.status.namaStatus}"></h5>
+            </div>
+            <div class="statusName" th:if="${problem.status.id_status == 7}">
+              <br/>
+              <h5 class="statDone" th:text="${problem.status.namaStatus}"></h5>
             </div>
           </div>
         </div>
@@ -148,7 +160,7 @@
                 </div>
                 <!-- assign to individual resolver -->
                 <div
-                  class="row-action"
+                  class="row detail-row"
                   th:if="${problem.status.id_status == 5 && user.departemen.id_dept == problem.resolverDepartemen.id_dept}"
                 >
                   <form
@@ -234,7 +246,7 @@
                         data-toggle="modal"
                         data-target="#changeStatus"
                       >
-                        Accept
+                        Done
                       </button>
                     </form>
                   </div>
