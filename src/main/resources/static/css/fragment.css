@@ -202,7 +202,7 @@ a {
 
 .col-search {
   padding-top: 10px;
-  margin-bottom: 7px;
+  /*margin-bottom: 7px;*/
   color: #545655;
   float: right;
 }
@@ -316,4 +316,47 @@ tr:hover td {
   margin-bottom: 40px;
 }
 
+.wfa {
+  background-color: #4774B8;
+  color: white;
+  padding: 8px;
+  border-radius: 20px;
+  min-width: 163px;
+  text-align: center;
+}
 
+.statApproval{
+  background-color: #2695A1;
+  color: white;
+  padding: 8px;
+  border-radius: 20px;
+  min-width: 163px;
+  text-align: center;
+}
+
+.statAssigned{
+  background-color: #1E4C92;
+  color: white;
+  padding: 8px;
+  border-radius: 20px;
+  min-width: 163px;
+  text-align: center;
+}
+
+.statProgress{
+  background-color: #E8D000;
+  color: white;
+  padding: 8px;
+  border-radius: 20px;
+  min-width: 163px;
+  text-align: center;
+}
+
+.statDone {
+  background-color: #7DAB5D;
+  color: white;
+  padding: 8px;
+  border-radius: 20px;
+  min-width: 163px;
+  text-align: center;
+}
