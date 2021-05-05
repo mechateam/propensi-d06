@@ -1,34 +1,21 @@
 package propensi.d06.sihedes.controller;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
-import org.springframework.beans.factory.parsing.Problem;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
 import propensi.d06.sihedes.model.*;
 import propensi.d06.sihedes.repository.SLADb;
 import propensi.d06.sihedes.service.*;
-import org.springframework.beans.factory.annotation.*;
-import propensi.d06.sihedes.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import propensi.d06.sihedes.service.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import java.awt.print.Book;
-import java.lang.reflect.Type;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-
-import javax.print.DocFlavor.STRING;
-import javax.validation.constraints.Null;
 
 @Controller
 public class TicketController {
@@ -498,16 +485,28 @@ public class TicketController {
     // }
 
 
-    @GetMapping("/ticket/add")
-    public String addTicket(Model model) {
-        model.addAttribute("problem", new ProblemModel());
+    @GetMapping("/request/add")
+    public String addRequest(Model model) {
+//        model.addAttribute("problem", new ProblemModel());
         UserModel user = userService.getUserbyUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         DepartemenModel departemen = user.getDepartemen();
 
         model.addAttribute("deptList",departemenService.getListDepartment());
         model.addAttribute("departemen", departemen);
         model.addAttribute("request", new RequestModel());
-        return "createTicket";
+        return "createRequest";
+    }
+
+    @GetMapping("/problem/add")
+    public String addProblem(Model model) {
+        model.addAttribute("problem", new ProblemModel());
+        UserModel user = userService.getUserbyUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        DepartemenModel departemen = user.getDepartemen();
+
+        model.addAttribute("deptList",departemenService.getListDepartment());
+        model.addAttribute("departemen", departemen);
+//        model.addAttribute("request", new RequestModel());
+        return "createProblem";
     }
 
     @PostMapping("/problem/add")
@@ -611,5 +610,11 @@ public class TicketController {
     @GetMapping("/loadslabydepartemen/{id}")
     public List<SLAModel> loadSLAByDepartemen(@PathVariable Long id){
         return this.slaDb.findAllByDepartemen(departemenService.findDepartemenById(id));
+    }
+
+    @GetMapping("/slm")
+    public String slm(Model model) {
+
+        return "serviceLevelManagement";
     }
 }
