@@ -60,33 +60,45 @@
                                 <div class="col-sm-12">
                                     <form th:action="@{/sla/daftar/tambah}" th:object="${sla}" method="POST">
                                         <div class="row">
-                                            <div class="col-sm-6">
+                                            <div class="col-sm-8">
                                                 Service Catalog Name <br>
                                                 <input class="form-control" type="text" name="nama_sla" required/>
                                             </div>
                                         </div>
                                         <br>
                                         <div class="row">
-                                            <div class="col-sm-6">
+                                            <div class="col-sm-8">
                                                 Description <br>
                                                 <input class="form-control" type="text" name="description" required/>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <br>
-                                            <div class="col-sm-6">
+                                            <div class="col-sm-8">
                                                 Completion Time <br>
-                                                <input class="form-control" type="text" name="completion_time" required/>
+<!--                                                <input class="form-control" type="text" name="completion_time" required/>-->
+                                                <div class="col-sm-4">
+                                                    <input class="form-control" type="text" name="completion_time_number" required/>
+                                                </div>
+                                                <div class="col-sm-8">
+                                                <select name="completion_time_period" class="form-control">
+                                                    <option selected value="">-- Pilih Periode --</option>
+                                                    <option value="Days">Days</option>
+                                                    <option value="Weeks">Weeks</option>
+                                                    <option value="Months">Months</option>
+                                                </select>
+                                                </div>
                                             </div>
-                                            <div class="col-sm-6"></div>
+                                            <div class="col-sm-8"></div>
                                         </div>
                                         <div class="row">
                                             <br>
-                                            <div class="col-sm-6">
+                                            <div class="col-sm-8">
                                                 Department <br>
                                                 <select name="departemen" class="form-control">
                                                     <option selected value="">-- Pilih Departemen --</option>
-                                                    <option th:each="jenis_departemen: ${listDepartemen}" th:value="${jenis_departemen.id_dept}" th:text="${jenis_departemen.nama_departemen}"></option>
+                                                    <option th:each="jenis_departemen: ${listDepartemen}" th:value="${jenis_departemen.id_dept}"
+                                                            th:text="${jenis_departemen.nama_departemen}"></option>
                                                 </select>
                                             </div>
                                         </div>

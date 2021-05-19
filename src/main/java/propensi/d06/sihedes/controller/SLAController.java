@@ -54,10 +54,13 @@ public class SLAController {
     public String viewSlaDept(
             @PathVariable(value="id_dept") Long id_dept, Model model){
             DepartemenModel departemenSpesifik = departemenService.findDepartemenById(id_dept);
+
             List<SLAModel> listSLA = slaService.getAllSLAByDepartemen(departemenSpesifik);
+            model.addAttribute("listSLA",listSLA);
+
             String departemenNama = departemenSpesifik.getNama_departemen();
             model.addAttribute("departemenNama",departemenNama);
-            model.addAttribute("listSLA",listSLA);
+
 
             UserModel user = userService.getUserbyUsername(SecurityContextHolder.getContext().getAuthentication().getName());
             model.addAttribute("user",user);
@@ -88,9 +91,19 @@ public class SLAController {
     }
 
     @PostMapping("/sla/daftar/tambah")
-    public String postTambahSLA(@ModelAttribute SLAModel sla, Model model){
+    public String postTambahSLA(
+            @ModelAttribute SLAModel sla,
+            @RequestParam("completion_time_number") String completion_time_number,
+            @RequestParam("completion_time_period") String completion_time_period,
+            Model model){
+        sla.setCompletion_time(completion_time_number + " " + completion_time_period);
+        System.out.println(completion_time_number);
         slaService.addSLA(sla);
-        return "redirect:/sla";
+
+        String link = "redirect:/sla/daftar/" + sla.getDepartemen().getId_dept();
+        return link;
+
+//        return "redirect:/sla";
     }
 
     @GetMapping("/sla/daftar/update/{id}")
@@ -105,13 +118,18 @@ public class SLAController {
     @PostMapping("/sla/daftar/update")
     public String putUpdateSLA(@ModelAttribute SLAModel sla, Model model){
         slaService.updateSLA(sla);
-        return "redirect:/sla";
+
+        String link = "redirect:/sla/daftar/" + sla.getDepartemen().getId_dept();
+        return link;
     }
 
     @GetMapping("/sla/daftar/delete/{id}")
     public String deleteSLA(@PathVariable Long id, Model model){
         SLAModel sla = slaService.getSLAById(id);
+        String link = "redirect:/sla/daftar/" + slaService.getSLAById(id).getDepartemen().getId_dept();
+
         slaService.deleteSLA(sla);
-        return "redirect:/sla";
+
+        return link;
     }
 }
