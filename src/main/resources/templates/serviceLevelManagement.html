@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title> Service Level Management </title>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+
+
+</head>
+
+<body>
+<div th:replace="fragments/fragment :: header"></div>
+<nav th:replace="fragments/fragment :: navbar"></nav>
+
+<div class="content-container">
+    <div class="container-fluid">
+        <div class="row">
+
+            <!--Page Name Header-->
+            <div class="col-md-6">
+                <div class="pageName">
+                    <h3>Service Level Management </h3>
+                    <p>SLM</p>
+                </div>
+            </div>
+
+        </div>
+        <br>
+
+        <!--                        START YOUR CONTENT                      -->
+
+        <!--Tab Nav-->
+        <div class="col-md-12">
+            <div class="row">
+                    <a id="download" class="btn btn-fill btn-create text-center float-end"> Download </a>
+               <br>
+            </div>
+            <div class="row">
+                    <div class="card">
+                        <div class="card-content">
+                            <!--for row header-->
+                            <div class="row">
+                                <div class="col-sm-7">
+                                    <div class="pageName">
+                                        <h4>Leaderboard</h4>
+                                    </div>
+                                </div>
+                                <div class="col-sm-5"></div>
+                            </div>
+
+                            <!--                                            mulai table-->
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <table>
+                                        <thead>
+                                        <tr>
+                                            <th title="Field #1">Rank</th>
+                                            <th title="Field #2">Department</th>
+                                            <th title="Field #3">Num of Ticket</th>
+                                            <th title="Field #3">% of Ticket Done</th>
+                                        </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+            </div>
+</div>
+    </div>
+</div>
+</body>
+
+
+
+</html>

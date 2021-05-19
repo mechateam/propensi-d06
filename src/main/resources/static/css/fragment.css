@@ -326,7 +326,7 @@ tr:hover td {
 }
 
 .statApproval{
-  background-color: #2695A1;
+  background-color: #18D178;
   color: white;
   padding: 8px;
   border-radius: 20px;
@@ -335,7 +335,7 @@ tr:hover td {
 }
 
 .statAssigned{
-  background-color: #1E4C92;
+  background-color: #CD74CF;
   color: white;
   padding: 8px;
   border-radius: 20px;
@@ -359,4 +359,10 @@ tr:hover td {
   border-radius: 20px;
   min-width: 163px;
   text-align: center;
+}
+
+#download{
+  float: right;
+  width: 145px;
+  margin-bottom: 20px;
 }
