@@ -417,7 +417,7 @@ public class TicketController {
         log.setProblem(newProb);
         log.setCreatedBy(user);
         logProblemService.addLog(log);
-        return "detailProblem";
+        return "redirect:/tickets";
     }
 
 //    @Deprecated
