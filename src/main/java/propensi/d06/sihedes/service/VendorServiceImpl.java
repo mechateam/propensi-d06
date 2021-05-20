@@ -30,20 +30,4 @@ public class VendorServiceImpl implements VendorService {
     @Override
     public void addVendor(VendorModel vendor){ vendorDb.save(vendor); }
 
-//    @Override
-//    public VendorModel updateVendor(VendorModel vendor){
-//        VendorModel targetVendor = vendorDb.findById(vendor.getid_vendor()).get();
-//        targetVendor.setNa(sla.getNama_sla());
-//        targetVendor.setDepartemen(sla.getDepartemen());
-//        targetSLA.setDescription(sla.getDescription());
-//        targetSLA.setCompletion_time(sla.getCompletion_time());
-//
-//        return targetSLA;
-//    }
-
-//    @Override
-//    public void deleteVendor(VendorModel vendor){
-//        vendorDb.delete(vendorDb.findById(vendor.getId_vendor()).get());
-//    }
-
 }
