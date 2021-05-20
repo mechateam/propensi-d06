@@ -97,13 +97,11 @@ public class SLAController {
             @RequestParam("completion_time_period") String completion_time_period,
             Model model){
         sla.setCompletion_time(completion_time_number + " " + completion_time_period);
-        System.out.println(completion_time_number);
         slaService.addSLA(sla);
 
         String link = "redirect:/sla/daftar/" + sla.getDepartemen().getId_dept();
         return link;
 
-//        return "redirect:/sla";
     }
 
     @GetMapping("/sla/daftar/update/{id}")
