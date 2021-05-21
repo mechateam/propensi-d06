@@ -2,10 +2,7 @@ package propensi.d06.sihedes.service;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import propensi.d06.sihedes.model.BOAModel;
@@ -64,7 +61,7 @@ public class RequestServiceImpl implements RequestService{
     }
 
     @Override
-    public List<RequestModel> findAll() { return requestDb.findAll(); }
+    public List<RequestModel> findAll() { return requestDb.findAll(Sort.by("codeRequest").ascending()); }
     @Override
     public List<RequestModel> getRequestByDepartment(DepartemenModel departemen){ return  requestDb.findAllByResolverDepartemen(departemen); }
 

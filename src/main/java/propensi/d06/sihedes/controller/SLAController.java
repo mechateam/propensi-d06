@@ -6,9 +6,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import propensi.d06.sihedes.model.BOAModel;
 import propensi.d06.sihedes.model.DepartemenModel;
 import propensi.d06.sihedes.model.SLAModel;
 import propensi.d06.sihedes.model.UserModel;
+import propensi.d06.sihedes.service.BOAService;
 import propensi.d06.sihedes.service.DepartemenService;
 import propensi.d06.sihedes.service.SLAService;
 import propensi.d06.sihedes.service.UserService;
@@ -26,6 +28,9 @@ public class SLAController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    BOAService boaService;
 
 
     @GetMapping("/sla")
@@ -86,7 +91,9 @@ public class SLAController {
     @GetMapping("/sla/daftar/tambah")
     public String formTambahSLA(Model model){
         List<DepartemenModel> listDepartemen = departemenService.findAll();
+        List<BOAModel> listBOA = boaService.findAll();
         model.addAttribute("listDepartemen",listDepartemen);
+        model.addAttribute("listBOA",listBOA);
         return "form-add-sla";
     }
 
