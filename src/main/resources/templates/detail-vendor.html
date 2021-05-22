@@ -81,39 +81,41 @@
                                         <p th:text="':  ' + ${vendor.description}"></p>
                                     </div>
                                 </div>
+                                <br><br>
+                                <div class="row">
+                                    <div class="col-sm-2">
+                                        <a data-toggle="modal" data-target="#exampleModal" class="btn btn-dark text-center"> Delete </a>
+                                    </div>
+                                    <div class="col-sm-4">
+                                    </div>
+                                    <div class="col-sm-3"></div>
+                                    <div class="col-sm-2">
+                                        <a th:href="@{/vendor/update/}+${vendor.id_vendor}" class="btn btn-fill btn-create text-center"> Edit </a>
+                                    </div>
+                                </div>
+
+
+                                <!-- Modal -->
+                                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-body">
+                                                <p>
+                                                    <span>Are you sure to delete this</span>
+                                                    <span th:text="${vendor.nama}"></span>
+                                                </p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <a class="btn btn-secondary" data-dismiss="modal">Close</a>
+                                                <a class="btn btn-dark" th:href="@{/vendor/delete/}+${vendor.id_vendor}">Delete</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
                                 <br><br>
                                 <h4>Riwayat</h4>
-<!--                                <div class="log-content">-->
-<!--                                    <div class="row" th:if="${!listBOA.isEmpty()}">-->
-<!--                                        <div class="col-md-12">-->
-<!--                                            <table>-->
-<!--                                                <thead>-->
-<!--                                                <tr>-->
-<!--                                                    <th title="Field #1">No</th>-->
-<!--                                                    <th title="Field #2">Nama</th>-->
-<!--                                                    <th title="Field #3">Nama Departemen</th>-->
-<!--                                                    <th title="Field #4">Rank</th>-->
-<!--                                                </tr>-->
-<!--                                                </thead>-->
-<!--                                                <tbody>-->
-<!--                                                <tr th:each="slaBOA, iterationStatus: ${listBOA}">-->
-<!--                                                    <td th:text="${iterationStatus.count}"></td>-->
-<!--                                                    <td th:text="${slaBOA.boa.user.getNama()}"></td>-->
-<!--                                                    <td th:text="${slaBOA.boa.departemen.nama_departemen}"></td>-->
-<!--                                                    <td th:text="${slaBOA.boa.rank}"></td>-->
-<!--                                                    <td>-->
-<!--                                                    </td>-->
-<!--                                                </tr>-->
-<!--                                                </tbody>-->
-<!--                                            </table>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                    <div th:unless="${!listBOA.isEmpty()}">-->
-<!--                                        <br>-->
-<!--                                        <br>-->
-<!--                                        <p class="text-center">Tidak ada BoA</p>-->
-<!--                                    </div>-->
+
                                 </div>
                             </div>
                         </div>
