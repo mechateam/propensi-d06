@@ -56,5 +56,28 @@ public class VendorController {
         return "detail-vendor";
     }
 
+    @GetMapping("/vendor/update/{id}")
+    public String formUpdateVendor(@PathVariable Long id, Model model){
+        VendorModel vendor = vendorService.getVendorbyId(id);
+        model.addAttribute("vendor",vendor);
+        return "form-update-vendor";
+    }
+
+    @PostMapping("/vendor/update")
+    public String putUpdateSLA(@ModelAttribute VendorModel vendor, Model model){
+        vendorService.updateVendor(vendor);
+
+        String link = "redirect:/vendor/" + vendor.getId_vendor();
+        return link;
+    }
+
+    @GetMapping("/vendor/delete/{id}")
+    public String deleteVendor(@PathVariable Long id, Model model){
+        VendorModel vendor = vendorService.getVendorbyId(id);
+        vendorService.deleteVendor(vendor);
+        return "redirect:/vendor";
+    }
+
+
 
 }

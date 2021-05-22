@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title> Update Vendor </title>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+
+
+</head>
+
+<body>
+<div th:replace="fragments/fragment :: header"></div>
+<nav th:replace="fragments/fragment :: navbar"></nav>
+
+<div class="content-container">
+    <div class="container-fluid">
+        <div class="row">
+
+            <!--Page Name Header-->
+            <div class="col-md-6">
+                <div class="pageName">
+                    <h3>Update Vendor</h3>
+                    <p>
+                        <a th:href="@{/vendor}" >Vendor</a>
+                        <span> > Edit Vendor > </span>
+                        <span th:text="${vendor.nama}"></span>
+                    </p>
+                </div>
+            </div>
+
+        </div>
+        <br>
+
+        <!--                        START YOUR CONTENT                      -->
+
+        <!--Tab Nav-->
+        <div class="col-md-6">
+
+            <div class="tab-content">
+                <!--                    START TAB PROBLEM-->
+                <div class="card">
+                    <div class="card-content">
+                        <!--for row header-->
+                        <div class="row">
+                            <div class="col-sm-7">
+                                <div class="pageName">
+                                    <h4>Edit Vendor</h4>
+                                </div>
+                            </div>
+                            <div class="col-sm-5"></div>
+                        </div>
+
+
+                        <!-- mulai table-->
+                        <div class="row">
+                            <br>
+                            <div class="col-sm-12">
+                                <form th:action="@{/vendor/update}" th:object="${vendor}" method="POST">
+                                    <input type="hidden" th:field="*{id_vendor}"/>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            Vendor Name <br>
+                                            <input class="form-control" type="text" th:field="*{nama}" required/>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            Phone <br>
+                                            <input class="form-control" type="text" th:field="*{no_telp}" required/>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            Description <br>
+                                            <input class="form-control" type="text" th:field="*{description}" required/>
+                                        </div>
+                                    </div>
+
+                                    <!-- Button trigger modal -->
+                                    <button type="button" data-toggle="modal" data-target="#exampleModal" class="btn btn-fill btn-create text-center">
+                                        Update
+                                    </button>
+
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="exampleModal" tabindex="-3" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-body">
+                                                    Vendor Updated!
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="submit" class="btn btn-fill btn-create text-center">Ok</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </form> </div></div></div></div>
+</body>
+</html>
