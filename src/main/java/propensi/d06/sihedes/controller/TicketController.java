@@ -59,6 +59,9 @@ public class TicketController {
     private LogRequestService logRequestService;
 
     @Autowired
+    private VendorService vendorService;
+
+    @Autowired
     private SLADb slaDb;
 
 
@@ -646,4 +649,31 @@ public class TicketController {
 
         excelExporter.export(response);
     }
+
+    @GetMapping("/request/vendor/{id_request}")
+    public String vendorRequest(
+            @PathVariable(value="id_request") Long id_request,
+            Model model) {
+        RequestModel req = requestService.getRequestById(id_request);
+        String subject = req.getSubject();
+        List<VendorModel> listVendor = vendorService.getListVendor();
+        model.addAttribute("listVendor",listVendor);
+        model.addAttribute("request", req);
+        return "assignVendor";
+    }
+
+    @PostMapping("/request/done")
+    public String doneReq(
+            @ModelAttribute RequestModel request,
+            Model model) {
+        RequestModel newReq = requestService.vendorRequest(request);
+        UserModel user = userService.getUserbyUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        List<LogRequestModel> logs = newReq.getListLogRequest();
+        model.addAttribute("requestManager",userService.getUserbyId(user.getId_user()));
+        model.addAttribute("request",newReq);
+        model.addAttribute("logs", logs);
+        return "detailRequest";
+    }
+
+
 }

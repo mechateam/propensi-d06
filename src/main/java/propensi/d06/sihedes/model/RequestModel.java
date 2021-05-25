@@ -148,6 +148,20 @@ public class RequestModel implements Serializable {
     @JsonIgnore
     private StatusModel status;
 
+    @ManyToOne(fetch = FetchType.EAGER, optional = true)
+    @JoinColumn(name = "id_vendor", referencedColumnName = "id_vendor", nullable = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private VendorModel reqVendor;
+
+    public VendorModel getReqVendor() {
+        return reqVendor;
+    }
+
+    public void setReqVendor(VendorModel reqVendor) {
+        this.reqVendor = reqVendor;
+    }
+
     @OneToMany(mappedBy = "request", fetch = FetchType.LAZY)
     private List<RequestBOAModel> listRequestBOA;
 

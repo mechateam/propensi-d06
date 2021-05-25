@@ -170,7 +170,7 @@
                                     <p th:text="': '+ ${request.background}"></p>
                                 </div>
                             </div>
-                            <div class="container-fluid"th:if="${request.status.id_status == 5}">
+                            <div th:if="${request.status.id_status == 5}">
                                 <form th:action="@{/request/update/}"  th:object="${request}" method="POST">
                                     <input type="hidden" th:field="*{id_request}"/>
                                     <div class="row detail-row">
@@ -200,8 +200,13 @@
                             </div>
                         </div>
                         <div class="row-action" th:if = "${request.status.id_status == 6}">
-                            <div class="col-sm-9"></div>
-                            <div class="col-sm-3">
+                            <div class="col-sm-2">
+                                <a th:href="@{/request/vendor/}+${request.id_request}" class="btn btn-fill btn-create text-center">  Assign Vendor
+
+                                </a>
+                            </div>
+                            <div class="col-sm-8"></div>
+                            <div class="col-sm-2">
                                 <form th:action="@{/request/update/}"  th:object="${request}" method="POST">
                                     <input type="hidden" th:field="*{id_request}"/>
                                     <button class="btn btn-fill btn-create text-center" data-toggle="modal"
