@@ -24,7 +24,7 @@ public class VendorModel {
 
     @NotNull
     @Column(name = "no_telp", nullable = false)
-    private Integer no_telp;
+    private Long no_telp;
 
     @NotNull
     @Size(max = 255)
@@ -60,11 +60,11 @@ public class VendorModel {
         this.nama = nama;
     }
 
-    public Integer getNo_telp() {
+    public Long getNo_telp() {
         return no_telp;
     }
 
-    public void setNo_telp(Integer no_telp) {
+    public void setNo_telp(Long no_telp) {
         this.no_telp = no_telp;
     }
 
