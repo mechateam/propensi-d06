@@ -72,11 +72,57 @@ public class TicketController {
             @RequestParam("page") Optional<Integer> page,
             @RequestParam("size") Optional<Integer> size,
             Model model) {
+
+        UserModel user = userService.getUserbyUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        DepartemenModel dept = user.getDepartemen();
+
+        // ProblemModel
+        List<ProblemModel> listProblem = new ArrayList<>();
+        List<RequestModel> listRequest = new ArrayList<>();
+        if(user.getId_role().getId_role() == Long.parseLong("2")) {
+            List<ProblemModel> problems = problemService.findAll();
+            List<RequestModel> requests = requestService.findAll();
+            for(ProblemModel p : problems){
+                listProblem.add(p);
+            }
+            for(RequestModel r : requests){
+                listRequest.add(r);
+            }
+        }
+        else if (user.getId_role().getId_role() == Long.parseLong("3")){
+            List<ProblemModel> problems = problemService.getProblemByPengaju(user);
+            List<RequestModel> requests = requestService.getRequestByPengaju(user);
+            for(ProblemModel p : problems){
+                listProblem.add(p);
+            }
+            for(RequestModel r : requests){
+                listRequest.add(r);
+            }
+        }
+        else {
+            List<ProblemModel> problems = problemService.getProblemByDepartemen(dept);
+            List<RequestModel> requests = requestService.getRequestByDepartment(dept);
+            for(ProblemModel p : problems){
+                listProblem.add(p);
+            }
+            for(RequestModel r : requests){
+                listRequest.add(r);
+            }
+        }
+        
+        //Checking
+        boolean hasProblem = listProblem.size() > 0;
+        model.addAttribute("hasProblem", hasProblem);
+        boolean hasRequest = listRequest.size() > 0;
+        model.addAttribute("hasRequest", hasRequest);
+
+
+
         int currentPage = page.orElse(1);
         int pageSize = size.orElse(5);
 
-        Page<RequestModel> requestPage = requestService.findPaginated(PageRequest.of(currentPage - 1, pageSize), requestService.findAll());
-        Page<ProblemModel> problemPage = problemService.findPaginated(PageRequest.of(currentPage - 1, pageSize), problemService.findAll());
+        Page<RequestModel> requestPage = requestService.findPaginated(PageRequest.of(currentPage - 1, pageSize), listRequest);
+        Page<ProblemModel> problemPage = problemService.findPaginated(PageRequest.of(currentPage - 1, pageSize), listProblem);
 
         model.addAttribute("requestPage", requestPage);
         model.addAttribute("problemPage", problemPage);
@@ -97,19 +143,9 @@ public class TicketController {
             model.addAttribute("pageNumbersProblem", pageNumbersProblem);
         }
 
-        // ProblemModel
-        List<ProblemModel> listProblem = problemService.findAll();
+
         model.addAttribute("listProblem", listProblem);
-
-        // RequestModel
-        List<RequestModel> listRequest = requestService.findAll();
         model.addAttribute("listRequest", listRequest);
-
-        //Checking
-        boolean hasProblem = listProblem.size() > 0;
-        model.addAttribute("hasProblem", hasProblem);
-        boolean hasRequest = listRequest.size() > 0;
-        model.addAttribute("hasRequest", hasRequest);
 
         // Return view template yang diinginkan
         return "allTickets";

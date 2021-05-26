@@ -173,5 +173,9 @@ public class ProblemServiceImpl implements ProblemService{
         return requestPage;
     }
 
+    @Override
+    public List<ProblemModel> getProblemByPengaju(UserModel user){
+        return problemDb.findAllByPengaju(user);
+    }
 
 }

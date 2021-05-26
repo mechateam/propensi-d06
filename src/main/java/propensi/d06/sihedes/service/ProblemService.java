@@ -10,6 +10,7 @@ public interface ProblemService {
     void updateProblem(ProblemModel problem);
     DepartemenModel getDepById(Long id);
     List<ProblemModel> findAll();
+    List<ProblemModel> getProblemByPengaju(UserModel user);
     List<ProblemModel> getProblemByDepartemen(DepartemenModel departemen);
     ProblemModel findProblemById(Long id);
     void addProblem(ProblemModel problem);

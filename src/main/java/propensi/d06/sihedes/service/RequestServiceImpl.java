@@ -274,6 +274,12 @@ public class RequestServiceImpl implements RequestService{
     }
 
     @Override
+    public List<RequestModel> getRequestByPengaju(UserModel user){
+        return requestDb.findAllByPengaju(user);
+    }
+
+
+    @Override
     public RequestModel vendorRequest(RequestModel request) {
         RequestModel targetRequest = requestDb.findById(request.getId_request()).get();
         try {
