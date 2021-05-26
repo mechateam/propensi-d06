@@ -586,7 +586,7 @@ public class TicketController {
         UserModel user = userService.getUserbyUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         LogRequestModel log = new LogRequestModel();
         log.setCreatedBy(user);
-        log.setDescription("Request Created");
+        log.setDescription("Created, Waiting for Approval");
         log.setPosted_date(new Date());
         log.setRequest(request);
         logRequestService.addLog(log);
