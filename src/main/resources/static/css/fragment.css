@@ -6,6 +6,7 @@ a {
   color: #7dab5d;
 }
 
+
 .sidebar-container {
   position: fixed;
   width: 230px;
@@ -37,6 +38,7 @@ a {
   /*margin-bottom: 10px;*/
 }
 
+
 .upper-logo {
   float: right;
 }
@@ -49,11 +51,32 @@ a {
   color: #656867;
 }
 
+/**/
+.coba{
+  position: absolute;
+  bottom: 90px;
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+
+}
+
 .sidebar-navigation {
   padding: 0;
   margin: 0;
   list-style-type: none;
   position: relative;
+}
+/**/
+
+/**/
+.coba li {
+  background-color: transparent;
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  line-height: 20px;
+  /*padding: 5px 0px;*/
 }
 
 .sidebar-navigation li {
@@ -65,17 +88,20 @@ a {
   /*padding: 5px 0px;*/
 }
 
-.sidebar-navigation li a {
+.sidebar-navigation li a,
+.coba li a {
   padding: 10px 15px 10px 30px;
   display: block;
   color: #656867;
 }
 
-.sidebar-navigation li .fa {
+.sidebar-navigation li .fa,
+.coba li .fa{
   margin-right: 10px;
 }
 
-.sidebar-navigation li a:focus {
+.sidebar-navigation li a:focus,
+.coba li a:focus{
   text-decoration: none;
   outline: none;
   color: white;
@@ -359,6 +385,13 @@ tr:hover td {
   border-radius: 20px;
   min-width: 163px;
   text-align: center;
+}
+
+.tableWfa {
+  color: #4774B8;
+  padding: 1px;
+  text-align: center;
+  font-size: 12px;
 }
 
 #download{

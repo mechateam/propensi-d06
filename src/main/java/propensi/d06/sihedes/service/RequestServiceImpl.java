@@ -272,4 +272,23 @@ public class RequestServiceImpl implements RequestService{
     public List<RequestModel> findAllRequestBasedOnIdApprover(UserModel user){
         return requestDb.findAllByIdApprover(user.getId_user());
     }
+
+    @Override
+    public RequestModel vendorRequest(RequestModel request) {
+        RequestModel targetRequest = requestDb.findById(request.getId_request()).get();
+        try {
+            UserModel user = userDb.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+            long idStatus = targetRequest.getStatus().getId_status();
+            long newStatus = idStatus+1;
+            targetRequest.setReqVendor(request.getReqVendor());
+            StatusModel status = statusDb.findById(newStatus).get();
+            targetRequest.setStatus(status);
+                Date dateNow = new java.util.Date();
+                targetRequest.setFinished_date(dateNow);
+            requestDb.save(targetRequest);
+            return targetRequest;
+        } catch (NullPointerException nullPointerException) {
+            return null;
+        }
+    }
 }

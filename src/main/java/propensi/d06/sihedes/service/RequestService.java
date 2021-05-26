@@ -13,6 +13,7 @@ public interface RequestService {
     List<RequestModel> getRequestByDepartment(DepartemenModel departemen);
     RequestModel getRequestById(Long id);
     RequestModel updateApprovalRequest(RequestModel request);
+    RequestModel vendorRequest(RequestModel request);
     RequestModel rejectApprovalRequest(RequestModel request);
     void addRequest(RequestModel request);
     Page<RequestModel> findPaginated(Pageable pageable, List<RequestModel> requests);

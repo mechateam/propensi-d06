@@ -93,7 +93,10 @@
                                                     <td th:text="${problem.codeProblem}"></td>
                                                     <td th:text="${problem.subject}"></td>
                                                     <td th:text="${problem.real_date}"></td>
-                                                    <td th:text="${problem.status.namaStatus}"></td>
+                                                        <div th:if="${problem.status.id_status == 4}">
+                                                            <td class="tableWfa" th:text="${problem.status.namaStatus}"></td>
+                                                        </div>
+                                                    </td>
                                                     <td><a th:href="@{/problem/detail/}+${problem.id_problem}"> Detail </a></td>
                                                     <!-- <td th:unless = "${problem.status.id_status == 4}"><a th:href="@{/problem/detail/}+${problem.id_problem}"> Detail </a></td>
                                                     <td th:if = "${problem.status.id_status == 4}"><a th:href="@{/problem/resolver/}+${problem.id_problem}"> Detail </a></td> -->
@@ -172,7 +175,8 @@
                                                     <td th:text="${request.subject}"></td>
                                                     <td th:text="${request.sla.nama_sla}"></td>
                                                     <td th:text="${request.created_date}"></td>
-                                                    <td th:text="${request.status.namaStatus}"></td>
+                                                    <td th:text="${request.status.namaStatus}">
+                                                    </td>
                                                     <td><a th:href="@{/request/detailin/}+${request.id_request}"> Detail </a></td>
                                                 </tr>
                                                 </tbody>

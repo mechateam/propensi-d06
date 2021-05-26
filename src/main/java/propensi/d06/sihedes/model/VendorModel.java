@@ -1,8 +1,13 @@
 package propensi.d06.sihedes.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 
 @Entity
@@ -19,12 +24,25 @@ public class VendorModel {
 
     @NotNull
     @Column(name = "no_telp", nullable = false)
-    private Integer no_telp;
+    private Long no_telp;
 
     @NotNull
     @Size(max = 255)
     @Column(name = "description", nullable = false)
     private String description;
+
+    @OneToMany(mappedBy = "reqVendor", fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private List<RequestModel> listVendorRequest;
+
+    public List<RequestModel> getListVendorRequest() {
+        return listVendorRequest;
+    }
+
+    public void setListVendorRequest(List<RequestModel> listVendorRequest) {
+        this.listVendorRequest = listVendorRequest;
+    }
 
     public Long getId_vendor() {
         return id_vendor;
@@ -42,11 +60,11 @@ public class VendorModel {
         this.nama = nama;
     }
 
-    public Integer getNo_telp() {
+    public Long getNo_telp() {
         return no_telp;
     }
 
-    public void setNo_telp(Integer no_telp) {
+    public void setNo_telp(Long no_telp) {
         this.no_telp = no_telp;
     }
 
