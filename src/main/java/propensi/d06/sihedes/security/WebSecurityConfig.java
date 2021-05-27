@@ -32,6 +32,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/problem/individual/return/**").hasAuthority("Kepala Departemen IT")
                 .antMatchers("/problem/individual/**").hasAnyAuthority("Kepala Departemen IT" , "Staff IT", "Helpdesk")
                 .antMatchers("/problem/resolver/**").hasAuthority("Helpdesk")
+                .antMatchers("/problem/close/**").hasAuthority("Pengaju")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
