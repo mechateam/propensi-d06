@@ -12,4 +12,5 @@ import javax.transaction.Transactional;
 @Transactional
 public interface FeedbackProblemDb extends JpaRepository<FeedbackProblem, Long> {
     Optional<FeedbackProblem> findByProblem(ProblemModel problem);
+//    FeedbackProblem findBy
 }

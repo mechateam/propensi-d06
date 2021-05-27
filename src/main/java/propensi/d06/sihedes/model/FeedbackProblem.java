@@ -22,7 +22,7 @@ public class FeedbackProblem implements Serializable {
 
     @NotNull
     @Size(max = 255)
-    @Column(name = "description", nullable = false)
+    @Column(name = "description", nullable = true)
     private String description;
 
     @NotNull
