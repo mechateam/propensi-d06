@@ -5,13 +5,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import propensi.d06.sihedes.model.DepartemenModel;
-import propensi.d06.sihedes.model.SLAModel;
-import propensi.d06.sihedes.model.UserModel;
-import propensi.d06.sihedes.model.VendorModel;
-import propensi.d06.sihedes.service.DepartemenService;
-import propensi.d06.sihedes.service.VendorService;
-import propensi.d06.sihedes.service.UserService;
+import propensi.d06.sihedes.model.*;
+import propensi.d06.sihedes.service.*;
 
 import java.util.List;
 
@@ -21,13 +16,17 @@ public class VendorController {
     @Autowired
     VendorService vendorService;
 
+    @Autowired
+    private ProblemService problemService;
+
+    @Autowired
+    private RequestService requestService;
+
     @GetMapping("/vendor")
     public String viewVendor(Model model){
         List<VendorModel> listVendor = vendorService.getListVendor();
         model.addAttribute("listVendor",listVendor);
 
-//        UserModel user = userService.getUserbyUsername(SecurityContextHolder.getContext().getAuthentication().getName());
-//        model.addAttribute("user",user);
         return "daftar-vendor";
     }
 
@@ -50,8 +49,15 @@ public class VendorController {
         VendorModel vendor = vendorService.getVendorbyId(id);
         model.addAttribute("vendor",vendor);
 
-//        UserModel user = userService.getUserbyUsername(SecurityContextHolder.getContext().getAuthentication().getName());
-//        model.addAttribute("user",user);
+        List<RequestModel> listRequest = vendor.getListVendorRequest();
+        boolean hasRequest = listRequest.size() > 0;
+        model.addAttribute("hasRequest", hasRequest);
+        model.addAttribute("listRequest", listRequest);
+
+        List<ProblemModel> listProblem = vendor.getListVendorProblem();
+        boolean hasProblem = listProblem.size() > 0;
+        model.addAttribute("hasProblem", hasProblem);
+        model.addAttribute("listProblem", listProblem);
 
         return "detail-vendor";
     }
