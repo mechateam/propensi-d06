@@ -44,6 +44,19 @@ public class VendorModel {
         this.listVendorRequest = listVendorRequest;
     }
 
+    @OneToMany(mappedBy = "probVendor", fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private List<ProblemModel> listVendorProblem;
+
+    public List<ProblemModel> getListVendorProblem() {
+        return listVendorProblem;
+    }
+
+    public void setListVendorProblem(List<ProblemModel> listVendorProblem) {
+        this.listVendorProblem = listVendorProblem;
+    }
+
     public Long getId_vendor() {
         return id_vendor;
     }

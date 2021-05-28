@@ -14,5 +14,6 @@ import java.util.List;
 public interface ProblemDb extends JpaRepository<ProblemModel, Long> {
     Optional<ProblemModel> findById(Long id);
     List<ProblemModel> findAllByResolverDepartemen(DepartemenModel departemen);
+    List<ProblemModel> findAllByPengaju(UserModel user);
 
 }

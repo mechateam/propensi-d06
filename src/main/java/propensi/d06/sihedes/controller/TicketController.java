@@ -1,11 +1,5 @@
 package propensi.d06.sihedes.controller;
 
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.xssf.usermodel.XSSFFont;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,7 +12,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -72,11 +65,57 @@ public class TicketController {
             @RequestParam("page") Optional<Integer> page,
             @RequestParam("size") Optional<Integer> size,
             Model model) {
+
+        UserModel user = userService.getUserbyUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        DepartemenModel dept = user.getDepartemen();
+
+        // ProblemModel
+        List<ProblemModel> listProblem = new ArrayList<>();
+        List<RequestModel> listRequest = new ArrayList<>();
+        if(user.getId_role().getId_role() == Long.parseLong("2")) {
+            List<ProblemModel> problems = problemService.findAll();
+            List<RequestModel> requests = requestService.findAll();
+            for(ProblemModel p : problems){
+                listProblem.add(p);
+            }
+            for(RequestModel r : requests){
+                listRequest.add(r);
+            }
+        }
+        else if (user.getId_role().getId_role() == Long.parseLong("3")){
+            List<ProblemModel> problems = problemService.getProblemByPengaju(user);
+            List<RequestModel> requests = requestService.getRequestByPengaju(user);
+            for(ProblemModel p : problems){
+                listProblem.add(p);
+            }
+            for(RequestModel r : requests){
+                listRequest.add(r);
+            }
+        }
+        else {
+            List<ProblemModel> problems = problemService.getProblemByDepartemen(dept);
+            List<RequestModel> requests = requestService.getRequestByDepartment(dept);
+            for(ProblemModel p : problems){
+                listProblem.add(p);
+            }
+            for(RequestModel r : requests){
+                listRequest.add(r);
+            }
+        }
+
+        //Checking
+        boolean hasProblem = listProblem.size() > 0;
+        model.addAttribute("hasProblem", hasProblem);
+        boolean hasRequest = listRequest.size() > 0;
+        model.addAttribute("hasRequest", hasRequest);
+
+
+
         int currentPage = page.orElse(1);
         int pageSize = size.orElse(5);
 
-        Page<RequestModel> requestPage = requestService.findPaginated(PageRequest.of(currentPage - 1, pageSize), requestService.findAll());
-        Page<ProblemModel> problemPage = problemService.findPaginated(PageRequest.of(currentPage - 1, pageSize), problemService.findAll());
+        Page<RequestModel> requestPage = requestService.findPaginated(PageRequest.of(currentPage - 1, pageSize), listRequest);
+        Page<ProblemModel> problemPage = problemService.findPaginated(PageRequest.of(currentPage - 1, pageSize), listProblem);
 
         model.addAttribute("requestPage", requestPage);
         model.addAttribute("problemPage", problemPage);
@@ -97,19 +136,9 @@ public class TicketController {
             model.addAttribute("pageNumbersProblem", pageNumbersProblem);
         }
 
-        // ProblemModel
-        List<ProblemModel> listProblem = problemService.findAll();
+
         model.addAttribute("listProblem", listProblem);
-
-        // RequestModel
-        List<RequestModel> listRequest = requestService.findAll();
         model.addAttribute("listRequest", listRequest);
-
-        //Checking
-        boolean hasProblem = listProblem.size() > 0;
-        model.addAttribute("hasProblem", hasProblem);
-        boolean hasRequest = listRequest.size() > 0;
-        model.addAttribute("hasRequest", hasRequest);
 
         // Return view template yang diinginkan
         return "allTickets";
@@ -213,28 +242,29 @@ public class TicketController {
     {
 
         ProblemModel problem = problemService.findProblemById(id_problem);
-        List<LogProblemModel> logs = problem.getListLog();
+
         List<UserModel> resolvers = new ArrayList<>();
         UserModel user = userService.getUserbyUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         resolvers.add(user);
         if (user.getId_role().getId_role()==4){
             resolvers = userService.getListUserbyDepartemen(problem.getResolverDepartemen());
         }
-        model.addAttribute("logs",logs);
+
+        List<LogProblemModel> allLogs = problem.getListLog();
+        List<LogProblemModel> logs = new ArrayList<>();
+        for(int i = allLogs.size()-1 ; i > -1 ;i--)
+        {
+            logs.add(allLogs.get(i));
+        }
+
+        model.addAttribute("logs", logs);
+
         model.addAttribute("problem",problem);
         model.addAttribute("user",user);
         model.addAttribute("resolvers", resolvers);
-//        if (problem.getStatus().getId_status() == 1 || problem.getStatus().getId_status() == 3 || problem.getStatus().getId_status() == 6 ){
-//            return "detailProblem";
-//        }
-        // if (problem.getStatus().getId_status() == 4){
-        //     return "assignResolverProblem";
-        // }
-//        else if (problem.getStatus().getId_status() == 5){
-//            return "individual-problem";
-        // else {
-            return "detailProblem";
-        // }
+
+        return "detailProblem";
+
     }
 
     // @GetMapping("/problem/resolver/{id_problem}")
@@ -321,7 +351,7 @@ public class TicketController {
         problemService.updateProblem(problem);
 
         LogProblemModel log = new LogProblemModel();
-        log.setDescription("Problem Created");
+        log.setDescription("In Progress");
         log.setPosted_date(new Date());
         log.setProblem(problem);
         log.setCreatedBy(user);
@@ -695,6 +725,17 @@ public class TicketController {
         excelExporter.export(response);
     }
 
+    @GetMapping("/problem/vendor/{id_problem}")
+    public String assignVendorToProblem(
+            @PathVariable(value="id_problem") Long id_problem,
+            Model model) {
+        ProblemModel problem = problemService.findProblemById(id_problem);
+        List<VendorModel> listVendor = vendorService.getListVendor();
+        model.addAttribute("listVendor",listVendor);
+        model.addAttribute("problem", problem);
+        return "vendorProblem";
+    }
+
     @GetMapping("/request/vendor/{id_request}")
     public String assignVendor(
             @PathVariable(value="id_request") Long id_request,
@@ -704,11 +745,11 @@ public class TicketController {
         List<VendorModel> listVendor = vendorService.getListVendor();
         model.addAttribute("listVendor",listVendor);
         model.addAttribute("request", req);
-        return "assignVendor";
+        return "vendorRequest";
     }
 
     @PostMapping("/request/done")
-    public String submitVendor(
+    public String submitVendorRequest(
             @ModelAttribute RequestModel request,
             Model model) {
         RequestModel newReq = requestService.vendorRequest(request);
@@ -729,6 +770,35 @@ public class TicketController {
         model.addAttribute("request",newReq);
         model.addAttribute("logs", logs);
         String link = "redirect:/request/detailin/" + request.getId_request();
+        return link;
+
+    }
+
+    @PostMapping("/problem/done")
+    public String submitVendorProblem(
+            @ModelAttribute ProblemModel problem,
+            Model model) {
+        ProblemModel newProb = problemService.vendorRequest(problem);
+        UserModel user = userService.getUserbyUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+
+        LogProblemModel log = new LogProblemModel();
+        log.setDescription("Problem Resolved by Vendor");
+        log.setPosted_date(new Date());
+        log.setProblem(problem);
+        log.setCreatedBy(user);
+        logProblemService.addLog(log);
+
+        List<LogProblemModel> allLogs = newProb.getListLog();
+        List<LogProblemModel> logs = new ArrayList<>();
+        for(int i = allLogs.size()-1 ; i > -1 ;i--)
+        {
+            logs.add(allLogs.get(i));
+        }
+
+        model.addAttribute("logs", logs);
+        model.addAttribute("problem",newProb);
+
+        String link = "redirect:/problem/detail/" + problem.getId_problem();
         return link;
 
     }

@@ -93,9 +93,8 @@
                                                     <td th:text="${problem.codeProblem}"></td>
                                                     <td th:text="${problem.subject}"></td>
                                                     <td th:text="${problem.real_date}"></td>
-                                                        <div th:if="${problem.status.id_status == 4}">
-                                                            <td class="tableWfa" th:text="${problem.status.namaStatus}"></td>
-                                                        </div>
+                                                    <td th:text="${problem.status.namaStatus}"></td>
+
                                                     </td>
                                                     <td><a th:href="@{/problem/detail/}+${problem.id_problem}"> Detail </a></td>
                                                     <!-- <td th:unless = "${problem.status.id_status == 4}"><a th:href="@{/problem/detail/}+${problem.id_problem}"> Detail </a></td>
