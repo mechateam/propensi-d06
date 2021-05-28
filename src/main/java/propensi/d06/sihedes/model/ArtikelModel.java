@@ -26,6 +26,10 @@ public class ArtikelModel {
     private String category;
 
     @NotNull
+    @Column(name = "content", nullable = false, columnDefinition = "TEXT")
+    private String content;
+
+    @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "created_date", nullable = false)
     private Date created_date;
@@ -73,5 +77,13 @@ public class ArtikelModel {
 
     public void setTags(String tags) {
         this.tags = tags;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 }
