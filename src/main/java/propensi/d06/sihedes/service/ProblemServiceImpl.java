@@ -178,4 +178,23 @@ public class ProblemServiceImpl implements ProblemService{
         return problemDb.findAllByPengaju(user);
     }
 
+    @Override
+    public ProblemModel vendorRequest(ProblemModel problem) {
+        ProblemModel targetProblem = problemDb.findById(problem.getId_problem()).get();
+        try {
+            UserModel user = userDb.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+            long idStatus = targetProblem.getStatus().getId_status();
+            long newStatus = idStatus+1;
+            targetProblem.setProbVendor(problem.getProbVendor());
+            StatusModel status = statusDb.findById(newStatus).get();
+            targetProblem.setStatus(status);
+            Date dateNow = new java.util.Date();
+            targetProblem.setFinished_date(dateNow);
+            problemDb.save(targetProblem);
+            return targetProblem;
+        } catch (NullPointerException nullPointerException) {
+            return null;
+        }
+    }
+
 }

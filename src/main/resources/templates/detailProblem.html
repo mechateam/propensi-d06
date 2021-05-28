@@ -233,8 +233,11 @@
                   class="row-action"
                   th:if="${problem.status.id_status == 6}"
                 >
-                  <div class="col-sm-9"></div>
-                  <div class="col-sm-3">
+                  <div class="col-sm-2">
+                    <a th:href="@{/problem/vendor/}+${problem.id_problem}" class="btn btn-fill btn-create text-center">  Assign Vendor </a>
+                  </div>
+                  <div class="col-sm-8"></div>
+                  <div class="col-sm-2">
                     <form
                       th:action="@{/problem/update/}"
                       th:object="${problem}"
@@ -253,6 +256,8 @@
                   <!--                                </form>-->
                 </div>
               </div>
+                <br>
+                <br>
                 <div class="created-by">
                   <p th:text="'Created by '+ ${problem.pengaju.username}"></p>
                 </div>
