@@ -50,23 +50,18 @@
                                 <div class="row">
                                     <div class="col-sm-7">
                                         <div class="pageName">
-                                            <h4>Problem</h4>
+                                            <h3>Problem</h3>
                                         </div>
                                     </div>
                                     <div class="col-sm-3"></div>
                                     <div class="col-sm-2">
-                                        <a th:href="@{/ticket/add}" type="submit" class="btn btn-fill btn-create text-center"> CREATE </a>
+                                        <a th:href="@{/problem/add}" type="submit" class="btn btn-fill btn-create text-center"> CREATE </a>
                                     </div>
                                 </div>
 
 <!--                                for row search-->
                                 <div class="row">
-                                    <div class="col-sm-3">
-                                        <div class="col-items">
-                                            show brp
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-3"></div>
+                                    <div class="col-sm-6"></div>
                                     <div class="col-sm-6">
                                         <div class="col-search">
                                             <div class="row">
@@ -99,6 +94,8 @@
                                                     <td th:text="${problem.subject}"></td>
                                                     <td th:text="${problem.real_date}"></td>
                                                     <td th:text="${problem.status.namaStatus}"></td>
+
+                                                    </td>
                                                     <td><a th:href="@{/problem/detail/}+${problem.id_problem}"> Detail </a></td>
                                                     <!-- <td th:unless = "${problem.status.id_status == 4}"><a th:href="@{/problem/detail/}+${problem.id_problem}"> Detail </a></td>
                                                     <td th:if = "${problem.status.id_status == 4}"><a th:href="@{/problem/resolver/}+${problem.id_problem}"> Detail </a></td> -->
@@ -131,23 +128,18 @@
                                 <div class="row">
                                     <div class="col-sm-7">
                                         <div class="pageName">
-                                            <h4>Request</h4>
+                                            <h3>Request</h3>
                                         </div>
                                     </div>
                                     <div class="col-sm-3"></div>
                                     <div class="col-sm-2">
-                                        <a th:href="@{/ticket/add}" type="submit" class="btn btn-fill btn-create text-center"> CREATE </a>
+                                        <a th:href="@{/request/add}" type="submit" class="btn btn-fill btn-create text-center"> CREATE </a>
                                     </div>
                                 </div>
 
                                 <!--                                for row search-->
                                 <div class="row">
-                                    <div class="col-sm-3">
-                                        <div class="col-items">
-                                            show brp
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-3"></div>
+                                    <div class="col-sm-6"></div>
                                     <div class="col-sm-6">
                                         <div class="col-search">
                                             <div class="row">
@@ -182,7 +174,8 @@
                                                     <td th:text="${request.subject}"></td>
                                                     <td th:text="${request.sla.nama_sla}"></td>
                                                     <td th:text="${request.created_date}"></td>
-                                                    <td th:text="${request.status.namaStatus}"></td>
+                                                    <td th:text="${request.status.namaStatus}">
+                                                    </td>
                                                     <td><a th:href="@{/request/detailin/}+${request.id_request}"> Detail </a></td>
                                                 </tr>
                                                 </tbody>

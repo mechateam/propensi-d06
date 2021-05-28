@@ -26,9 +26,9 @@
                 </div>
             </div>
             <div class="col-sm-6">
-                <div class="statusName">
-                    <br>
-                    <h4 th:text="${request.status.namaStatus}"></h4>
+                <div class="statusName" th:if="${request.status.id_status == 3}">
+                    <br/>
+                    <h5 class="statApproval" th:text="${request.status.namaStatus}"></h5>
                 </div>
             </div>
         </div>
@@ -237,7 +237,7 @@
                                     <table>
                                         <thead>
                                             <tr>
-                                              <th title="Field #1">Status</th>
+                                              <th title="Field #1">Description</th>
                                               <th title="Field #2">Time</th>
                                               <th title="Field #3">Created By</th>
                                             </tr>

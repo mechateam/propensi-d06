@@ -86,7 +86,8 @@
                                                 Department <br>
                                                 <select name="departemen" class="form-control">
                                                     <option th:selected="${sla.departemen}"></option>
-                                                    <option th:field="${sla.departemen}" th:each="departemen: ${listDepartemen}" th:value="${departemen.id_dept}" th:text="${departemen.nama_departemen}"></option>
+                                                    <option th:field="${sla.departemen}" th:each="departemen: ${listDepartemen}" th:value="${departemen.id_dept}"
+                                                            th:text="${departemen.nama_departemen}"></option>
                                                 </select>
                                             </div>
                                         </div>

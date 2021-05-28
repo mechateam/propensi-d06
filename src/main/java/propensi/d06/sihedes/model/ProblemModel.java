@@ -103,6 +103,20 @@ public class ProblemModel implements Serializable {
     @JsonIgnore
     private StatusModel status;
 
+    @ManyToOne(fetch = FetchType.EAGER, optional = true)
+    @JoinColumn(name = "id_vendor", referencedColumnName = "id_vendor", nullable = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private VendorModel probVendor;
+
+    public VendorModel getProbVendor() {
+        return probVendor;
+    }
+
+    public void setProbVendor(VendorModel probVendor) {
+        this.probVendor = probVendor;
+    }
+
     @OneToMany(mappedBy = "problem", fetch = FetchType.LAZY)
     private List<LogProblemModel> listLog;
 

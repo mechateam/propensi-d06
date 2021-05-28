@@ -27,9 +27,7 @@ public class SLAServiceImpl implements SLAService {
     }
 
     @Override
-    public void addSLA(SLAModel sla){
-        slaDb.save(sla);
-    }
+    public void addSLA(SLAModel sla){ slaDb.save(sla); }
 
     @Override
     public SLAModel updateSLA(SLAModel sla){

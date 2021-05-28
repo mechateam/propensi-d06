@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title> Create Service Catalog </title>
+    <title> Create Vendor </title>
     <object th:include="fragments/fragment :: js" th:remove="tag"></object>
 
     <object th:include="fragments/fragment :: css" th:remove="tag"></object>
@@ -21,9 +21,9 @@
             <!--Page Name Header-->
             <div class="col-md-6">
                 <div class="pageName">
-                    <h3>Service Catalog</h3>
+                    <h3>Vendor</h3>
                     <p>
-                        <a th:href="@{/sla}" >Service Catalog</a>
+                        <a th:href="@{/vendor}" >Vendor</a>
                         <span> > </span>
                         <span>Create Service Catalog</span>
                     </p>
@@ -47,7 +47,7 @@
                             <div class="row">
                                 <div class="col-sm-7">
                                     <div class="pageName">
-                                        <h4>Create Service Catalog</h4>
+                                        <h4>Create Vendor</h4>
                                     </div>
                                 </div>
                                 <div class="col-sm-5"></div>
@@ -58,11 +58,18 @@
                             <div class="row">
                                 <br>
                                 <div class="col-sm-12">
-                                    <form th:action="@{/sla/daftar/tambah}" th:object="${sla}" method="POST">
+                                    <form th:action="@{/vendor/tambah}" th:object="${vendor}" method="POST">
                                         <div class="row">
                                             <div class="col-sm-8">
-                                                Service Catalog Name <br>
-                                                <input class="form-control" type="text" name="nama_sla" required/>
+                                                Vendor Name <br>
+                                                <input class="form-control" type="text" name="nama" required/>
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div class="row">
+                                            <div class="col-sm-8">
+                                                Phone <br>
+                                                <input class="form-control" type="text" name="no_telp" required/>
                                             </div>
                                         </div>
                                         <br>
@@ -74,33 +81,6 @@
                                         </div>
                                         <div class="row">
                                             <br>
-                                            <div class="col-sm-8">
-                                                Completion Time <br>
-<!--                                                <input class="form-control" type="text" name="completion_time" required/>-->
-                                                <div class="col-sm-4">
-                                                    <input class="form-control" type="text" name="completion_time_number" required/>
-                                                </div>
-                                                <div class="col-sm-8">
-                                                <select name="completion_time_period" class="form-control">
-                                                    <option selected value="">-- Pilih Periode --</option>
-                                                    <option value="Days">Days</option>
-                                                    <option value="Weeks">Weeks</option>
-                                                    <option value="Months">Months</option>
-                                                </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-8"></div>
-                                        </div>
-                                        <div class="row">
-                                            <br>
-                                            <div class="col-sm-8">
-                                                Department <br>
-                                                <select name="departemen" class="form-control">
-                                                    <option selected value="">-- Pilih Departemen --</option>
-                                                    <option th:each="jenis_departemen: ${listDepartemen}" th:value="${jenis_departemen.id_dept}"
-                                                            th:text="${jenis_departemen.nama_departemen}"></option>
-                                                </select>
-                                            </div>
                                         </div>
                                         <br><br>
 
@@ -114,7 +94,7 @@
                                             <div class="modal-dialog" role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-body">
-                                                        Service Catalog Created!
+                                                        Vendor Created!
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="submit" class="btn btn-fill btn-create text-center">Ok</button>
@@ -129,6 +109,6 @@
                         </div>
                     </div>
                 </div>
-    </form> </div></div></div></div>
+                </form> </div></div></div></div>
 </body>
 </html>

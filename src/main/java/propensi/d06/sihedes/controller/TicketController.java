@@ -1,34 +1,25 @@
 package propensi.d06.sihedes.controller;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
-import org.springframework.beans.factory.parsing.Problem;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
 import propensi.d06.sihedes.model.*;
 import propensi.d06.sihedes.repository.SLADb;
 import propensi.d06.sihedes.service.*;
-import org.springframework.beans.factory.annotation.*;
-import propensi.d06.sihedes.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import propensi.d06.sihedes.service.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import java.awt.print.Book;
-import java.lang.reflect.Type;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-
-import javax.print.DocFlavor.STRING;
-import javax.validation.constraints.Null;
 
 @Controller
 public class TicketController {
@@ -61,6 +52,9 @@ public class TicketController {
     private LogRequestService logRequestService;
 
     @Autowired
+    private VendorService vendorService;
+
+    @Autowired
     private SLADb slaDb;
 
 
@@ -71,11 +65,57 @@ public class TicketController {
             @RequestParam("page") Optional<Integer> page,
             @RequestParam("size") Optional<Integer> size,
             Model model) {
+
+        UserModel user = userService.getUserbyUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        DepartemenModel dept = user.getDepartemen();
+
+        // ProblemModel
+        List<ProblemModel> listProblem = new ArrayList<>();
+        List<RequestModel> listRequest = new ArrayList<>();
+        if(user.getId_role().getId_role() == Long.parseLong("2")) {
+            List<ProblemModel> problems = problemService.findAll();
+            List<RequestModel> requests = requestService.findAll();
+            for(ProblemModel p : problems){
+                listProblem.add(p);
+            }
+            for(RequestModel r : requests){
+                listRequest.add(r);
+            }
+        }
+        else if (user.getId_role().getId_role() == Long.parseLong("3")){
+            List<ProblemModel> problems = problemService.getProblemByPengaju(user);
+            List<RequestModel> requests = requestService.getRequestByPengaju(user);
+            for(ProblemModel p : problems){
+                listProblem.add(p);
+            }
+            for(RequestModel r : requests){
+                listRequest.add(r);
+            }
+        }
+        else {
+            List<ProblemModel> problems = problemService.getProblemByDepartemen(dept);
+            List<RequestModel> requests = requestService.getRequestByDepartment(dept);
+            for(ProblemModel p : problems){
+                listProblem.add(p);
+            }
+            for(RequestModel r : requests){
+                listRequest.add(r);
+            }
+        }
+
+        //Checking
+        boolean hasProblem = listProblem.size() > 0;
+        model.addAttribute("hasProblem", hasProblem);
+        boolean hasRequest = listRequest.size() > 0;
+        model.addAttribute("hasRequest", hasRequest);
+
+
+
         int currentPage = page.orElse(1);
         int pageSize = size.orElse(5);
 
-        Page<RequestModel> requestPage = requestService.findPaginated(PageRequest.of(currentPage - 1, pageSize), requestService.findAll());
-        Page<ProblemModel> problemPage = problemService.findPaginated(PageRequest.of(currentPage - 1, pageSize), problemService.findAll());
+        Page<RequestModel> requestPage = requestService.findPaginated(PageRequest.of(currentPage - 1, pageSize), listRequest);
+        Page<ProblemModel> problemPage = problemService.findPaginated(PageRequest.of(currentPage - 1, pageSize), listProblem);
 
         model.addAttribute("requestPage", requestPage);
         model.addAttribute("problemPage", problemPage);
@@ -96,19 +136,9 @@ public class TicketController {
             model.addAttribute("pageNumbersProblem", pageNumbersProblem);
         }
 
-        // ProblemModel
-        List<ProblemModel> listProblem = problemService.findAll();
+
         model.addAttribute("listProblem", listProblem);
-
-        // RequestModel
-        List<RequestModel> listRequest = requestService.findAll();
         model.addAttribute("listRequest", listRequest);
-
-        //Checking
-        boolean hasProblem = listProblem.size() > 0;
-        model.addAttribute("hasProblem", hasProblem);
-        boolean hasRequest = listRequest.size() > 0;
-        model.addAttribute("hasRequest", hasRequest);
 
         // Return view template yang diinginkan
         return "allTickets";
@@ -212,28 +242,29 @@ public class TicketController {
     {
 
         ProblemModel problem = problemService.findProblemById(id_problem);
-        List<LogProblemModel> logs = problem.getListLog();
+
         List<UserModel> resolvers = new ArrayList<>();
         UserModel user = userService.getUserbyUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         resolvers.add(user);
         if (user.getId_role().getId_role()==4){
             resolvers = userService.getListUserbyDepartemen(problem.getResolverDepartemen());
         }
-        model.addAttribute("logs",logs);
+
+        List<LogProblemModel> allLogs = problem.getListLog();
+        List<LogProblemModel> logs = new ArrayList<>();
+        for(int i = allLogs.size()-1 ; i > -1 ;i--)
+        {
+            logs.add(allLogs.get(i));
+        }
+
+        model.addAttribute("logs", logs);
+
         model.addAttribute("problem",problem);
         model.addAttribute("user",user);
         model.addAttribute("resolvers", resolvers);
-//        if (problem.getStatus().getId_status() == 1 || problem.getStatus().getId_status() == 3 || problem.getStatus().getId_status() == 6 ){
-//            return "detailProblem";
-//        }
-        // if (problem.getStatus().getId_status() == 4){
-        //     return "assignResolverProblem";
-        // }
-//        else if (problem.getStatus().getId_status() == 5){
-//            return "individual-problem";
-        // else {
-            return "detailProblem";
-        // }
+
+        return "detailProblem";
+
     }
 
     // @GetMapping("/problem/resolver/{id_problem}")
@@ -320,7 +351,7 @@ public class TicketController {
         problemService.updateProblem(problem);
 
         LogProblemModel log = new LogProblemModel();
-        log.setDescription(status.getNamaStatus());
+        log.setDescription("In Progress");
         log.setPosted_date(new Date());
         log.setProblem(problem);
         log.setCreatedBy(user);
@@ -350,11 +381,6 @@ public class TicketController {
         log.setRequest(request);
         logRequestService.addLog(log);
 
-//        LogProblemModel log = new LogProblemModel();
-//        log.setDescription(status.getNamaStatus());
-//        log.setPosted_date(new Date());
-//        log.setProblem(problem);
-//        logProblemService.addLog(log);
 
         return "redirect:/tickets";
     }
@@ -417,7 +443,7 @@ public class TicketController {
         log.setProblem(newProb);
         log.setCreatedBy(user);
         logProblemService.addLog(log);
-        return "detailProblem";
+        return "redirect:/tickets";
     }
 
 //    @Deprecated
@@ -427,6 +453,12 @@ public class TicketController {
             Model model){
         RequestModel request = requestService.getRequestById(id_request);
         List<LogRequestModel> logs = request.getListLogRequest();
+        List<LogRequestModel> allLogs = new ArrayList<>();
+        for(int i = logs.size()-1 ; i > -1 ;i--)
+        {
+         allLogs.add(logs.get(i));
+            }
+        System.out.println(" ini size logs : " + logs.size());
         UserModel userLoggedin = userService.getUserbyUsername(req.getRemoteUser());
         SLAModel sla = request.getSla();
         List<SLABOAModel> listBOA = slaboaService.getSLABOABySLAId(sla.getId_sla());
@@ -449,12 +481,13 @@ public class TicketController {
             Long idApprover = new Long(request.getIdApprover());
             model.addAttribute("user",userLoggedin);
             model.addAttribute("request",request);
+            model.addAttribute("logs", allLogs);
             model.addAttribute("userApproval", userService.getUserbyId(idApprover));
 
             return "detailRequestApproval";
         }
         model.addAttribute("request",request);
-        model.addAttribute("logs", logs);
+        model.addAttribute("logs", allLogs);
         return "detailRequest";
 
     }
@@ -473,11 +506,30 @@ public class TicketController {
             Model model) {
         RequestModel newReq = requestService.updateRequestStatus(request);
         UserModel user = userService.getUserbyUsername(SecurityContextHolder.getContext().getAuthentication().getName());
-        List<LogRequestModel> logs = newReq.getListLogRequest();
+        LogRequestModel log = new LogRequestModel();
+        log.setCreatedBy(user);
+        if(newReq.getStatus().getId_status() == Long.parseLong("6")){
+            log.setDescription("Request Accepted and Assigned");
+        }
+        else if (newReq.getStatus().getId_status() == Long.parseLong("7")){
+            log.setDescription("Request Resolved");
+        }
+
+        log.setPosted_date(new Date());
+        log.setRequest(request);
+        logRequestService.addLog(log);
+        List<LogRequestModel> allLogs = newReq.getListLogRequest();
+        List<LogRequestModel> logs = new ArrayList<>();
+        for(int i = allLogs.size()-1 ; i > -1 ;i--)
+        {
+            logs.add(allLogs.get(i));
+        }
         model.addAttribute("requestManager",userService.getUserbyId(user.getId_user()));
         model.addAttribute("request",newReq);
         model.addAttribute("logs", logs);
-        return "detailRequest";
+        String link = "redirect:/request/detailin/" + request.getId_request();
+        return link;
+
     }
 
 
@@ -498,16 +550,28 @@ public class TicketController {
     // }
 
 
-    @GetMapping("/ticket/add")
-    public String addTicket(Model model) {
-        model.addAttribute("problem", new ProblemModel());
+    @GetMapping("/request/add")
+    public String addRequest(Model model) {
+//        model.addAttribute("problem", new ProblemModel());
         UserModel user = userService.getUserbyUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         DepartemenModel departemen = user.getDepartemen();
 
         model.addAttribute("deptList",departemenService.getListDepartment());
         model.addAttribute("departemen", departemen);
         model.addAttribute("request", new RequestModel());
-        return "createTicket";
+        return "createRequest";
+    }
+
+    @GetMapping("/problem/add")
+    public String addProblem(Model model) {
+        model.addAttribute("problem", new ProblemModel());
+        UserModel user = userService.getUserbyUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        DepartemenModel departemen = user.getDepartemen();
+
+        model.addAttribute("deptList",departemenService.getListDepartment());
+        model.addAttribute("departemen", departemen);
+//        model.addAttribute("request", new RequestModel());
+        return "createProblem";
     }
 
     @PostMapping("/problem/add")
@@ -552,7 +616,7 @@ public class TicketController {
         UserModel user = userService.getUserbyUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         LogRequestModel log = new LogRequestModel();
         log.setCreatedBy(user);
-        log.setDescription(request.getStatus().getNamaStatus());
+        log.setDescription("Created, Waiting for Approval");
         log.setPosted_date(new Date());
         log.setRequest(request);
         logRequestService.addLog(log);
@@ -567,7 +631,12 @@ public class TicketController {
         RequestModel request = requestService.getRequestById(id);
         SLAModel sla = request.getSla();
         List<SLABOAModel> listBOA = slaboaService.getSLABOABySLAId(sla.getId_sla());
-        List<LogRequestModel> logs = request.getListLogRequest();
+        List<LogRequestModel> allLogs = request.getListLogRequest();
+        List<LogRequestModel> logs = new ArrayList<>();
+        for(int i = allLogs.size()-1 ; i > -1 ;i--)
+        {
+            logs.add(allLogs.get(i));
+        }
 
         if (request.getStatus().getNamaStatus().equals("Waiting for Approval")){
 
@@ -596,6 +665,16 @@ public class TicketController {
     @PostMapping("/request/approve")
     public String approveRequest(@ModelAttribute RequestModel request, Model model){
         requestService.updateApprovalRequest(request);
+
+        /// for Log
+        UserModel user = userService.getUserbyUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        LogRequestModel log = new LogRequestModel();
+        log.setCreatedBy(user);
+        log.setDescription("Approved");
+        log.setPosted_date(new Date());
+        log.setRequest(request);
+        logRequestService.addLog(log);
+
         model.addAttribute("request",request);
         return "redirect:/tickets";
     }
@@ -603,6 +682,15 @@ public class TicketController {
     @PostMapping("/request/reject")
     public String rejectRequest(@ModelAttribute RequestModel request, Model model){
         requestService.rejectApprovalRequest(request);
+
+        ///for log
+        UserModel user = userService.getUserbyUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        LogRequestModel log = new LogRequestModel();
+        log.setCreatedBy(user);
+        log.setDescription("Rejected");
+        log.setPosted_date(new Date());
+        log.setRequest(request);
+        logRequestService.addLog(log);
         model.addAttribute("request",request);
         return "redirect:/tickets";
     }
@@ -612,4 +700,108 @@ public class TicketController {
     public List<SLAModel> loadSLAByDepartemen(@PathVariable Long id){
         return this.slaDb.findAllByDepartemen(departemenService.findDepartemenById(id));
     }
+
+    @GetMapping("/slm")
+    public String slm(Model model) {
+
+        return "serviceLevelManagement";
+    }
+
+    @GetMapping("/ticket/export/excel")
+    public void exportToExcel(HttpServletResponse response) throws IOException {
+        response.setContentType("application/octet-stream");
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+        String currentDateTime = dateFormatter.format(new Date());
+
+        String headerKey = "Content-Disposition";
+        String headerValue = "attachment; filename=ReportTicket" + currentDateTime + ".xlsx";
+        response.setHeader(headerKey, headerValue);
+
+        List<RequestModel> listRequests = requestService.findAll();
+        List<ProblemModel> listProblems = problemService.findAll();
+
+        RequestExcelExporter excelExporter = new RequestExcelExporter(listRequests,listProblems);
+
+        excelExporter.export(response);
+    }
+
+    @GetMapping("/problem/vendor/{id_problem}")
+    public String assignVendorToProblem(
+            @PathVariable(value="id_problem") Long id_problem,
+            Model model) {
+        ProblemModel problem = problemService.findProblemById(id_problem);
+        List<VendorModel> listVendor = vendorService.getListVendor();
+        model.addAttribute("listVendor",listVendor);
+        model.addAttribute("problem", problem);
+        return "vendorProblem";
+    }
+
+    @GetMapping("/request/vendor/{id_request}")
+    public String assignVendor(
+            @PathVariable(value="id_request") Long id_request,
+            Model model) {
+        RequestModel req = requestService.getRequestById(id_request);
+        String subject = req.getSubject();
+        List<VendorModel> listVendor = vendorService.getListVendor();
+        model.addAttribute("listVendor",listVendor);
+        model.addAttribute("request", req);
+        return "vendorRequest";
+    }
+
+    @PostMapping("/request/done")
+    public String submitVendorRequest(
+            @ModelAttribute RequestModel request,
+            Model model) {
+        RequestModel newReq = requestService.vendorRequest(request);
+        UserModel user = userService.getUserbyUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        LogRequestModel log = new LogRequestModel();
+        log.setCreatedBy(user);
+        log.setDescription("Request Resolved by Vendor");
+        log.setPosted_date(new Date());
+        log.setRequest(request);
+        logRequestService.addLog(log);
+        List<LogRequestModel> allLogs = newReq.getListLogRequest();
+        List<LogRequestModel> logs = new ArrayList<>();
+        for(int i = allLogs.size()-1 ; i > -1 ;i--)
+        {
+            logs.add(allLogs.get(i));
+        }
+        model.addAttribute("requestManager",userService.getUserbyId(user.getId_user()));
+        model.addAttribute("request",newReq);
+        model.addAttribute("logs", logs);
+        String link = "redirect:/request/detailin/" + request.getId_request();
+        return link;
+
+    }
+
+    @PostMapping("/problem/done")
+    public String submitVendorProblem(
+            @ModelAttribute ProblemModel problem,
+            Model model) {
+        ProblemModel newProb = problemService.vendorRequest(problem);
+        UserModel user = userService.getUserbyUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+
+        LogProblemModel log = new LogProblemModel();
+        log.setDescription("Problem Resolved by Vendor");
+        log.setPosted_date(new Date());
+        log.setProblem(problem);
+        log.setCreatedBy(user);
+        logProblemService.addLog(log);
+
+        List<LogProblemModel> allLogs = newProb.getListLog();
+        List<LogProblemModel> logs = new ArrayList<>();
+        for(int i = allLogs.size()-1 ; i > -1 ;i--)
+        {
+            logs.add(allLogs.get(i));
+        }
+
+        model.addAttribute("logs", logs);
+        model.addAttribute("problem",newProb);
+
+        String link = "redirect:/problem/detail/" + problem.getId_problem();
+        return link;
+
+    }
+
+
 }

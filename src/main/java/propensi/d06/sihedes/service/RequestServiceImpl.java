@@ -2,10 +2,7 @@ package propensi.d06.sihedes.service;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import propensi.d06.sihedes.model.BOAModel;
@@ -64,7 +61,7 @@ public class RequestServiceImpl implements RequestService{
     }
 
     @Override
-    public List<RequestModel> findAll() { return requestDb.findAll(); }
+    public List<RequestModel> findAll() { return requestDb.findAll(Sort.by("codeRequest").ascending()); }
     @Override
     public List<RequestModel> getRequestByDepartment(DepartemenModel departemen){ return  requestDb.findAllByResolverDepartemen(departemen); }
 
@@ -274,5 +271,30 @@ public class RequestServiceImpl implements RequestService{
     @Override
     public List<RequestModel> findAllRequestBasedOnIdApprover(UserModel user){
         return requestDb.findAllByIdApprover(user.getId_user());
+    }
+
+    @Override
+    public List<RequestModel> getRequestByPengaju(UserModel user){
+        return requestDb.findAllByPengaju(user);
+    }
+
+
+    @Override
+    public RequestModel vendorRequest(RequestModel request) {
+        RequestModel targetRequest = requestDb.findById(request.getId_request()).get();
+        try {
+            UserModel user = userDb.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+            long idStatus = targetRequest.getStatus().getId_status();
+            long newStatus = idStatus+1;
+            targetRequest.setReqVendor(request.getReqVendor());
+            StatusModel status = statusDb.findById(newStatus).get();
+            targetRequest.setStatus(status);
+                Date dateNow = new java.util.Date();
+                targetRequest.setFinished_date(dateNow);
+            requestDb.save(targetRequest);
+            return targetRequest;
+        } catch (NullPointerException nullPointerException) {
+            return null;
+        }
     }
 }

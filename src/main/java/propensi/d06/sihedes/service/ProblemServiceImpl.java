@@ -1,10 +1,7 @@
 package propensi.d06.sihedes.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import propensi.d06.sihedes.model.*;
@@ -141,7 +138,7 @@ public class ProblemServiceImpl implements ProblemService{
     }
 
     @Override
-    public List<ProblemModel> findAll() { return problemDb.findAll(); }
+    public List<ProblemModel> findAll() { return problemDb.findAll(Sort.by("codeProblem").ascending()); }
 
     @Override
     public List<ProblemModel> getProblemByDepartemen(DepartemenModel departemen) {
@@ -176,5 +173,28 @@ public class ProblemServiceImpl implements ProblemService{
         return requestPage;
     }
 
+    @Override
+    public List<ProblemModel> getProblemByPengaju(UserModel user){
+        return problemDb.findAllByPengaju(user);
+    }
+
+    @Override
+    public ProblemModel vendorRequest(ProblemModel problem) {
+        ProblemModel targetProblem = problemDb.findById(problem.getId_problem()).get();
+        try {
+            UserModel user = userDb.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+            long idStatus = targetProblem.getStatus().getId_status();
+            long newStatus = idStatus+1;
+            targetProblem.setProbVendor(problem.getProbVendor());
+            StatusModel status = statusDb.findById(newStatus).get();
+            targetProblem.setStatus(status);
+            Date dateNow = new java.util.Date();
+            targetProblem.setFinished_date(dateNow);
+            problemDb.save(targetProblem);
+            return targetProblem;
+        } catch (NullPointerException nullPointerException) {
+            return null;
+        }
+    }
 
 }

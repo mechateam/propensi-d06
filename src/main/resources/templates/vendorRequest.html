@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title> Assign Vendor </title>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+
+
+</head>
+
+<body>
+<div th:replace="fragments/fragment :: header"></div>
+<nav th:replace="fragments/fragment :: navbar"></nav>
+
+<div class="content-container">
+    <div class="container-fluid">
+        <div class="row">
+
+            <!--Page Name Header-->
+            <div class="col-md-6">
+                <div class="pageName">
+                    <h3>Assign Vendor</h3>
+                    <p><a th:href="@{/request/detailin/}+${request.id_request}">Detail Ticket</a> > Vendor</p>
+                </div>
+            </div>
+
+        </div>
+        <br>
+
+        <!--                        START YOUR CONTENT                      -->
+
+        <!--Tab Nav-->
+        <div class="col-md-12">
+
+            <div class="tab-content">
+                <!--                    START TAB PROBLEM-->
+                <div class="tab-pane fade in active" id="problem">
+                    <div class="card">
+                        <form th:action="@{/request/done}" th:object="${request}" method="POST">
+                            <input type="hidden" th:field="*{id_request}"/>
+                        <div class="card-content">
+                            <!--                                for row header-->
+                            <div class="row">
+                                <div class="col-sm-7">
+                                    <div class="pageName">
+                                        <h4>Vendor</h4>
+                                    </div>
+                                </div>
+                                <div class="col-sm-5"></div>
+                            </div>
+                            <!--                                            mulai table-->
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <table>
+                                        <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>Nama Vendor</th>
+                                            <th>Phone</th>
+                                        </tr>
+                                        </thead>
+
+                                        <tbody>
+                                        <tr th:each="vendor : ${listVendor}">
+                                            <td>
+                                                <input type="radio" name="reqVendor" th:value="${vendor.id_vendor}">
+                                            </td>
+                                            <td th:text="${vendor.nama}">
+                                            </td>
+                                            <td th:text="${vendor.no_telp}"></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-9"></div>
+                                <div class="col-sm-3">
+                                    <button type = "submit" class="btn btn-fill btn-create text-center" style="width: 120px;"> Assign </button>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

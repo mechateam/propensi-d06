@@ -11,8 +11,10 @@ public interface RequestService {
     DepartemenModel getDepById(Long id);
     List<RequestModel> findAll();
     List<RequestModel> getRequestByDepartment(DepartemenModel departemen);
+    List<RequestModel> getRequestByPengaju(UserModel user);
     RequestModel getRequestById(Long id);
     RequestModel updateApprovalRequest(RequestModel request);
+    RequestModel vendorRequest(RequestModel request);
     RequestModel rejectApprovalRequest(RequestModel request);
     void addRequest(RequestModel request);
     Page<RequestModel> findPaginated(Pageable pageable, List<RequestModel> requests);

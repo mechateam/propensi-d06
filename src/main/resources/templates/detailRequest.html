@@ -26,9 +26,25 @@
                 </div>
             </div>
             <div class="col-sm-6">
-                <div class="statusName">
-                    <br>
-                    <h4 th:text="${request.status.namaStatus}"></h4>
+                <div class="statusName" th:if="${request.status.id_status == 3}">
+                    <br/>
+                    <h5 class="statApproval" th:text="${request.status.namaStatus}"></h5>
+                </div>
+                <div class="statusName" th:if="${request.status.id_status == 4}">
+                    <br/>
+                    <h5 class="wfa" th:text="${request.status.namaStatus}"></h5>
+                </div>
+                <div class="statusName" th:if="${request.status.id_status == 5}">
+                    <br/>
+                    <h5 class="statAssigned" th:text="${request.status.namaStatus}"></h5>
+                </div>
+                <div class="statusName" th:if="${request.status.id_status == 6}">
+                    <br/>
+                    <h5 class="statProgress" th:text="${request.status.namaStatus}"></h5>
+                </div>
+                <div class="statusName" th:if="${request.status.id_status == 7}">
+                    <br/>
+                    <h5 class="statDone" th:text="${request.status.namaStatus}"></h5>
                 </div>
             </div>
         </div>
@@ -154,7 +170,7 @@
                                     <p th:text="': '+ ${request.background}"></p>
                                 </div>
                             </div>
-                            <div class="container-fluid"th:if="${request.status.id_status == 5}">
+                            <div th:if="${request.status.id_status == 5}">
                                 <form th:action="@{/request/update/}"  th:object="${request}" method="POST">
                                     <input type="hidden" th:field="*{id_request}"/>
                                     <div class="row detail-row">
@@ -184,8 +200,13 @@
                             </div>
                         </div>
                         <div class="row-action" th:if = "${request.status.id_status == 6}">
-                            <div class="col-sm-9"></div>
-                            <div class="col-sm-3">
+                            <div class="col-sm-2">
+                                <a th:href="@{/request/vendor/}+${request.id_request}" class="btn btn-fill btn-create text-center">  Assign Vendor
+
+                                </a>
+                            </div>
+                            <div class="col-sm-8"></div>
+                            <div class="col-sm-2">
                                 <form th:action="@{/request/update/}"  th:object="${request}" method="POST">
                                     <input type="hidden" th:field="*{id_request}"/>
                                     <button class="btn btn-fill btn-create text-center" data-toggle="modal"
@@ -193,6 +214,7 @@
                                 </form>
                             </div>
                         </div>
+                        <br>
                         <br>
                         <div class="created-by">
                             <p th:text="'Created by '+ ${request.pengaju.username}"></p>
@@ -220,7 +242,7 @@
                                     <table>
                                         <thead>
                                             <tr>
-                                              <th title="Field #1">Status</th>
+                                              <th title="Field #1">Description</th>
                                               <th title="Field #2">Time</th>
                                               <th title="Field #3">Created By</th>
                                             </tr>

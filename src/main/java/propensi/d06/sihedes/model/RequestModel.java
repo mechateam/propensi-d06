@@ -80,11 +80,11 @@ public class RequestModel implements Serializable {
 
     @NotNull
     @Column(name = "phone_number", nullable = false)
-    private Integer phone_number;
+    private Long phone_number;
 
-    public Integer getPhone_number() { return phone_number; }
+    public Long getPhone_number() { return phone_number; }
 
-    public void setPhone_number(Integer phone_number) { this.phone_number = phone_number; }
+    public void setPhone_number(Long phone_number) { this.phone_number = phone_number; }
 
     @NotNull
     @Size(max = 255)
@@ -147,6 +147,20 @@ public class RequestModel implements Serializable {
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private StatusModel status;
+
+    @ManyToOne(fetch = FetchType.EAGER, optional = true)
+    @JoinColumn(name = "id_vendor", referencedColumnName = "id_vendor", nullable = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private VendorModel reqVendor;
+
+    public VendorModel getReqVendor() {
+        return reqVendor;
+    }
+
+    public void setReqVendor(VendorModel reqVendor) {
+        this.reqVendor = reqVendor;
+    }
 
     @OneToMany(mappedBy = "request", fetch = FetchType.LAZY)
     private List<RequestBOAModel> listRequestBOA;

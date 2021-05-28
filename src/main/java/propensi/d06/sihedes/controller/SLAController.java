@@ -6,9 +6,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import propensi.d06.sihedes.model.BOAModel;
 import propensi.d06.sihedes.model.DepartemenModel;
 import propensi.d06.sihedes.model.SLAModel;
 import propensi.d06.sihedes.model.UserModel;
+import propensi.d06.sihedes.service.BOAService;
 import propensi.d06.sihedes.service.DepartemenService;
 import propensi.d06.sihedes.service.SLAService;
 import propensi.d06.sihedes.service.UserService;
@@ -26,6 +28,9 @@ public class SLAController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    BOAService boaService;
 
 
     @GetMapping("/sla")
@@ -54,10 +59,13 @@ public class SLAController {
     public String viewSlaDept(
             @PathVariable(value="id_dept") Long id_dept, Model model){
             DepartemenModel departemenSpesifik = departemenService.findDepartemenById(id_dept);
+
             List<SLAModel> listSLA = slaService.getAllSLAByDepartemen(departemenSpesifik);
+            model.addAttribute("listSLA",listSLA);
+
             String departemenNama = departemenSpesifik.getNama_departemen();
             model.addAttribute("departemenNama",departemenNama);
-            model.addAttribute("listSLA",listSLA);
+
 
             UserModel user = userService.getUserbyUsername(SecurityContextHolder.getContext().getAuthentication().getName());
             model.addAttribute("user",user);
@@ -83,14 +91,24 @@ public class SLAController {
     @GetMapping("/sla/daftar/tambah")
     public String formTambahSLA(Model model){
         List<DepartemenModel> listDepartemen = departemenService.findAll();
+        List<BOAModel> listBOA = boaService.findAll();
         model.addAttribute("listDepartemen",listDepartemen);
+        model.addAttribute("listBOA",listBOA);
         return "form-add-sla";
     }
 
     @PostMapping("/sla/daftar/tambah")
-    public String postTambahSLA(@ModelAttribute SLAModel sla, Model model){
+    public String postTambahSLA(
+            @ModelAttribute SLAModel sla,
+            @RequestParam("completion_time_number") String completion_time_number,
+            @RequestParam("completion_time_period") String completion_time_period,
+            Model model){
+        sla.setCompletion_time(completion_time_number + " " + completion_time_period);
         slaService.addSLA(sla);
-        return "redirect:/sla";
+
+        String link = "redirect:/sla/daftar/" + sla.getDepartemen().getId_dept();
+        return link;
+
     }
 
     @GetMapping("/sla/daftar/update/{id}")
@@ -105,13 +123,18 @@ public class SLAController {
     @PostMapping("/sla/daftar/update")
     public String putUpdateSLA(@ModelAttribute SLAModel sla, Model model){
         slaService.updateSLA(sla);
-        return "redirect:/sla";
+
+        String link = "redirect:/sla/daftar/" + sla.getDepartemen().getId_dept();
+        return link;
     }
 
     @GetMapping("/sla/daftar/delete/{id}")
     public String deleteSLA(@PathVariable Long id, Model model){
         SLAModel sla = slaService.getSLAById(id);
+        String link = "redirect:/sla/daftar/" + slaService.getSLAById(id).getDepartemen().getId_dept();
+
         slaService.deleteSLA(sla);
-        return "redirect:/sla";
+
+        return link;
     }
 }
