@@ -39,6 +39,10 @@
               <br/>
               <h5 class="statDone" th:text="${problem.status.namaStatus}"></h5>
             </div>
+            <div class="statusName" th:if="${problem.status.id_status == 8}">
+              <br/>
+              <h5 class="statClose" th:text="${problem.status.namaStatus}"></h5>
+            </div>
           </div>
         </div>
         <br />
@@ -96,6 +100,7 @@
                     </div>
                   </div>
 
+                  <!-- resolver department -->
                   <div
                     class="row detail-row"
                     th:unless="${problem.status.id_status == 1 || problem.status.id_status == 4}"
@@ -104,7 +109,7 @@
                     <div class="col-sm-9">
                       :
                       <select
-                        name="jenisResolver"
+                        name=""
                         class="dropdown"
                         th:field="*{problem.resolverDepartemen}"
                         disabled
@@ -118,7 +123,27 @@
                       </select>
                     </div>
                   </div>
-                <!-- </div> -->
+                  <!-- show feedback -->
+                  <div
+                    class="row detail-row"
+                    th:if="${problem.status.id_status == 8}"
+                  ><br>
+                    <div class="col-sm-2">Feedback</div>
+                    <!-- <div class="col-sm-9">
+                      :
+                    </div> -->
+                  </div>
+                  <div
+                    class="row detail-row"
+                    th:if="${problem.status.id_status == 8}"
+                  >
+                    <div class="col-sm-6">
+                      <textarea id="feedback" name="feedback"
+                                rows="3" cols="83" th:text="${feedback.description}" disabled>
+                      </textarea>
+                    </div>
+                  </div>
+                  
                 <!-- assign to departemen resolver -->
                 <div 
                   class="row detail-row" 
@@ -145,8 +170,10 @@
                   </div>
                 <br/>
                 <div class="row detail-row">
-                  <div class="col-sm-7"></div>
                   <div class="col-sm-3"></div>
+                  <div class="col-sm-7">
+                    <h6 th:text="${alert}" style="color: red;"></h6>
+                  </div>
                   <div class="col-sm-2" th:if="${user.id_role.id_role == 2}">
                     <button
                       type="submit"
@@ -255,6 +282,36 @@
                   </div>
                   <!--                                </form>-->
                 </div>
+              
+              <!-- isi feedback -->
+            <div 
+            class="row detail-row" 
+            th:if="${problem.status.id_status == 7 && problem.getPengaju().getId_user() == user.getId_user()}"
+            >
+              <form
+              th:action="@{/problem/close/} + ${problem.id_problem}" method="POST"
+              >
+                <div class="col-sm-12">
+                    Feedback <br>
+                    <textarea class="form-control" rows="5" name="feedback" placeholder="Enter your feedback."></textarea>
+                </div>
+              <br>
+              <br>
+              <div class="row">
+                <div class="col-sm-9"></div>
+                <div class="col-sm-3" th:if="${problem.status.id_status == 7}">
+                  <button
+                    type="submit"
+                    class="btn btn-fill btn-create text-center"
+                    style="width: 120px;"
+                  >
+                    Submit
+                  </button>
+                </div>
+              </div>
+              </form>
+            </div>  
+          <!-- selesai feedback -->
               </div>
                 <br>
                 <br>

@@ -23,4 +23,5 @@ public interface RequestService {
     void makeCode(RequestModel request);
     String getRandomChar(int length);
     String getRandomInt(int length);
+    void testDelayStatus(RequestModel request);
 }
