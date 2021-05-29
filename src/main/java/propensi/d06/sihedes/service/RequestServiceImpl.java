@@ -1,6 +1,5 @@
 package propensi.d06.sihedes.service;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.security.core.Authentication;
@@ -23,10 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import java.awt.print.Book;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 @Service
 @Transactional
@@ -137,6 +133,7 @@ public class RequestServiceImpl implements RequestService{
             if(targetRequest.getStatus().getId_status() == 7){
                 Date dateNow = new java.util.Date();
                 targetRequest.setFinished_date(dateNow);
+                testDelayStatus(targetRequest);
             }
             requestDb.save(targetRequest);
             return targetRequest;
@@ -274,6 +271,12 @@ public class RequestServiceImpl implements RequestService{
     }
 
     @Override
+    public List<RequestModel> getRequestByPengaju(UserModel user){
+        return requestDb.findAllByPengaju(user);
+    }
+
+
+    @Override
     public RequestModel vendorRequest(RequestModel request) {
         RequestModel targetRequest = requestDb.findById(request.getId_request()).get();
         try {
@@ -290,5 +293,20 @@ public class RequestServiceImpl implements RequestService{
         } catch (NullPointerException nullPointerException) {
             return null;
         }
+    }
+
+    @Override
+    public void testDelayStatus(RequestModel request){
+        Timer timer = new Timer();
+        TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                RequestModel targetRequest = requestDb.findById(request.getId_request()).get();
+                StatusModel status = statusDb.findByNamaStatus("Closed");
+                targetRequest.setStatus(status);
+                requestDb.save(targetRequest);
+            }
+        };
+        timer.schedule(timerTask, 172800000);
     }
 }

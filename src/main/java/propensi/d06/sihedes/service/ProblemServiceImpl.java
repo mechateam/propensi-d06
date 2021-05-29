@@ -2,6 +2,8 @@ package propensi.d06.sihedes.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import propensi.d06.sihedes.model.*;
@@ -9,10 +11,8 @@ import propensi.d06.sihedes.repository.*;
 
 import javax.transaction.Transactional;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @Service
 @Transactional
@@ -54,6 +54,7 @@ public class ProblemServiceImpl implements ProblemService{
             if(targetProblem.getStatus().getId_status() == 7){
                 Date dateNow = new java.util.Date();
                 targetProblem.setFinished_date(dateNow);
+                testDelayStatus(targetProblem);
             }
             problemDb.save(targetProblem);
             System.out.println("Ini Status :" + targetProblem.getStatus().getNamaStatus());
@@ -173,5 +174,43 @@ public class ProblemServiceImpl implements ProblemService{
         return requestPage;
     }
 
+    @Override
+    public List<ProblemModel> getProblemByPengaju(UserModel user){
+        return problemDb.findAllByPengaju(user);
+    }
+
+    @Override
+    public ProblemModel vendorRequest(ProblemModel problem) {
+        ProblemModel targetProblem = problemDb.findById(problem.getId_problem()).get();
+        try {
+            UserModel user = userDb.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+            long idStatus = targetProblem.getStatus().getId_status();
+            long newStatus = idStatus+1;
+            targetProblem.setProbVendor(problem.getProbVendor());
+            StatusModel status = statusDb.findById(newStatus).get();
+            targetProblem.setStatus(status);
+            Date dateNow = new java.util.Date();
+            targetProblem.setFinished_date(dateNow);
+            problemDb.save(targetProblem);
+            return targetProblem;
+        } catch (NullPointerException nullPointerException) {
+            return null;
+        }
+    }
+
+    @Override
+    public void testDelayStatus(ProblemModel problem){
+        Timer timer = new Timer();
+        TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                ProblemModel targetProblem = problemDb.findById(problem.getId_problem()).get();
+                StatusModel status = statusDb.findByNamaStatus("Closed");
+                targetProblem.setStatus(status);
+                problemDb.save(targetProblem);
+            }
+        };
+        timer.schedule(timerTask, 172800000);
+    }
 
 }

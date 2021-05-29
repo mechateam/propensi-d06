@@ -11,6 +11,7 @@ public interface RequestService {
     DepartemenModel getDepById(Long id);
     List<RequestModel> findAll();
     List<RequestModel> getRequestByDepartment(DepartemenModel departemen);
+    List<RequestModel> getRequestByPengaju(UserModel user);
     RequestModel getRequestById(Long id);
     RequestModel updateApprovalRequest(RequestModel request);
     RequestModel vendorRequest(RequestModel request);
@@ -22,4 +23,5 @@ public interface RequestService {
     void makeCode(RequestModel request);
     String getRandomChar(int length);
     String getRandomInt(int length);
+    void testDelayStatus(RequestModel request);
 }

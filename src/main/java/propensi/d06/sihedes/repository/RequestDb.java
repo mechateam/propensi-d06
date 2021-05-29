@@ -13,4 +13,5 @@ import java.util.Optional;
 public interface RequestDb extends JpaRepository<RequestModel, Long> {
     List<RequestModel> findAllByResolverDepartemen(DepartemenModel departemen);
     List<RequestModel> findAllByIdApprover(Long id);
+    List<RequestModel> findAllByPengaju(UserModel user);
 }
