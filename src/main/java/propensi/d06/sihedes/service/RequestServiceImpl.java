@@ -3,6 +3,8 @@ package propensi.d06.sihedes.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.scheduling.annotation.Schedules;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import propensi.d06.sihedes.model.BOAModel;
@@ -23,10 +25,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import java.awt.print.Book;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @Transactional
@@ -77,24 +79,30 @@ public class RequestServiceImpl implements RequestService{
         RequestModel targetRequest = requestDb.findById(request.getId_request()).get();
         List<SLABOAModel> listBOA = slaboaDb.findAllBySla(targetRequest.getSla());
         Integer currentRank=0;
+        SLABOAModel currentBOA = listBOA.get(0);
 
         for (SLABOAModel boa:listBOA){
             if (targetRequest.getIdApprover().equals(boa.getBoa().getUser().getId_user())){
                 currentRank = boa.getBoa().getRank();
+                currentBOA = boa;
             }
         }
 
         for (SLABOAModel boa: listBOA){
-            System.out.println("id approver"+targetRequest.getIdApprover());
-            System.out.println(boa.getBoa().getUser().getId_user());
 
             if (targetRequest.getIdApprover() == boa.getBoa().getUser().getId_user()){
                 if (currentRank == listBOA.size()){
                     targetRequest.setIdApprover(new Long(-1));
                 }
             }
+            if ( !boa.equals(currentBOA) && boa.getBoa().getRank() == currentRank){
+                targetRequest.setIdApprover(boa.getBoa().getUser().getId_user());
+            }
 
-            if (boa.getBoa().getRank() == currentRank+1){
+            else if (boa.getBoa().getRank() == currentRank+1 ){
+                targetRequest.setIdApprover(boa.getBoa().getUser().getId_user());
+            }
+            else if (boa.getBoa().getRank() == currentRank+2 ){
                 targetRequest.setIdApprover(boa.getBoa().getUser().getId_user());
             }
         }
@@ -253,17 +261,15 @@ public class RequestServiceImpl implements RequestService{
 
 
         SLAModel sla = request.getSla();
-        System.out.println("ini sla"+sla.getNama_sla());
-        List<SLABOAModel> listBOA = slaboaDb.findAllBySla(request.getSla());
-        System.out.println("Size BoA"+listBOA.size());
+        List<SLABOAModel> listBOA = slaboaDb.findAllBySla(sla);
+        SLABOAModel minRankBoa = listBOA.get(0);
 
         for (SLABOAModel boa: listBOA) {
-            System.out.println("BoA Rank"+ boa.getBoa().getRank());
-            if (boa.getBoa().getRank() == 1){
-                System.out.println("Masuk");
-                request.setIdApprover(boa.getBoa().getUser().getId_user());
+            if (boa.getBoa().getRank() < minRankBoa.getBoa().getRank()){
+                minRankBoa = boa;
             }
         }
+        request.setIdApprover(minRankBoa.getBoa().getId_boa());
 
         requestDb.save(request);
     }

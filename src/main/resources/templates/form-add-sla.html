@@ -102,6 +102,27 @@
                                                 </select>
                                             </div>
                                         </div>
+                                        <div class="row">
+                                            <br>
+                                            <div class="col-sm-4">
+                                                Approval 1: <br>
+                                                <ul th:each="boa : ${listBOASatu}" style="list-style-type:none;">
+                                                    <li><input type="checkbox" th:value="${boa.id_boa}" th:text="${boa.user.nama}" name="rank_satu"/></li>
+                                                </ul>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                Approval 2: <br>
+                                                <ul th:each="boa : ${listBOADua}" style="list-style-type:none;">
+                                                    <li><input type="checkbox" th:value="${boa.id_boa}" th:text="${boa.user.nama}" name="rank_dua"/></li>
+                                                </ul>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                Approval 3: <br>
+                                                <ul th:each="boa : ${listBOATiga}" style="list-style-type:none;">
+                                                    <li><input type="checkbox" th:value="${boa.id_boa}" th:text="${boa.user.nama}" name="rank_tiga"/></li>
+                                                </ul>
+                                            </div>
+                                        </div>
                                         <br><br>
 
                                         <!-- Button trigger modal -->
@@ -131,4 +152,35 @@
                 </div>
     </form> </div></div></div></div>
 </body>
+<script>
+    $(document).ready(function () {
+        $("input[name='boxRankSatu']").change(function () {
+            var maxAllowed = 2;
+            var cnt = $("input[name='boxRankSatu']:checked").length;
+            if (cnt > maxAllowed)
+            {
+                $(this).prop("checked", "");
+                alert('Select maximum ' + maxAllowed + ' Levels!');
+            }
+        });
+        $("input[name='boxRankDua']").change(function () {
+            var maxAllowed = 2;
+            var cnt = $("input[name='boxRankDua']:checked").length;
+            if (cnt > maxAllowed)
+            {
+                $(this).prop("checked", "");
+                alert('Select maximum ' + maxAllowed + ' Levels!');
+            }
+        });
+        $("input[name='boxRankTiga']").change(function () {
+            var maxAllowed = 2;
+            var cnt = $("input[name='boxRankTiga']:checked").length;
+            if (cnt > maxAllowed)
+            {
+                $(this).prop("checked", "");
+                alert('Select maximum ' + maxAllowed + ' Levels!');
+            }
+        });
+    });
+</script>
 </html>

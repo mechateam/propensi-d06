@@ -24,4 +24,7 @@ public class SLABOAServiceImpl implements SLABOAService {
     public List<SLABOAModel> getSLABOABySLAId(Long id){
         return  slaboaDb.findAllBySla(slaDb.findById(id).get());
     }
+
+    @Override
+    public void addSLABOA(SLABOAModel slaboaModel){slaboaDb.save(slaboaModel);}
 }
