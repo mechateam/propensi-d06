@@ -253,17 +253,15 @@ public class RequestServiceImpl implements RequestService{
 
 
         SLAModel sla = request.getSla();
-        System.out.println("ini sla"+sla.getNama_sla());
-        List<SLABOAModel> listBOA = slaboaDb.findAllBySla(request.getSla());
-        System.out.println("Size BoA"+listBOA.size());
+        List<SLABOAModel> listBOA = slaboaDb.findAllBySla(sla);
+        SLABOAModel minRankBoa = listBOA.get(0);
 
         for (SLABOAModel boa: listBOA) {
-            System.out.println("BoA Rank"+ boa.getBoa().getRank());
-            if (boa.getBoa().getRank() == 1){
-                System.out.println("Masuk");
-                request.setIdApprover(boa.getBoa().getUser().getId_user());
+            if (boa.getBoa().getRank() < minRankBoa.getBoa().getRank()){
+                minRankBoa = boa;
             }
         }
+        request.setIdApprover(minRankBoa.getBoa().getId_boa());
 
         requestDb.save(request);
     }
