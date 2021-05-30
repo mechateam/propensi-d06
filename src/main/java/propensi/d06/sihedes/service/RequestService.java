@@ -16,7 +16,7 @@ public interface RequestService {
     List<RequestModel> getRequestByDepartment(DepartemenModel departemen);
     List<RequestModel> getRequestByPengaju(UserModel user);
     RequestModel getRequestById(Long id);
-    RequestModel updateApprovalRequest(RequestModel request);
+    RequestModel updateApprovalRequest(RequestModel request) throws AddressException, MessagingException, IOException;
     RequestModel vendorRequest(RequestModel request);
     RequestModel rejectApprovalRequest(RequestModel request);
     void addRequest(RequestModel request);

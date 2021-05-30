@@ -66,7 +66,7 @@ public class RequestServiceImpl implements RequestService{
     }
 
     @Override
-    public RequestModel updateApprovalRequest(RequestModel request){
+    public RequestModel updateApprovalRequest(RequestModel request) throws AddressException, MessagingException, IOException{
 
         RequestModel targetRequest = requestDb.findById(request.getId_request()).get();
         List<SLABOAModel> listBOA = slaboaDb.findAllBySla(targetRequest.getSla());
@@ -88,13 +88,16 @@ public class RequestServiceImpl implements RequestService{
                 }
             }
             if ( !boa.equals(currentBOA) && boa.getBoa().getRank() == currentRank){
+                sendmail(boa.getBoa().getUser().getEmail());
                 targetRequest.setIdApprover(boa.getBoa().getUser().getId_user());
             }
 
             else if (boa.getBoa().getRank() == currentRank+1 ){
+                sendmail(boa.getBoa().getUser().getEmail());
                 targetRequest.setIdApprover(boa.getBoa().getUser().getId_user());
             }
             else if (boa.getBoa().getRank() == currentRank+2 ){
+                sendmail(boa.getBoa().getUser().getEmail());
                 targetRequest.setIdApprover(boa.getBoa().getUser().getId_user());
             }
         }
@@ -326,9 +329,6 @@ public class RequestServiceImpl implements RequestService{
         Multipart multipart = new MimeMultipart();
         multipart.addBodyPart(messageBodyPart);
 
-//        attachPart.attachFile("/var/tmp/image19.png");
-//        multipart.addBodyPart(attachPart);
-//        msg.setContent(multipart);
         Transport.send(msg);
     }
 }
