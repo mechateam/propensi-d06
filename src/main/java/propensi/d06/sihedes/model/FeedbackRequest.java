@@ -30,9 +30,9 @@ public class FeedbackRequest implements Serializable {
     @Column(name = "created_date", nullable = false)
     private Date created_date;
 
-    @NotNull
-    @Column(name = "score",nullable = false)
-    private Integer score;
+    // @NotNull
+    // @Column(name = "score",nullable = false)
+    // private Integer score;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_request", referencedColumnName = "id_request", nullable = false)
@@ -64,13 +64,13 @@ public class FeedbackRequest implements Serializable {
         this.created_date = created_date;
     }
 
-    public Integer getScore() {
-        return score;
-    }
+    // public Integer getScore() {
+    //     return score;
+    // }
 
-    public void setScore(Integer score) {
-        this.score = score;
-    }
+    // public void setScore(Integer score) {
+    //     this.score = score;
+    // }
 
     public RequestModel getRequest() {
         return request;

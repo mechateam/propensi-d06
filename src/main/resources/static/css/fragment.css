@@ -387,6 +387,15 @@ tr:hover td {
   text-align: center;
 }
 
+.statClose {
+  background-color: #545655;
+  color: white;
+  padding: 8px;
+  border-radius: 20px;
+  min-width: 163px;
+  text-align: center;
+}
+
 .tableWfa {
   color: #4774B8;
   padding: 1px;
@@ -398,4 +407,13 @@ tr:hover td {
   float: right;
   width: 145px;
   margin-bottom: 20px;
+}
+
+#feedback{
+  color: #717171;
+  padding: 10px;
+  line-height: 1.5;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  box-shadow: 1px 1px 1px #999;
 }
