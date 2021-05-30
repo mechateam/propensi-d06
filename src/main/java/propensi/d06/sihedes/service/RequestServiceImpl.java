@@ -71,24 +71,30 @@ public class RequestServiceImpl implements RequestService{
         RequestModel targetRequest = requestDb.findById(request.getId_request()).get();
         List<SLABOAModel> listBOA = slaboaDb.findAllBySla(targetRequest.getSla());
         Integer currentRank=0;
+        SLABOAModel currentBOA = listBOA.get(0);
 
         for (SLABOAModel boa:listBOA){
             if (targetRequest.getIdApprover().equals(boa.getBoa().getUser().getId_user())){
                 currentRank = boa.getBoa().getRank();
+                currentBOA = boa;
             }
         }
 
         for (SLABOAModel boa: listBOA){
-            System.out.println("id approver"+targetRequest.getIdApprover());
-            System.out.println(boa.getBoa().getUser().getId_user());
 
             if (targetRequest.getIdApprover() == boa.getBoa().getUser().getId_user()){
                 if (currentRank == listBOA.size()){
                     targetRequest.setIdApprover(new Long(-1));
                 }
             }
+            if ( !boa.equals(currentBOA) && boa.getBoa().getRank() == currentRank){
+                targetRequest.setIdApprover(boa.getBoa().getUser().getId_user());
+            }
 
-            if (boa.getBoa().getRank() == currentRank+1){
+            else if (boa.getBoa().getRank() == currentRank+1 ){
+                targetRequest.setIdApprover(boa.getBoa().getUser().getId_user());
+            }
+            else if (boa.getBoa().getRank() == currentRank+2 ){
                 targetRequest.setIdApprover(boa.getBoa().getUser().getId_user());
             }
         }
@@ -131,7 +137,6 @@ public class RequestServiceImpl implements RequestService{
             if(targetRequest.getStatus().getId_status() == 7){
                 Date dateNow = new java.util.Date();
                 targetRequest.setFinished_date(dateNow);
-                testDelayStatus(targetRequest);
             }
             requestDb.save(targetRequest);
             return targetRequest;
@@ -291,21 +296,6 @@ public class RequestServiceImpl implements RequestService{
         } catch (NullPointerException nullPointerException) {
             return null;
         }
-    }
-
-    @Override
-    public void testDelayStatus(RequestModel request){
-        Timer timer = new Timer();
-        TimerTask timerTask = new TimerTask() {
-            @Override
-            public void run() {
-                RequestModel targetRequest = requestDb.findById(request.getId_request()).get();
-                StatusModel status = statusDb.findByNamaStatus("Closed");
-                targetRequest.setStatus(status);
-                requestDb.save(targetRequest);
-            }
-        };
-        timer.schedule(timerTask, 172800000);
     }
 
     @Override
