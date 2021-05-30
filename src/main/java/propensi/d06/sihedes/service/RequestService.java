@@ -4,6 +4,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import propensi.d06.sihedes.model.*;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
+import java.io.IOException;
 import java.util.List;
 
 public interface RequestService {
@@ -24,4 +27,5 @@ public interface RequestService {
     String getRandomChar(int length);
     String getRandomInt(int length);
     void testDelayStatus(RequestModel request);
+    void sendmail(String emailRecipient) throws AddressException, MessagingException, IOException;
 }
