@@ -25,12 +25,13 @@
                     <p>
                         <a th:href="@{/vendor}" >Vendor</a>
                         <span> > </span>
-                        <span>Create Service Catalog</span>
+                        <span>Add Vendor</span>
                     </p>
                 </div>
             </div>
 
         </div>
+        <span id="alert"></span>
         <br>
 
         <!--                        START YOUR CONTENT                      -->
@@ -61,22 +62,25 @@
                                     <form th:action="@{/vendor/tambah}" th:object="${vendor}" method="POST">
                                         <div class="row">
                                             <div class="col-sm-8">
-                                                Vendor Name <br>
-                                                <input class="form-control" type="text" name="nama" required/>
+                                                Vendor Name
+                                                <span style="color:red;"> * </span>
+                                                <input id="nama_vendor" class="form-control" type="text" name="nama" required/>
                                             </div>
                                         </div>
                                         <br>
                                         <div class="row">
                                             <div class="col-sm-8">
-                                                Phone <br>
-                                                <input class="form-control" type="text" name="no_telp" required/>
+                                                Phone
+                                                <span style="color:red;"> * </span>
+                                                <input id="no_telp" class="form-control" type="text" name="no_telp" required/>
                                             </div>
                                         </div>
                                         <br>
                                         <div class="row">
                                             <div class="col-sm-8">
-                                                Description <br>
-                                                <input class="form-control" type="text" name="description" required/>
+                                                Description
+                                                <span style="color:red;"> * </span>
+                                                <input id="description" class="form-control" type="text" name="description" required/>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -85,19 +89,30 @@
                                         <br><br>
 
                                         <!-- Button trigger modal -->
-                                        <button type="button" data-toggle="modal" data-target="#exampleModal" class="btn btn-fill btn-create text-center">
-                                            Create
-                                        </button>
+                                        <div class="col-sm-8">
+                                            <div class="col-sm-4; button-wrapper">
+                                                <button type="button" class="btn btn-create text-center" id="btnSubmit">Add</button>
+                                            </div>
+                                            <div class="col-sm-12" style="text-align: center">
+                                                <a th:href="@{/vendor}">Cancel</a>
+                                            </div>
+                                        </div>
 
                                         <!-- Modal -->
-                                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal fade" id="cancelModal" tabindex="-1" role="dialog" aria-labelledby="cacnelModalLabel" aria-hidden="true">
                                             <div class="modal-dialog" role="document">
                                                 <div class="modal-content">
-                                                    <div class="modal-body">
-                                                        Vendor Created!
+                                                    <div class="modal-header">
+                                                        <h6 class="modal-title" id="cancelModalLabel" style="font-weight: bold; font-size: 1rem!important;">Add Vendor</h6>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body" style="padding: 2rem 1rem;font-size: 1rem!important;">
+                                                        Vendor Successfully Added!
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <button type="submit" class="btn btn-fill btn-create text-center">Ok</button>
+                                                        <button type="submit" class="btn btn-fill btn-create text-center">Yes</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -111,4 +126,23 @@
                 </div>
                 </form> </div></div></div></div>
 </body>
+<script>
+    $(document).ready(function(){
+        $("#btnSubmit").click(function(){
+            var nama_vendor = document.getElementById("nama_vendor").value;
+            var description = document.getElementById("description").value;
+            var no_telp = document.getElementById("no_telp").value;
+
+            if ((nama_vendor !== "") && (description !== "") && (no_telp !== "")) {
+                document.getElementById("alert").innerHTML = ""
+                $("#cancelModal").modal();
+            } else {
+                document.getElementById("alert").innerHTML = "<div class=\"alert alert-danger\" role=\"alert\">\n" +
+                    "Please fill in all required fields!.\n" +
+                    "</div>"
+            }
+        });
+    });
+
+</script>
 </html>
