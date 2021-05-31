@@ -70,38 +70,42 @@ public class TicketController {
         DepartemenModel dept = user.getDepartemen();
 
         // ProblemModel
-        List<ProblemModel> listProblem = new ArrayList<>();
-        List<RequestModel> listRequest = new ArrayList<>();
-        if(user.getId_role().getId_role() == Long.parseLong("2")) {
-            List<ProblemModel> problems = problemService.findAll();
-            List<RequestModel> requests = requestService.findAll();
-            for(ProblemModel p : problems){
-                listProblem.add(p);
-            }
-            for(RequestModel r : requests){
-                listRequest.add(r);
-            }
-        }
-        else if (user.getId_role().getId_role() == Long.parseLong("3")){
-            List<ProblemModel> problems = problemService.getProblemByPengaju(user);
-            List<RequestModel> requests = requestService.getRequestByPengaju(user);
-            for(ProblemModel p : problems){
-                listProblem.add(p);
-            }
-            for(RequestModel r : requests){
-                listRequest.add(r);
-            }
-        }
-        else {
-            List<ProblemModel> problems = problemService.getProblemByDepartemen(dept);
-            List<RequestModel> requests = requestService.getRequestByDepartment(dept);
-            for(ProblemModel p : problems){
-                listProblem.add(p);
-            }
-            for(RequestModel r : requests){
-                listRequest.add(r);
-            }
-        }
+        List<ProblemModel> listProblem= problemService.findAll();
+        List<RequestModel> listRequest= requestService.findAll();
+//        List<ProblemModel> listProblem = new ArrayList<>();
+//        List<RequestModel> listRequest = new ArrayList<>();
+//        if(user.getId_role().getId_role() == Long.parseLong("2")) {
+//            List<ProblemModel> problems = problemService.findAll();
+//            List<RequestModel> requests = requestService.findAll();
+//            for(ProblemModel p : problems){
+//                listProblem.add(p);
+//            }
+//            for(RequestModel r : requests){
+//                listRequest.add(r);
+//            }
+//        }
+//        else if (user.getId_role().getId_role() == Long.parseLong("3")){
+//            List<ProblemModel> problems = problemService.getProblemByPengaju(user);
+//            List<RequestModel> requests = requestService.getRequestByPengaju(user);
+//            for(ProblemModel p : problems){
+//                listProblem.add(p);
+//            }
+//            for(RequestModel r : requests){
+//                listRequest.add(r);
+//            }
+
+        
+//        }
+//        else {
+//            List<ProblemModel> problems = problemService.getProblemByDepartemen(dept);
+//            List<RequestModel> requests = requestService.getRequestByDepartment(dept);
+//            for(ProblemModel p : problems){
+//                listProblem.add(p);
+//            }
+//            for(RequestModel r : requests){
+//                listRequest.add(r);
+//            }
+//        }
 
         //Checking
         boolean hasProblem = listProblem.size() > 0;
