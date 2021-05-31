@@ -110,7 +110,7 @@ public class SLAController {
         sla.setCompletion_time(completion_time_number + " " + completion_time_period);
         slaService.addSLA(sla);
 
-        if (boxRankSatu.length != 0){
+        if (boxRankSatu != null){
             for (int i=0; i < boxRankSatu.length;i++){
                 Long j = new Long(boxRankSatu[i]);
                 SLABOAModel targetSLABOA = new SLABOAModel();
