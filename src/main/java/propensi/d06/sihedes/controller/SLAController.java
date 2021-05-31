@@ -6,14 +6,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import propensi.d06.sihedes.model.BOAModel;
-import propensi.d06.sihedes.model.DepartemenModel;
-import propensi.d06.sihedes.model.SLAModel;
-import propensi.d06.sihedes.model.UserModel;
-import propensi.d06.sihedes.service.BOAService;
-import propensi.d06.sihedes.service.DepartemenService;
-import propensi.d06.sihedes.service.SLAService;
-import propensi.d06.sihedes.service.UserService;
+import propensi.d06.sihedes.model.*;
+import propensi.d06.sihedes.service.*;
 
 import java.util.List;
 
@@ -31,6 +25,9 @@ public class SLAController {
 
     @Autowired
     BOAService boaService;
+
+    @Autowired
+    SLABOAService slaboaService;
 
 
     @GetMapping("/sla")
@@ -91,9 +88,13 @@ public class SLAController {
     @GetMapping("/sla/daftar/tambah")
     public String formTambahSLA(Model model){
         List<DepartemenModel> listDepartemen = departemenService.findAll();
-        List<BOAModel> listBOA = boaService.findAll();
+        List<BOAModel> listBOASatu = boaService.findAllByRank(1);
+        List<BOAModel> listBOADua = boaService.findAllByRank(2);
+        List<BOAModel> listBOATiga = boaService.findAllByRank(3);
         model.addAttribute("listDepartemen",listDepartemen);
-        model.addAttribute("listBOA",listBOA);
+        model.addAttribute("listBOASatu",listBOASatu);
+        model.addAttribute("listBOADua",listBOADua);
+        model.addAttribute("listBOATiga",listBOATiga);
         return "form-add-sla";
     }
 
@@ -102,9 +103,34 @@ public class SLAController {
             @ModelAttribute SLAModel sla,
             @RequestParam("completion_time_number") String completion_time_number,
             @RequestParam("completion_time_period") String completion_time_period,
+            @RequestParam(value = "rank_satu", required = false) Integer[] boxRankSatu,
+            @RequestParam(value = "rank_dua", required = false) Integer[] boxRankDua,
+            @RequestParam(value = "rank_tiga", required = false) Integer[] boxRankTiga,
             Model model){
         sla.setCompletion_time(completion_time_number + " " + completion_time_period);
         slaService.addSLA(sla);
+
+        for (int i=0; i < boxRankSatu.length;i++){
+            Long j = new Long(boxRankSatu[i]);
+            SLABOAModel targetSLABOA = new SLABOAModel();
+            targetSLABOA.setBoa(boaService.findById(j).get());
+            targetSLABOA.setSla(sla);
+            slaboaService.addSLABOA(targetSLABOA);
+        }
+        for (int i=0; i < boxRankDua.length;i++){
+            Long j = new Long(boxRankSatu[i]);
+            SLABOAModel targetSLABOA = new SLABOAModel();
+            targetSLABOA.setBoa(boaService.findById(j).get());
+            targetSLABOA.setSla(sla);
+            slaboaService.addSLABOA(targetSLABOA);
+        }
+        for (int i=0; i < boxRankTiga.length;i++){
+            Long j = new Long(boxRankSatu[i]);
+            SLABOAModel targetSLABOA = new SLABOAModel();
+            targetSLABOA.setBoa(boaService.findById(j).get());
+            targetSLABOA.setSla(sla);
+            slaboaService.addSLABOA(targetSLABOA);
+        }
 
         String link = "redirect:/sla/daftar/" + sla.getDepartemen().getId_dept();
         return link;

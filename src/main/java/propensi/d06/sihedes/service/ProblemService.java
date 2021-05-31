@@ -20,5 +20,5 @@ public interface ProblemService {
     String getRandomInt(int length);
     Page<ProblemModel> findPaginated(Pageable pageable, List<ProblemModel> requests);
    ProblemModel vendorRequest(ProblemModel problem);
-
+   void testDelayStatus(ProblemModel problem);
 }

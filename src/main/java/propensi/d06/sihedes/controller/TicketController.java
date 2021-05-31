@@ -4,7 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
 import propensi.d06.sihedes.model.*;
-import propensi.d06.sihedes.repository.SLADb;
+import propensi.d06.sihedes.repository.*;
 import propensi.d06.sihedes.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,6 +12,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -57,6 +59,12 @@ public class TicketController {
     @Autowired
     private SLADb slaDb;
 
+    @Autowired
+    private FeedbackProblemService feedbackProblemService;
+
+    @Autowired
+    private FeedbackRequestService feedbackRequestService;
+
 
     @GetMapping("/tickets")
     public String listTickets(
@@ -64,7 +72,8 @@ public class TicketController {
             RequestModel request,
             @RequestParam("page") Optional<Integer> page,
             @RequestParam("size") Optional<Integer> size,
-            Model model) {
+            Model model) throws AddressException, MessagingException, IOException {
+        requestService.sendmail("meldihafizh@gmail.com");
 
         UserModel user = userService.getUserbyUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         DepartemenModel dept = user.getDepartemen();
@@ -244,7 +253,6 @@ public class TicketController {
             @PathVariable(value="id_problem") Long id_problem,
             Model model)
     {
-
         ProblemModel problem = problemService.findProblemById(id_problem);
 
         List<UserModel> resolvers = new ArrayList<>();
@@ -254,6 +262,12 @@ public class TicketController {
             resolvers = userService.getListUserbyDepartemen(problem.getResolverDepartemen());
         }
 
+        if(problem.getStatus().getId_status() == 8){
+            System.out.println(problem.getPengaju().getId_user() + " itu pengaju dan user yang login " + user.getId_user());
+            FeedbackProblem feedback = feedbackProblemService.findFeedbackByProblem(problem);
+            model.addAttribute("feedback",feedback);
+        }
+        
         List<LogProblemModel> allLogs = problem.getListLog();
         List<LogProblemModel> logs = new ArrayList<>();
         for(int i = allLogs.size()-1 ; i > -1 ;i--)
@@ -271,41 +285,34 @@ public class TicketController {
 
     }
 
-    // @GetMapping("/problem/resolver/{id_problem}")
-    // public String detailResolveProblem(
-    //     @PathVariable(value="id_problem") Long id_problem,
-    //     Model model
-    // ){
-    //     ProblemModel problem = problemService.findProblemById(id_problem);
-    //     List<LogProblemModel> logs = problem.getListLog();
-    //     model.addAttribute("logs", logs);
-    //     model.addAttribute("problem",problem);
-    //     return "assignResolverProblem";
-    // }
-
     @PostMapping("/problem/resolver/{id_problem}")
     public String ResolveProblem(
-        @RequestParam(value = "jenisResolver") Long id,
+        @RequestParam(value = "jenisResolver", required = false) Long id,
         @PathVariable Long id_problem, Model model,
         RedirectAttributes redir) {
-        UserModel user = userService.getUserbyUsername(SecurityContextHolder.getContext().getAuthentication().getName());
-        ProblemModel problem = problemService.findProblemById(id_problem);
-        long idStatus = 5;
-        StatusModel status = statusService.findStatusById(idStatus);
-        problem.setStatus(status);
-        
-        System.out.println(problem.getId_problem());
-        problem.setResolverDepartemen(problemService.getDepById(id));
-        problemService.updateProblem(problem);
+        if (id != null){
+            UserModel user = userService.getUserbyUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+            ProblemModel problem = problemService.findProblemById(id_problem);
+            long idStatus = 5;
+            StatusModel status = statusService.findStatusById(idStatus);
+            problem.setStatus(status);
+            
+            System.out.println(problem.getId_problem());
+            problem.setResolverDepartemen(problemService.getDepById(id));
+            problemService.updateProblem(problem);
 
-        LogProblemModel log = new LogProblemModel();
-        log.setDescription(status.getNamaStatus());
-        log.setPosted_date(new Date());
-        log.setProblem(problem);
-        log.setCreatedBy(user);
-        logProblemService.addLog(log);
+            LogProblemModel log = new LogProblemModel();
+            log.setDescription(status.getNamaStatus());
+            log.setPosted_date(new Date());
+            log.setProblem(problem);
+            log.setCreatedBy(user);
+            logProblemService.addLog(log);
 
-        return "redirect:/tickets";
+            return "redirect:/tickets";
+        } else{
+            redir.addFlashAttribute("alert", "Anda belum Assign Resolver Department");
+            return "redirect:/problem/detail/" + id_problem;
+        }
     }
 
     // @GetMapping("/problem/individual/{id_problem}")
@@ -490,19 +497,18 @@ public class TicketController {
 
             return "detailRequestApproval";
         }
+        if(request.getStatus().getId_status() == 8){
+            System.out.println(request.getPengaju().getId_user() + " itu pengaju dan user yang login " + userLoggedin.getId_user());
+            FeedbackRequest feedback = feedbackRequestService.findFeedbackByRequest(request);
+            model.addAttribute("feedback",feedback);
+        }
+
+        model.addAttribute("user",userLoggedin);
         model.addAttribute("request",request);
         model.addAttribute("logs", allLogs);
         return "detailRequest";
 
     }
-
-    // @GetMapping("/request/resolver")
-    // public String detailResolveRequest(
-    //         @ModelAttribute RequestModel request,
-    //         Model model) {
-
-    //     return "assignResolverRequest";
-    // }
     
     @PostMapping("/request/update")
     public String accReq(
@@ -667,7 +673,7 @@ public class TicketController {
     }
 
     @PostMapping("/request/approve")
-    public String approveRequest(@ModelAttribute RequestModel request, Model model){
+    public String approveRequest(@ModelAttribute RequestModel request, Model model) throws AddressException, MessagingException, IOException {
         requestService.updateApprovalRequest(request);
 
         /// for Log
@@ -808,4 +814,57 @@ public class TicketController {
     }
 
 
+    @PostMapping("/problem/close/{id_problem}")
+    public String closeProblem(
+            @RequestParam(value = "feedback") String comments,
+            @PathVariable Long id_problem, Model model,
+            RedirectAttributes redir) {
+        UserModel user = userService.getUserbyUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        ProblemModel problem = problemService.findProblemById(id_problem);
+        problemService.updateProblemStatus(problem);
+        problemService.updateProblem(problem);
+
+        FeedbackProblem feedback = new FeedbackProblem();
+        feedback.setDescription(comments);
+        feedback.setProblem(problem);
+        feedback.setCreated_date(new Date());
+        // feedback.setScore(0);
+        feedbackProblemService.addFeedback(feedback);
+
+        LogProblemModel log = new LogProblemModel();
+        log.setDescription("Problem Closed");
+        log.setPosted_date(new Date());
+        log.setProblem(problem);
+        log.setCreatedBy(user);
+        logProblemService.addLog(log);
+
+        return "redirect:/tickets";
+    }
+
+    @PostMapping("/request/close/{id_request}")
+    public String closeRequest(
+            @RequestParam(value = "feedback") String comments,
+            @PathVariable Long id_request, Model model,
+            RedirectAttributes redir) {
+        UserModel user = userService.getUserbyUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        RequestModel request = requestService.getRequestById(id_request);
+        requestService.updateRequestStatus(request);
+        requestService.updateRequest(request);
+
+        FeedbackRequest feedback = new FeedbackRequest();
+        feedback.setDescription(comments);
+        feedback.setRequest(request);
+        feedback.setCreated_date(new Date());
+        // feedback.setScore(0);
+        feedbackRequestService.addFeedback(feedback);
+
+        LogRequestModel log = new LogRequestModel();
+        log.setDescription("Request Closed");
+        log.setPosted_date(new Date());
+        log.setRequest(request);
+        log.setCreatedBy(user);
+        logRequestService.addLog(log);
+
+        return "redirect:/tickets";
+    }
 }

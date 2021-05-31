@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface SLABOAService {
     List<SLABOAModel> getSLABOABySLAId(Long id);
+    void addSLABOA(SLABOAModel slaboaModel);
 }

@@ -8,6 +8,7 @@ import propensi.d06.sihedes.repository.BOADb;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -21,4 +22,9 @@ public class BOAServiceImpl implements BOAService {
 
     @Override
     public List<BOAModel> findAllByRank(Integer rank){ return boaDb.findAllByRank(rank);}
+
+    @Override
+    public Optional<BOAModel> findById(Long id){
+        return boaDb.findById(id);
+    }
 }
