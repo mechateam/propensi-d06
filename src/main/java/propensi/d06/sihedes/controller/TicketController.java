@@ -669,7 +669,7 @@ public class TicketController {
     }
 
     @PostMapping("/request/approve")
-    public String approveRequest(@ModelAttribute RequestModel request, Model model){
+    public String approveRequest(@ModelAttribute RequestModel request, Model model) throws AddressException, MessagingException, IOException {
         requestService.updateApprovalRequest(request);
 
         /// for Log
