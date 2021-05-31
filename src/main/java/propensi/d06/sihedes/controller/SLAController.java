@@ -110,26 +110,34 @@ public class SLAController {
         sla.setCompletion_time(completion_time_number + " " + completion_time_period);
         slaService.addSLA(sla);
 
-        for (int i=0; i < boxRankSatu.length;i++){
-            Long j = new Long(boxRankSatu[i]);
-            SLABOAModel targetSLABOA = new SLABOAModel();
-            targetSLABOA.setBoa(boaService.findById(j).get());
-            targetSLABOA.setSla(sla);
-            slaboaService.addSLABOA(targetSLABOA);
+        if (boxRankSatu.length != 0){
+            for (int i=0; i < boxRankSatu.length;i++){
+                Long j = new Long(boxRankSatu[i]);
+                SLABOAModel targetSLABOA = new SLABOAModel();
+                targetSLABOA.setBoa(boaService.findById(j).get());
+                targetSLABOA.setSla(sla);
+                slaboaService.addSLABOA(targetSLABOA);
+            }
         }
-        for (int i=0; i < boxRankDua.length;i++){
-            Long j = new Long(boxRankSatu[i]);
-            SLABOAModel targetSLABOA = new SLABOAModel();
-            targetSLABOA.setBoa(boaService.findById(j).get());
-            targetSLABOA.setSla(sla);
-            slaboaService.addSLABOA(targetSLABOA);
+
+        if (boxRankDua.length != 0){
+            for (int i=0; i < boxRankDua.length;i++){
+                Long j = new Long(boxRankSatu[i]);
+                SLABOAModel targetSLABOA = new SLABOAModel();
+                targetSLABOA.setBoa(boaService.findById(j).get());
+                targetSLABOA.setSla(sla);
+                slaboaService.addSLABOA(targetSLABOA);
+            }
         }
-        for (int i=0; i < boxRankTiga.length;i++){
-            Long j = new Long(boxRankSatu[i]);
-            SLABOAModel targetSLABOA = new SLABOAModel();
-            targetSLABOA.setBoa(boaService.findById(j).get());
-            targetSLABOA.setSla(sla);
-            slaboaService.addSLABOA(targetSLABOA);
+
+        if (boxRankTiga.length != 0){
+            for (int i=0; i < boxRankTiga.length;i++){
+                Long j = new Long(boxRankSatu[i]);
+                SLABOAModel targetSLABOA = new SLABOAModel();
+                targetSLABOA.setBoa(boaService.findById(j).get());
+                targetSLABOA.setSla(sla);
+                slaboaService.addSLABOA(targetSLABOA);
+            }
         }
 
         String link = "redirect:/sla/daftar/" + sla.getDepartemen().getId_dept();
