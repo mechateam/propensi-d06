@@ -21,6 +21,7 @@
               <h3>Detail Ticket</h3>
               <p><a th:href="@{/tickets}">All Tickets</a> > Detail</p>
             </div>
+            <span id="alert"></span>
           </div>
           <div class="col-sm-6">
             <div class="statusName" th:if="${problem.status.id_status == 4}">
@@ -156,8 +157,8 @@
                   <div class="col-sm-3">Assign Resolver</div>
                   <div class="col-sm-9">
                     :
-                    <select name="jenisResolver" class="dropdown">
-                      <option selected disabled>
+                    <select name="jenisResolver" id="jenisResolver" class="dropdown">
+                      <option selected value="">
                         Assign Resolver Department
                       </option>
                       <option value="1">IT Helpdesk</option>
@@ -172,17 +173,38 @@
                 <div class="row detail-row">
                   <div class="col-sm-3"></div>
                   <div class="col-sm-7">
-                    <h6 th:text="${alert}" style="color: red;"></h6>
+                    <!-- <h6 th:text="${alert}" style="color: red;"></h6> -->
                   </div>
                   <div class="col-sm-2" th:if="${user.id_role.id_role == 2}">
                     <button
-                      type="submit"
+                      id="btnSubmit"
+                      type="button"
                       class="btn btn-fill btn-create text-center"
                     >
                       Assign
                     </button>
                   </div>
+                  <!-- <div class="col-sm-1"></div> -->
                 </div>
+                <!-- Modal -->
+                <div class="modal fade" id="cancelModal" tabindex="-1" role="dialog" aria-labelledby="cacnelModalLabel" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                          <div class="modal-header">
+                              <h6 class="modal-title" id="cancelModalLabel" style="font-weight: bold; font-size: 1rem!important;">Assign Resolver Department</h6>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                              </button>
+                          </div>
+                          <div class="modal-body" style="padding: 2rem 1rem;font-size: 1rem!important;">
+                              Resolver Department Assigned!
+                          </div>
+                          <div class="modal-footer">
+                              <button type="submit" class="btn btn-fill btn-create text-center">Ok</button>
+                          </div>
+                      </div>
+                  </div>
+              </div>
                 </form>
                 </div>
                 <!-- assign to individual resolver -->
@@ -300,13 +322,30 @@
               <div class="row">
                 <div class="col-sm-9"></div>
                 <div class="col-sm-3" th:if="${problem.status.id_status == 7}">
+                  <!-- Button trigger modal -->
                   <button
-                    type="submit"
+                    type="button"
+                    data-toggle="modal" data-target="#submitModal"
                     class="btn btn-fill btn-create text-center"
                     style="width: 120px;"
                   >
                     Submit
                   </button>
+
+                  <!-- Modal -->
+                  <div class="modal fade" id="submitModal" tabindex="-3" role="dialog" aria-labelledby="submitModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-body">
+                          Feedback Submitted!
+                        </div>
+                        <div class="modal-footer">
+                          <button type="submit" class="btn btn-fill btn-create text-center">Ok</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
                 </div>
               </div>
               </form>
@@ -401,4 +440,21 @@
       });
     </script>
   </body>
+  <script>
+    $(document).ready(function(){
+        $("#btnSubmit").click(function(){
+            var jenisResolver = document.getElementById("jenisResolver").value;
+
+            if ((jenisResolver !== "")) {
+                document.getElementById("alert").innerHTML = ""
+                $("#cancelModal").modal();
+            } else {
+                document.getElementById("alert").innerHTML = "<div class=\"alert alert-danger\" role=\"alert\">\n" +
+                    "Please choose a resolver department!\n" +
+                    "</div>"
+            }
+        });
+    });
+
+</script>
 </html>

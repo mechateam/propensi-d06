@@ -48,8 +48,11 @@ public class ProblemServiceImpl implements ProblemService{
             if(idStatus == 5){
                 targetProblem.setResolver(user);
             }
+            System.out.println("ini status sebelum" + idStatus);
             long newStatus = idStatus+1;
+            System.out.println("ini new status" + newStatus);
             StatusModel status = statusDb.findById(newStatus).get();
+            
             targetProblem.setStatus(status);
             if(targetProblem.getStatus().getId_status() == 7){
                 Date dateNow = new java.util.Date();
