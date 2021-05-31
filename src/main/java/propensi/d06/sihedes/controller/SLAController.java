@@ -120,7 +120,7 @@ public class SLAController {
             }
         }
 
-        if (boxRankDua.length != 0){
+        if (boxRankDua != null){
             for (int i=0; i < boxRankDua.length;i++){
                 Long j = new Long(boxRankSatu[i]);
                 SLABOAModel targetSLABOA = new SLABOAModel();
@@ -130,7 +130,7 @@ public class SLAController {
             }
         }
 
-        if (boxRankTiga.length != 0){
+        if (boxRankTiga != null){
             for (int i=0; i < boxRankTiga.length;i++){
                 Long j = new Long(boxRankSatu[i]);
                 SLABOAModel targetSLABOA = new SLABOAModel();
