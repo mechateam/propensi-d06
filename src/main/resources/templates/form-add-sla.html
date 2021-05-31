@@ -19,7 +19,7 @@
         <div class="row">
 
             <!--Page Name Header-->
-            <div class="col-md-6">
+            <div class="col-md-8">
                 <div class="pageName">
                     <h3>Service Catalog</h3>
                     <p>
@@ -37,7 +37,7 @@
         <!--                        START YOUR CONTENT                      -->
 
         <!--Tab Nav-->
-        <div class="col-md-6">
+        <div class="col-md-8">
 
             <div class="tab-content">
                 <!--                    START TAB PROBLEM-->
@@ -63,7 +63,7 @@
                                     <form th:action="@{/sla/daftar/tambah}" th:object="${sla}" method="POST">
                                         <div class="row">
                                             <div class="col-sm-8">
-                                                Service Catalog Name
+                                                <b>Service Catalog Name</b>
                                                 <span style="color:red;"> * </span>
                                                 <input id="nama_sla" class="form-control" type="text" name="nama_sla" required/>
                                             </div>
@@ -71,7 +71,7 @@
                                         <br>
                                         <div class="row">
                                             <div class="col-sm-8">
-                                                Description
+                                                <b>Description</b>
                                                 <span style="color:red;"> * </span>
                                                 <input id="description" class="form-control" type="text" name="description" required/>
                                             </div>
@@ -79,7 +79,7 @@
                                         <div class="row">
                                             <br>
                                             <div class="col-sm-8">
-                                                Completion Time
+                                                <b>Completion Time</b>
                                                 <span style="color:red;"> * </span> <br>
                                                 <div class="col-sm-4">
                                                     <input id="completion_time_number" class="form-control" type="text" name="completion_time_number" required/>
@@ -98,7 +98,7 @@
                                         <div class="row">
                                             <br>
                                             <div class="col-sm-8">
-                                                Department
+                                                <b>Department</b>
                                                 <span style="color:red;"> * </span>
                                                 <select id="departemen" name="departemen" class="form-control">
                                                     <option selected value="">-- Pilih Departemen --</option>
@@ -110,18 +110,24 @@
                                         <div class="row">
                                             <br>
                                             <div class="col-sm-4">
+                                                <br>
+                                                <b>Board of Approval</b>
+                                                <span style="color:red;"> * </span>
+                                                <br>
                                                 Approval 1: <br>
                                                 <ul th:each="boa : ${listBOASatu}" style="list-style-type:none;">
-                                                    <li><input type="checkbox" th:value="${boa.id_boa}" th:text="${boa.user.nama}" name="rank_satu"/></li>
+                                                    <li><input type="checkbox" th:value="${boa.id_boa}" th:text="${boa.user.nama}" name="rank_satu"/> </li>
                                                 </ul>
                                             </div>
                                             <div class="col-sm-4">
+                                                <br><br>
                                                 Approval 2: <br>
                                                 <ul th:each="boa : ${listBOADua}" style="list-style-type:none;">
-                                                    <li><input type="checkbox" th:value="${boa.id_boa}" th:text="${boa.user.nama}" name="rank_dua"/></li>
+                                                    <li><input type="checkbox" th:value="${boa.id_boa}" th:text="${boa.user.nama}" name="rank_dua"/> </li>
                                                 </ul>
                                             </div>
                                             <div class="col-sm-4">
+                                                <br><br>
                                                 Approval 3: <br>
                                                 <ul th:each="boa : ${listBOATiga}" style="list-style-type:none;">
                                                     <li><input type="checkbox" th:value="${boa.id_boa}" th:text="${boa.user.nama}" name="rank_tiga"/></li>
@@ -131,7 +137,7 @@
                                         <br><br>
 
                                         <!-- Button trigger modal -->
-                                        <div class="col-sm-8">
+                                        <div class="col-sm-4">
                                             <div class="col-sm-4; button-wrapper">
                                                 <button type="button" class="btn btn-create text-center" id="btnSubmit">Submit</button>
                                             </div>
@@ -191,27 +197,27 @@
 </script>
 <script>
     $(document).ready(function () {
-        $("input[name='boxRankSatu']").change(function () {
+        $("input[name='rank_satu']").change(function () {
             var maxAllowed = 2;
-            var cnt = $("input[name='boxRankSatu']:checked").length;
+            var cnt = $("input[name='rank_satu']:checked").length;
+            if (cnt > maxAllowed)
+            {
+                $(this).prop("checked", "");
+                alert('Select maximum ' + maxAllowed + ' Approver per Levels!');
+            }
+        });
+        $("input[name='rank_dua']").change(function () {
+            var maxAllowed = 2;
+            var cnt = $("input[name='rank_dua']:checked").length;
             if (cnt > maxAllowed)
             {
                 $(this).prop("checked", "");
                 alert('Select maximum ' + maxAllowed + ' Levels!');
             }
         });
-        $("input[name='boxRankDua']").change(function () {
+        $("input[name='rank_tiga']").change(function () {
             var maxAllowed = 2;
-            var cnt = $("input[name='boxRankDua']:checked").length;
-            if (cnt > maxAllowed)
-            {
-                $(this).prop("checked", "");
-                alert('Select maximum ' + maxAllowed + ' Levels!');
-            }
-        });
-        $("input[name='boxRankTiga']").change(function () {
-            var maxAllowed = 2;
-            var cnt = $("input[name='boxRankTiga']:checked").length;
+            var cnt = $("input[name='rank_tiga']:checked").length;
             if (cnt > maxAllowed)
             {
                 $(this).prop("checked", "");
