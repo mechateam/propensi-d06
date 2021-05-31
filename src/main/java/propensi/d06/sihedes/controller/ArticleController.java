@@ -26,6 +26,8 @@ public class ArticleController {
     @RequestMapping("/")
     public String knowledgeBase(Model model){
         List<ArtikelModel> articles = articleService.findAll();
+        UserModel user = userService.getUserbyUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        model.addAttribute("user", user);
         model.addAttribute("articles", articles);
         return "knowledge-base";
     }
@@ -59,6 +61,31 @@ public class ArticleController {
         ArtikelModel article = articleService.findArticleById(id_article);
         model.addAttribute("article", article);
         return "detail-article";
+    }
+
+    @GetMapping("/edit/{id_article}")
+    public String editArticle(Model model, @PathVariable(value = "id_article") Long id_article){
+        ArtikelModel targetArticle = articleService.findArticleById(id_article);
+        model.addAttribute("article", targetArticle);
+        return "edit-article";
+    }
+
+    @PostMapping("/edit")
+    public String editArticlePost(
+            Model model,
+            @ModelAttribute ArtikelModel article,
+            RedirectAttributes redir
+    ){
+        articleService.updateArticle(article);
+        return "redirect:/knowledgebase/";
+    }
+
+    @GetMapping("/delete/{id_article}")
+    public String deleteArticle(Model model,
+                                @PathVariable(value = "id_article") Long id_article){
+        ArtikelModel targetArticle = articleService.findArticleById(id_article);
+        articleService.deleteArticle(targetArticle);
+        return "redirect:/knowledgebase/";
     }
 
 

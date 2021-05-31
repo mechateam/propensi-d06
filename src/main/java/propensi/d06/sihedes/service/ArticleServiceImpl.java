@@ -26,11 +26,21 @@ public class ArticleServiceImpl implements ArticleService{
 
     @Override
     public void updateArticle(ArtikelModel article) {
-        articleDb.save(article);
+        ArtikelModel targetArticle = articleDb.findById(article.getId_artikel()).get();
+        targetArticle.setCategory(article.getCategory());
+        targetArticle.setContent(article.getContent());
+        targetArticle.setTags(article.getTags());
+        targetArticle.setTitle(article.getTitle());
+        articleDb.save(targetArticle);
     }
 
     @Override
     public ArtikelModel findArticleById(Long id) {
         return articleDb.findById(id).get();
+    }
+
+    @Override
+    public void deleteArticle(ArtikelModel artikel) {
+        articleDb.delete(articleDb.findById(artikel.getId_artikel()).get());
     }
 }

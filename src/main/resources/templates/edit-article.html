@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://thymeleaf.org">
   <head>
     <meta charset="UTF-8" />
-    <title>Create Article</title>
+    <title>Edit Article</title>
     <object th:include="fragments/fragment :: js" th:remove="tag"></object>
 
     <object th:include="fragments/fragment :: css" th:remove="tag"></object>
@@ -18,10 +18,9 @@
           <!--Page Name Header-->
           <div class="col-md-6">
             <div class="pageName">
-              <h3>Create Article</h3>
+              <h3>Edit Article</h3>
               <p>
-                <a th:href="@{/knowledgebase/}">Knowledge Base</a> > Create
-                Article
+                <a th:href="@{/knowledgebase/}">Knowledge Base</a> > Edit Article
               </p>
             </div>
           </div>
@@ -52,10 +51,11 @@
                     <br />
                     <div class="col-sm-12">
                       <form
-                        th:action="@{/knowledgebase/add}"
+                        th:action="@{/knowledgebase/edit}"
                         th:object="${article}"
                         method="POST"
                       >
+                        <input type="hidden" th:field="*{id_artikel}">
                         <div class="row">
                           <div class="col-sm-4">
                             Title <br />
@@ -128,7 +128,7 @@
                         </button> -->
 
                         <a class="btn btn-fill btn-create text-center" data-toggle="modal" data-target="#exampleModal">
-                          Create
+                          Save
                       </a>
 
                       <!-- Modal -->
@@ -137,13 +137,13 @@
                               <div class="modal-content">
                                   <div class="modal-body">
                                       <p>
-                                          <span>Are you sure you want to create this article?</span>
+                                          <span>Are you sure you want to edit this article?</span>
                                       </p>
                                   </div>
                                   <div class="modal-footer">
                                       <a class="btn btn-secondary" data-dismiss="modal">Close</a>
                                       <!-- <a class="btn btn-dark" th:href="@{/knowledgebase/delete/}+${article.id_artikel}">Delete</a> -->
-                                      <button type="submit" class="btn btn-dark">Create</button>
+                                      <button type="submit" class="btn btn-dark">Save</button>
                                   </div>
                               </div>
                           </div>

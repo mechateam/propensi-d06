@@ -44,7 +44,7 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-md-8">
+          <div class="col-md-12">
             <div class="tab-content">
               <!--                    START TAB PROBLEM-->
               <div class="tab-pane fade in active" id="problem">
@@ -53,8 +53,8 @@
                     <h4>Browse Articles</h4>
                   </div> -->
                   <div class="card-content">
-                    <div class="row">
-                      <div class="col-sm-8">
+                    <div class="row"> 
+                      <div class="col-sm-10">
                         <div class="pageName">
                           <h4>Browse Articles</h4>
                         </div>
@@ -69,12 +69,27 @@
                         </a>
                       </div>
                     </div>
+
+                    <div class="row">
+                      <div class="col-sm-6"></div>
+                      <div class="col-sm-6">
+                          <div class="col-search">
+                              <div class="row">
+                              <!-- Search form -->
+                                  <input id="articleBar" class="searchbar" type="search" placeholder="Search...">
+                                  <a class="btn-search"><i class="fa fa-search"></i></a>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                    
                     <table>
                       <thead>
                         <tr>
                           <th title="Field #1">No</th>
                           <th title="Field #2">Title</th>
                           <th title="Field #3">Category</th>
+                          <th th:if="${user.id_role.id_role == 2}" title="Field #4">Action</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -84,6 +99,36 @@
                             <a th:href="@{/knowledgebase/}+${article.id_artikel}" th:text="${article.title}"></a>
                           </td>
                           <td th:text="${article.category}"></td>
+                          <td>
+                            <a th:if="${user.id_role.id_role == 2}" th:href="@{/knowledgebase/edit/}+${article.id_artikel}" th:text="Edit"></a>
+                          </td>
+                          <td>
+                            <!-- <a th:href="@{/knowledgebase/delete/}+${article.id_artikel}" th:text="Delete"></a> -->
+
+                            <!-- Button trigger modal -->
+                            <a th:if="${user.id_role.id_role == 2}" class="btn btn-dark" data-toggle="modal" data-target="#exampleModal">
+                              Delete
+                          </a>
+
+                          <!-- Modal -->
+                          <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                              <div class="modal-dialog" role="document">
+                                  <div class="modal-content">
+                                      <div class="modal-body">
+                                          <p>
+                                              <span>Are you sure to delete this article?</span>
+                                              <span th:text="${article.title}"></span>
+                                          </p>
+                                      </div>
+                                      <div class="modal-footer">
+                                          <a class="btn btn-secondary" data-dismiss="modal">Close</a>
+                                          <a class="btn btn-dark" th:href="@{/knowledgebase/delete/}+${article.id_artikel}">Delete</a>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+
+                          </td>
                         </tr>
                       </tbody>
                     </table>
@@ -125,5 +170,20 @@
         return jQuery(a).text().toUpperCase().indexOf(m[3].toUpperCase()) >= 0;
       };
     </script> -->
+
+    <script>
+      $("#articleBar").on("input", function () {
+          var n = $(this).val();
+          $('tbody tr:ccontains("' + n + '")').show(),
+              $('tbody tr:not(:ccontains("' + n + '"))').hide(),
+              0 === $('tr:ccontains("' + n + '")').length
+                  ? $("#no_results").show()
+                  : $("#no_results").hide();
+      });
+  
+      jQuery.expr[":"].ccontains = function (a, i, m) {
+          return jQuery(a).text().toUpperCase().indexOf(m[3].toUpperCase()) >= 0;
+      };
+  </script>
   </body>
 </html>

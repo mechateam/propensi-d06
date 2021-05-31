@@ -9,4 +9,5 @@ public interface ArticleService {
     void addArticle(ArtikelModel article);
     void updateArticle(ArtikelModel article);
     ArtikelModel findArticleById(Long id);
+    void deleteArticle(ArtikelModel artikel);
 }
