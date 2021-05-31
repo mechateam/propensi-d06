@@ -1,11 +1,9 @@
 package propensi.d06.sihedes.service;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
-import propensi.d06.sihedes.model.BOAModel;
 import propensi.d06.sihedes.model.RequestModel;
 import propensi.d06.sihedes.model.SLABOAModel;
 import propensi.d06.sihedes.model.SLAModel;
@@ -13,20 +11,16 @@ import propensi.d06.sihedes.repository.RequestDb;
 import propensi.d06.sihedes.repository.SLABOADb;
 import propensi.d06.sihedes.repository.SLADb;
 import propensi.d06.sihedes.repository.StatusDb;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Service;
 import propensi.d06.sihedes.model.*;
 import propensi.d06.sihedes.repository.*;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.mail.*;
+import javax.mail.internet.*;
 import javax.transaction.Transactional;
-import java.awt.print.Book;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 @Service
 @Transactional
@@ -72,29 +66,38 @@ public class RequestServiceImpl implements RequestService{
     }
 
     @Override
-    public RequestModel updateApprovalRequest(RequestModel request){
+    public RequestModel updateApprovalRequest(RequestModel request) throws AddressException, MessagingException, IOException{
 
         RequestModel targetRequest = requestDb.findById(request.getId_request()).get();
         List<SLABOAModel> listBOA = slaboaDb.findAllBySla(targetRequest.getSla());
         Integer currentRank=0;
+        SLABOAModel currentBOA = listBOA.get(0);
 
         for (SLABOAModel boa:listBOA){
             if (targetRequest.getIdApprover().equals(boa.getBoa().getUser().getId_user())){
                 currentRank = boa.getBoa().getRank();
+                currentBOA = boa;
             }
         }
 
         for (SLABOAModel boa: listBOA){
-            System.out.println("id approver"+targetRequest.getIdApprover());
-            System.out.println(boa.getBoa().getUser().getId_user());
 
             if (targetRequest.getIdApprover() == boa.getBoa().getUser().getId_user()){
                 if (currentRank == listBOA.size()){
                     targetRequest.setIdApprover(new Long(-1));
                 }
             }
+            if ( !boa.equals(currentBOA) && boa.getBoa().getRank() == currentRank){
+                sendmail(boa.getBoa().getUser().getEmail());
+                targetRequest.setIdApprover(boa.getBoa().getUser().getId_user());
+            }
 
-            if (boa.getBoa().getRank() == currentRank+1){
+            else if (boa.getBoa().getRank() == currentRank+1 ){
+                sendmail(boa.getBoa().getUser().getEmail());
+                targetRequest.setIdApprover(boa.getBoa().getUser().getId_user());
+            }
+            else if (boa.getBoa().getRank() == currentRank+2 ){
+                sendmail(boa.getBoa().getUser().getEmail());
                 targetRequest.setIdApprover(boa.getBoa().getUser().getId_user());
             }
         }
@@ -253,17 +256,15 @@ public class RequestServiceImpl implements RequestService{
 
 
         SLAModel sla = request.getSla();
-        System.out.println("ini sla"+sla.getNama_sla());
-        List<SLABOAModel> listBOA = slaboaDb.findAllBySla(request.getSla());
-        System.out.println("Size BoA"+listBOA.size());
+        List<SLABOAModel> listBOA = slaboaDb.findAllBySla(sla);
+        SLABOAModel minRankBoa = listBOA.get(0);
 
         for (SLABOAModel boa: listBOA) {
-            System.out.println("BoA Rank"+ boa.getBoa().getRank());
-            if (boa.getBoa().getRank() == 1){
-                System.out.println("Masuk");
-                request.setIdApprover(boa.getBoa().getUser().getId_user());
+            if (boa.getBoa().getRank() < minRankBoa.getBoa().getRank()){
+                minRankBoa = boa;
             }
         }
+        request.setIdApprover(minRankBoa.getBoa().getId_boa());
 
         requestDb.save(request);
     }
@@ -296,5 +297,38 @@ public class RequestServiceImpl implements RequestService{
         } catch (NullPointerException nullPointerException) {
             return null;
         }
+    }
+
+    @Override
+    public void sendmail(String emailRecipient) throws AddressException, MessagingException, IOException {
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "587");
+
+        Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication("emailsfkticket@gmail.com", "Admin123$");
+            }
+        });
+
+        Message msg = new MimeMessage(session);
+        msg.setFrom(new InternetAddress("emailsfkticket@gmail.com", false));
+
+        msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(emailRecipient));
+
+        msg.setSubject("Ticket Need Approval");
+        msg.setContent("Sebuah request telah masuk dan butuh approval anda", "text/html");
+        msg.setSentDate(new Date());
+
+        MimeBodyPart messageBodyPart = new MimeBodyPart();
+        messageBodyPart.setContent("Tutorials point email", "text/html");
+
+        Multipart multipart = new MimeMultipart();
+        multipart.addBodyPart(messageBodyPart);
+
+        Transport.send(msg);
     }
 }

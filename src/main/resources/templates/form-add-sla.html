@@ -31,6 +31,7 @@
             </div>
 
         </div>
+        <span id="alert"></span>
         <br>
 
         <!--                        START YOUR CONTENT                      -->
@@ -50,7 +51,8 @@
                                         <h4>Create Service Catalog</h4>
                                     </div>
                                 </div>
-                                <div class="col-sm-5"></div>
+                                <div class="col-sm-5">
+                                </div>
                             </div>
 
 
@@ -61,27 +63,29 @@
                                     <form th:action="@{/sla/daftar/tambah}" th:object="${sla}" method="POST">
                                         <div class="row">
                                             <div class="col-sm-8">
-                                                Service Catalog Name <br>
-                                                <input class="form-control" type="text" name="nama_sla" required/>
+                                                Service Catalog Name
+                                                <span style="color:red;"> * </span>
+                                                <input id="nama_sla" class="form-control" type="text" name="nama_sla" required/>
                                             </div>
                                         </div>
                                         <br>
                                         <div class="row">
                                             <div class="col-sm-8">
-                                                Description <br>
-                                                <input class="form-control" type="text" name="description" required/>
+                                                Description
+                                                <span style="color:red;"> * </span>
+                                                <input id="description" class="form-control" type="text" name="description" required/>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <br>
                                             <div class="col-sm-8">
-                                                Completion Time <br>
-<!--                                                <input class="form-control" type="text" name="completion_time" required/>-->
+                                                Completion Time
+                                                <span style="color:red;"> * </span> <br>
                                                 <div class="col-sm-4">
-                                                    <input class="form-control" type="text" name="completion_time_number" required/>
+                                                    <input id="completion_time_number" class="form-control" type="text" name="completion_time_number" required/>
                                                 </div>
                                                 <div class="col-sm-8">
-                                                <select name="completion_time_period" class="form-control">
+                                                <select id="completion_time_period" name="completion_time_period" class="form-control">
                                                     <option selected value="">-- Pilih Periode --</option>
                                                     <option value="Days">Days</option>
                                                     <option value="Weeks">Weeks</option>
@@ -94,30 +98,63 @@
                                         <div class="row">
                                             <br>
                                             <div class="col-sm-8">
-                                                Department <br>
-                                                <select name="departemen" class="form-control">
+                                                Department
+                                                <span style="color:red;"> * </span>
+                                                <select id="departemen" name="departemen" class="form-control">
                                                     <option selected value="">-- Pilih Departemen --</option>
                                                     <option th:each="jenis_departemen: ${listDepartemen}" th:value="${jenis_departemen.id_dept}"
                                                             th:text="${jenis_departemen.nama_departemen}"></option>
                                                 </select>
                                             </div>
                                         </div>
+                                        <div class="row">
+                                            <br>
+                                            <div class="col-sm-4">
+                                                Approval 1: <br>
+                                                <ul th:each="boa : ${listBOASatu}" style="list-style-type:none;">
+                                                    <li><input type="checkbox" th:value="${boa.id_boa}" th:text="${boa.user.nama}" name="rank_satu"/></li>
+                                                </ul>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                Approval 2: <br>
+                                                <ul th:each="boa : ${listBOADua}" style="list-style-type:none;">
+                                                    <li><input type="checkbox" th:value="${boa.id_boa}" th:text="${boa.user.nama}" name="rank_dua"/></li>
+                                                </ul>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                Approval 3: <br>
+                                                <ul th:each="boa : ${listBOATiga}" style="list-style-type:none;">
+                                                    <li><input type="checkbox" th:value="${boa.id_boa}" th:text="${boa.user.nama}" name="rank_tiga"/></li>
+                                                </ul>
+                                            </div>
+                                        </div>
                                         <br><br>
 
                                         <!-- Button trigger modal -->
-                                        <button type="button" data-toggle="modal" data-target="#exampleModal" class="btn btn-fill btn-create text-center">
-                                            Create
-                                        </button>
+                                        <div class="col-sm-8">
+                                            <div class="col-sm-4; button-wrapper">
+                                                <button type="button" class="btn btn-create text-center" id="btnSubmit">Submit</button>
+                                            </div>
+                                            <div class="col-sm-12" style="text-align: center">
+                                                <a th:href="@{/sla}">Cancel</a>
+                                            </div>
+                                        </div>
 
                                         <!-- Modal -->
-                                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal fade" id="cancelModal" tabindex="-1" role="dialog" aria-labelledby="cacnelModalLabel" aria-hidden="true">
                                             <div class="modal-dialog" role="document">
                                                 <div class="modal-content">
-                                                    <div class="modal-body">
+                                                    <div class="modal-header">
+                                                        <h6 class="modal-title" id="cancelModalLabel" style="font-weight: bold; font-size: 1rem!important;">Create Service Catalog</h6>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body" style="padding: 2rem 1rem;font-size: 1rem!important;">
                                                         Service Catalog Created!
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <button type="submit" class="btn btn-fill btn-create text-center">Ok</button>
+                                                        <button type="submit" class="btn btn-fill btn-create text-center">Yes</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -131,4 +168,56 @@
                 </div>
     </form> </div></div></div></div>
 </body>
+<script>
+    $(document).ready(function(){
+        $("#btnSubmit").click(function(){
+            var nama_sla = document.getElementById("nama_sla").value;
+            var description = document.getElementById("description").value;
+            var completion_time_number = document.getElementById("completion_time_number").value;
+            var completion_time_period = document.getElementById("completion_time_period").value;
+            var departemen = document.getElementById("departemen").value;
+
+            if ((nama_sla !== "") && (description !== "") && (completion_time_number !== "") && (completion_time_period !== "") && (departemen !== "")) {
+                document.getElementById("alert").innerHTML = ""
+                $("#cancelModal").modal();
+            } else {
+                document.getElementById("alert").innerHTML = "<div class=\"alert alert-danger\" role=\"alert\">\n" +
+                    "Please fill in all required fields!.\n" +
+                    "</div>"
+            }
+        });
+    });
+
+</script>
+<script>
+    $(document).ready(function () {
+        $("input[name='boxRankSatu']").change(function () {
+            var maxAllowed = 2;
+            var cnt = $("input[name='boxRankSatu']:checked").length;
+            if (cnt > maxAllowed)
+            {
+                $(this).prop("checked", "");
+                alert('Select maximum ' + maxAllowed + ' Levels!');
+            }
+        });
+        $("input[name='boxRankDua']").change(function () {
+            var maxAllowed = 2;
+            var cnt = $("input[name='boxRankDua']:checked").length;
+            if (cnt > maxAllowed)
+            {
+                $(this).prop("checked", "");
+                alert('Select maximum ' + maxAllowed + ' Levels!');
+            }
+        });
+        $("input[name='boxRankTiga']").change(function () {
+            var maxAllowed = 2;
+            var cnt = $("input[name='boxRankTiga']:checked").length;
+            if (cnt > maxAllowed)
+            {
+                $(this).prop("checked", "");
+                alert('Select maximum ' + maxAllowed + ' Levels!');
+            }
+        });
+    });
+</script>
 </html>

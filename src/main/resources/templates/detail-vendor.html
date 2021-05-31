@@ -51,9 +51,6 @@
                                         </div>
                                     </div>
                                     <div class="col-sm-3"></div>
-                                    <div class="col-sm-2">
-<!--                                        <a th:href="@{/sla/daftar/update/}+${sla.id_sla}"  class="btn btn-fill btn-create text-center"> Edit </a>-->
-                                    </div>
                                     <div class="col-sm-2"></div>
                                 </div>
                                 <br><br>
@@ -84,11 +81,10 @@
                                 <br><br>
                                 <div class="row">
                                     <div class="col-sm-2">
-                                        <a data-toggle="modal" data-target="#exampleModal" class="btn btn-dark text-center"> Delete </a>
+                                        <a data-toggle="modal" data-target="#exampleModal" class="btn btn-fill btn-create text-center"> Delete </a>
                                     </div>
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-7">
                                     </div>
-                                    <div class="col-sm-3"></div>
                                     <div class="col-sm-2">
                                         <a th:href="@{/vendor/update/}+${vendor.id_vendor}" class="btn btn-fill btn-create text-center"> Edit </a>
                                     </div>
@@ -116,12 +112,203 @@
                                 <br><br>
                                 <h4>Riwayat</h4>
 
+                                <!--                        START YOUR CONTENT                      -->
+
+                                <!--Tab Nav-->
+                                    <ul class="nav nav-tabs">
+                                        <li class="active"><a data-toggle="tab" href="#problem">Problem</a></li>
+                                        <li><a data-toggle="tab" href="#request">Request</a></li>
+                                    </ul>
+
+                                    <div class="tab-content">
+                                        <!--                    START TAB PROBLEM-->
+                                        <div class="tab-pane fade in active" id="problem">
+                                            <div class="card">
+                                                <div class="card-content">
+                                                    <!--                                for row header-->
+                                                    <div class="row">
+                                                        <div class="col-sm-7">
+                                                            <div class="pageName">
+                                                                <h3>Problem</h3>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!--                                for row search-->
+                                                    <div class="row">
+                                                        <div class="col-sm-6"></div>
+                                                        <div class="col-sm-6">
+                                                            <div class="col-search">
+                                                                <div class="row">
+                                                                    <!-- Search form -->
+                                                                    <input id="problemBar" class="searchbar" type="search" placeholder="Search...">
+                                                                    <a class="btn-search"><i class="fa fa-search"></i></a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!--                                            mulai table-->
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div th:if="${hasProblem}">
+                                                                <table>
+                                                                    <thead>
+                                                                    <tr>
+                                                                        <th title="Field #1">No</th>
+                                                                        <th title="Field #2">ID</th>
+                                                                        <th title="Field #3">Subject</th>
+                                                                        <th title="Field #4">Date</th>
+                                                                        <th title="Field #5">Status</th>
+                                                                    </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                    <tr th:each="problem, iterationStatus : ${listProblem}">
+                                                                        <td th:text="${iterationStatus.count}"></td>
+                                                                        <td th:text="${problem.codeProblem}"></td>
+                                                                        <td th:text="${problem.subject}"></td>
+                                                                        <td th:text="${problem.real_date}"></td>
+                                                                        <div th:if="${problem.status.id_status == 4}">
+                                                                            <td class="tableWfa" th:text="${problem.status.namaStatus}"></td>
+                                                                        </div>
+                                                                        </td>
+                                                                        <td><a th:href="@{/problem/detail/}+${problem.id_problem}"> Detail </a></td>s
+                                                                    </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                            <div th:unless="${hasProblem}">
+                                                                <p th:text="'Problem belum tersedia'"></p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div th:if="${problemPage.totalPages > 0}" class="pagination"
+                                                             th:each="pageNumber : ${pageNumbersProblem}">
+                                                            <a th:href="@{/tickets(size=${requestPage.size}, page=${pageNumber})}"
+                                                               th:text=${pageNumber}
+                                                               th:class="${pageNumber==requestPage.number + 1} ? active"></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!--                    START TAB REQUEST-->
+                                        <div class="tab-pane fade" id="request">
+                                            <div class="card">
+                                                <div class="card-content">
+                                                    <!--                                for row header-->
+                                                    <div class="row">
+                                                        <div class="col-sm-7">
+                                                            <div class="pageName">
+                                                                <h3>Request</h3>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <!--                                for row search-->
+                                                    <div class="row">
+                                                        <div class="col-sm-6"></div>
+                                                        <div class="col-sm-6">
+                                                            <div class="col-search">
+                                                                <div class="row">
+                                                                    <!-- Search form -->
+                                                                    <input id="requestBar" class="searchbar" type="search" placeholder="Search...">
+                                                                    <a class="btn-search"><i class="fa fa-search"></i></a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!--                                            mulai table-->
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div th:if="${hasRequest}">
+                                                                <table>
+                                                                    <thead>
+                                                                    <tr>
+                                                                        <th title="Field #1">No</th>
+                                                                        <th title="Field #2">ID</th>
+                                                                        <th title="Field #3">Subject</th>
+                                                                        <th title="Field #4">Service Catalog</th>
+                                                                        <th title="Field #5">Date</th>
+                                                                        <th title="Field #6">Status</th>
+                                                                        <th title="Field #6">Detail</th>
+                                                                    </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                    <tr th:each="request, iterationStatus : ${listRequest}">
+                                                                        <td th:text="${iterationStatus.count}"></td>
+                                                                        <td th:text="${request.codeRequest}"></td>
+                                                                        <td th:text="${request.subject}"></td>
+                                                                        <td th:text="${request.sla.nama_sla}"></td>
+                                                                        <td th:text="${request.created_date}"></td>
+                                                                        <td th:text="${request.status.namaStatus}">
+                                                                        </td>
+                                                                        <td><a th:href="@{/request/detailin/}+${request.id_request}"> Detail </a></td>
+                                                                    </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                            <div th:unless="${hasRequest}">
+                                                                <p th:text="'Request belum tersedia'"></p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div th:if="${requestPage.totalPages > 0}" class="pagination"
+                                                             th:each="pageNumber : ${pageNumbers}">
+                                                            <a th:href="@{/tickets(size=${requestPage.size}, page=${pageNumber})}"
+                                                               th:text=${pageNumber}
+                                                               th:class="${pageNumber==requestPage.number + 1} ? active"></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--END OF TAB REQUEST-->
+
+                                    </div>
                                 </div>
+
+                                <!--                         END OF CONTENT                      -->
+
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
+                        <script>
+                            $("#problemBar").on("input", function () {
+                                var n = $(this).val();
+                                $('tbody tr:ccontains("' + n + '")').show(),
+                                    $('tbody tr:not(:ccontains("' + n + '"))').hide(),
+                                    0 === $('tr:ccontains("' + n + '")').length
+                                        ? $("#no_results").show()
+                                        : $("#no_results").hide();
+                            });
+
+                            jQuery.expr[":"].ccontains = function (a, i, m) {
+                                return jQuery(a).text().toUpperCase().indexOf(m[3].toUpperCase()) >= 0;
+                            };
+                        </script>
+
+                        <script>
+                            $("#requestBar").on("input", function () {
+                                var n = $(this).val();
+                                $('tbody tr:ccontains("' + n + '")').show(),
+                                    $('tbody tr:not(:ccontains("' + n + '"))').hide(),
+                                    0 === $('tr:ccontains("' + n + '")').length
+                                        ? $("#no_results").show()
+                                        : $("#no_results").hide();
+                            });
+
+                            jQuery.expr[":"].ccontains = function (a, i, m) {
+                                return jQuery(a).text().toUpperCase().indexOf(m[3].toUpperCase()) >= 0;
+                            };
+                        </script>
+                                </div>
+                            </div>
+        </div>
     </section>
 </div>
 
