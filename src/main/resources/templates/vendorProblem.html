@@ -33,7 +33,6 @@
 
         <!--Tab Nav-->
         <div class="col-md-12">
-
             <div class="tab-content">
                 <!--                    START TAB PROBLEM-->
                 <div class="tab-pane fade in active" id="problem">
@@ -54,6 +53,9 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <table>
+                                        <div th:if="${hasVendor} ">
+                                            <p>Mohon pilih satu vendor</p>
+                                        </div>
                                         <thead>
                                         <tr>
                                             <th></th>

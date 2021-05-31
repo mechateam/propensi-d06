@@ -610,9 +610,9 @@ public class TicketController {
         log.setCreatedBy(user);
         logProblemService.addLog(log);
 
+        String link = "redirect:/problem/detail/" + problem.getId_problem();
+        return link;
 
-
-        return "redirect:/tickets";
     }
 
     @PostMapping("/request/add")
@@ -630,7 +630,8 @@ public class TicketController {
         log.setPosted_date(new Date());
         log.setRequest(request);
         logRequestService.addLog(log);
-        return "redirect:/tickets";
+        String link = "redirect:/request/detailin/" + request.getId_request();
+        return link;
     }
 
     // ini buat approval, mau digabung sama yg atas juga gapapa
@@ -742,6 +743,7 @@ public class TicketController {
         ProblemModel problem = problemService.findProblemById(id_problem);
         List<VendorModel> listVendor = vendorService.getListVendor();
         model.addAttribute("listVendor",listVendor);
+        model.addAttribute("hasVendor", true);
         model.addAttribute("problem", problem);
         return "vendorProblem";
     }
@@ -755,6 +757,7 @@ public class TicketController {
         List<VendorModel> listVendor = vendorService.getListVendor();
         model.addAttribute("listVendor",listVendor);
         model.addAttribute("request", req);
+        model.addAttribute("hasVendor", true);
         return "vendorRequest";
     }
 
@@ -788,29 +791,33 @@ public class TicketController {
     public String submitVendorProblem(
             @ModelAttribute ProblemModel problem,
             Model model) {
-        ProblemModel newProb = problemService.vendorRequest(problem);
-        UserModel user = userService.getUserbyUsername(SecurityContextHolder.getContext().getAuthentication().getName());
-
-        LogProblemModel log = new LogProblemModel();
-        log.setDescription("Problem Resolved by Vendor");
-        log.setPosted_date(new Date());
-        log.setProblem(problem);
-        log.setCreatedBy(user);
-        logProblemService.addLog(log);
-
-        List<LogProblemModel> allLogs = newProb.getListLog();
-        List<LogProblemModel> logs = new ArrayList<>();
-        for(int i = allLogs.size()-1 ; i > -1 ;i--)
-        {
-            logs.add(allLogs.get(i));
+        if(problem.getProbVendor() == null){
+            String link = "redirect:/problem/vendor/" + problem.getId_problem();
+            return link;
         }
+        else {
+            ProblemModel newProb = problemService.vendorRequest(problem);
+            UserModel user = userService.getUserbyUsername(SecurityContextHolder.getContext().getAuthentication().getName());
 
-        model.addAttribute("logs", logs);
-        model.addAttribute("problem",newProb);
+            LogProblemModel log = new LogProblemModel();
+            log.setDescription("Problem Resolved by Vendor");
+            log.setPosted_date(new Date());
+            log.setProblem(problem);
+            log.setCreatedBy(user);
+            logProblemService.addLog(log);
 
-        String link = "redirect:/problem/detail/" + problem.getId_problem();
-        return link;
+            List<LogProblemModel> allLogs = newProb.getListLog();
+            List<LogProblemModel> logs = new ArrayList<>();
+            for (int i = allLogs.size() - 1; i > -1; i--) {
+                logs.add(allLogs.get(i));
+            }
 
+            model.addAttribute("logs", logs);
+            model.addAttribute("problem", newProb);
+            model.addAttribute("hasVendor", true);
+            String link = "redirect:/problem/detail/" + problem.getId_problem();
+            return link;
+        }
     }
 
 
