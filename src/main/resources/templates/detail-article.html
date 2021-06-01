@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Article</title>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+  </head>
+
+  <body>
+    <div th:replace="fragments/fragment :: header"></div>
+    <nav th:replace="fragments/fragment :: navbar"></nav>
+
+    <div class="content-container">
+      <div class="container-fluid">
+        <div class="row">
+          <!--Page Name Header-->
+          <div class="col-md-6">
+            <div class="pageName">
+              <h3 th:text="${article.title}"></h3>
+              <p>
+                <a th:href="@{/knowledgebase/}">Knowledge Base</a> >
+                <span th:text="${article.title}"> </span>
+              </p>
+            </div>
+          </div>
+        </div>
+        <br />
+
+        <!--                        START YOUR CONTENT                      -->
+
+        <!--Tab Nav-->
+        <div class="col-md-12">
+          <div class="tab-content">
+            <!--                    START TAB PROBLEM-->
+            <div class="tab-pane fade in active" id="problem">
+              <div class="card">
+                <div class="card-content">
+                  <!--                                for row header-->
+                  <div class="row">
+                    <div class="col-sm-7">
+                      <div class="pageName">
+                        <h4 th:text="${article.title}"></h4>
+                      </div>
+                    </div>
+                    <div class="col-sm-5"></div>
+                  </div>
+
+                  <!--                                            mulai table-->
+                  <div class="row">
+                    <br />
+                    <div class="col-sm-12">
+                      <div class="row">
+                        <div class="col-sm-4">
+                          <p>
+                            Category:
+                            <span th:text="${article.category}"></span>
+                          </p>
+                        </div>
+                      </div>
+                      <hr>
+
+                      <div class="row">
+                        <div
+                          style="word-wrap: break-word"
+                          class="col-sm-10"
+                          th:utext="${article.content}"
+                        ></div>
+                      </div>
+
+                      <br>
+
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <p style="color: gray;">tags: <span th:text="${article.tags}"></span></p>
+                        </div>
+                      </div>
+
+                      <!-- <div class="row">
+                          <br />
+                          <div class="col-sm-6">
+                            Date <br />
+                            <input
+                              type="datetime-local"
+                              class="form-control"
+                              name="real_date"
+                            />
+                          </div> -->
+                      <!-- <div class="col-sm-6"></div>
+                        </div>
+                         -->
+                      <br />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!--                    START TAB REQUEST-->
+
+            <!--END OF TAB REQUEST-->
+          </div>
+        </div>
+
+        <!--                         END OF CONTENT                      -->
+      </div>
+    </div>
+
+    <script th:src="@{/js/ckeditor/ckeditor.js}"></script>
+    <script type="text/javascript">
+      CKEDITOR.replace("content");
+    </script>
+  </body>
+</html>
