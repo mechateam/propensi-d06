@@ -275,11 +275,29 @@
                       <input type="hidden" th:field="*{id_problem}" />
                       <button
                         class="btn btn-fill btn-create text-center"
+                        type="button"
                         data-toggle="modal"
                         data-target="#changeStatus"
                         style="min-width: 80px">
                         Done
                       </button>
+                      <!-- Modal -->
+                      <div class="modal fade" id="changeStatus" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-body">
+                              <p>
+                                <span>Are you sure to resolve problem </span>
+                                <span th:text="${problem.codeProblem}"></span>
+                              </p>
+                            </div>
+                            <div class="modal-footer">
+                              <button class="btn btn-secondary" data-dismiss="modal">Close</button>
+                              <button class="btn btn-dark" type="submit">Yes</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </form>
                   </div>
                   <!--                                </form>-->
@@ -363,44 +381,7 @@
           </div>
         </div>
       </div>
-      <div
-        class="modal fade"
-        id="changeStatus"
-        tabindex="-1"
-        role="dialog"
-        aria-labelledby="successTitle"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog modal-dialog-centered" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="successTitle">Success</h5>
-            </div>
-            <div class="modal-body">Ticket Updated</div>
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-primary"
-                id="btn-submit2"
-                data-dismiss="modal"
-              >
-                Ok
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
 
-    <script type="text/javascript">
-      $(document).ready(function () {
-        $("#changeStatus").on("click", function () {
-          $("#success").modal("show");
-          setTimeout(function () {
-            $("#success").modal("hide");
-          }, 100000000);
-        });
-      });
-    </script>
+    </div>
   </body>
 </html>
