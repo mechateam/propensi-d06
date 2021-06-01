@@ -417,3 +417,27 @@ tr:hover td {
   border: 1px solid #ccc;
   box-shadow: 1px 1px 1px #999;
 }
+.badge{
+  min-width: 160px;
+  font-weight: normal;
+  padding: 5px;
+}
+.badgeWAS{
+  background-color: #4774B8;
+}
+.badgeApproval{
+  background-color: #18D178;
+}
+.badgeAss{
+  background-color: #CD74CF;
+}
+.badgeIP{
+  background-color: #E8D000;
+
+}
+.badgeDone{
+  background-color: #7DAB5D;
+}
+.badgeClose{
+  background-color: #545655;
+}

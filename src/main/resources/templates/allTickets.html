@@ -93,8 +93,20 @@
                                                     <td th:text="${problem.codeProblem}"></td>
                                                     <td th:text="${problem.subject}"></td>
                                                     <td th:text="${problem.real_date}"></td>
-                                                    <td th:text="${problem.status.namaStatus}"></td>
-
+                                                    <td th:if = "${problem.status.id_status == 4}">
+                                                        <span class="badge badgeWAS" th:text="${problem.status.namaStatus}"></span>
+                                                    </td>
+                                                    <td th:if = "${problem.status.id_status == 5}">
+                                                        <span class="badge badgeAss" th:text="${problem.status.namaStatus}"></span>
+                                                    </td>
+                                                    <td th:if = "${problem.status.id_status == 6}">
+                                                        <span class="badge badgeIP" th:text="${problem.status.namaStatus}"></span>
+                                                    </td>
+                                                    <td th:if = "${problem.status.id_status == 7}">
+                                                        <span class="badge badgeDone" th:text="${problem.status.namaStatus}"></span>
+                                                    </td>
+                                                    <td th:if = "${problem.status.id_status == 8}">
+                                                        <span class="badge badgeClose" th:text="${problem.status.namaStatus}"></span>
                                                     </td>
                                                     <td><a th:href="@{/problem/detail/}+${problem.id_problem}"> Detail </a></td>
                                                     <!-- <td th:unless = "${problem.status.id_status == 4}"><a th:href="@{/problem/detail/}+${problem.id_problem}"> Detail </a></td>
@@ -176,7 +188,23 @@
                                                     <td th:text="${request.subject}"></td>
                                                     <td th:text="${request.sla.nama_sla}"></td>
                                                     <td th:text="${request.created_date}"></td>
-                                                    <td th:text="${request.status.namaStatus}">
+                                                    <td th:if = "${request.status.id_status == 3}">
+                                                        <span class="badge badgeApproval" th:text="${request.status.namaStatus}"></span>
+                                                    </td>
+                                                    <td th:if = "${request.status.id_status == 4}">
+                                                        <span class="badge badgeWAS" th:text="${requeststatus.namaStatus}"></span>
+                                                    </td>
+                                                    <td th:if = "${request.status.id_status == 5}">
+                                                        <span class="badge badgeAss" th:text="${request.status.namaStatus}"></span>
+                                                    </td>
+                                                    <td th:if = "${request.status.id_status == 6}">
+                                                        <span class="badge badgeIP" th:text="${request.status.namaStatus}"></span>
+                                                    </td>
+                                                    <td th:if = "${request.status.id_status == 7}">
+                                                        <span class="badge badgeDone" th:text="${request.status.namaStatus}"></span>
+                                                    </td>
+                                                    <td th:if = "${request.status.id_status == 8}">
+                                                        <span class="badge badgeClose" th:text="${request.status.namaStatus}"></span>
                                                     </td>
                                                     <td><a th:href="@{/request/detailin/}+${request.id_request}"> Detail </a></td>
                                                 </tr>
