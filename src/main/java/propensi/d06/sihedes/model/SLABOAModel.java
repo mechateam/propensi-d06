@@ -16,12 +16,12 @@ public class SLABOAModel implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "id_sla", referencedColumnName = "id_sla", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private SLAModel sla;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "id_boa", referencedColumnName = "id_boa", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private BOAModel boa;

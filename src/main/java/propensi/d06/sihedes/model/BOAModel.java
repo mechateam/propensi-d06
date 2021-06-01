@@ -35,7 +35,7 @@ public class BOAModel implements Serializable {
     @OneToMany(mappedBy = "boa", fetch = FetchType.LAZY)
     private List<RequestBOAModel> listRequestBOA;
 
-    @OneToMany(mappedBy = "boa", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "boa", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<SLABOAModel> listSLABOA;
 
     public Long getId_boa() {
