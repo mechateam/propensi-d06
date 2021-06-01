@@ -62,6 +62,14 @@
                                             <th title="Field #3">% of Ticket Done</th>
                                         </tr>
                                         </thead>
+                                        <tbody>
+                                        <tr th:each="instance, iterationStatus : ${sortedRankDept}">
+                                            <td th:text="${iterationStatus.count}"></td>
+                                            <td th:text="${instance.key.nama_departemen}"></td>
+                                            <td th:text="${instance.key.listRequest.size}"></td>
+                                            <td th:text="${instance.value}"></td>
+                                        </tr>
+                                        </tbody>
                                     </table>
                                 </div>
                             </div>
