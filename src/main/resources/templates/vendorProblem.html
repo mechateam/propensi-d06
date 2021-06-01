@@ -33,7 +33,6 @@
 
         <!--Tab Nav-->
         <div class="col-md-12">
-
             <div class="tab-content">
                 <!--                    START TAB PROBLEM-->
                 <div class="tab-pane fade in active" id="problem">
@@ -54,6 +53,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <table>
+                                        <p style="color: red; font-size: smaller;">*Mohon pilih satu vendor</p>
                                         <thead>
                                         <tr>
                                             <th></th>
@@ -78,9 +78,48 @@
                             <div class="row">
                                 <div class="col-sm-9"></div>
                                 <div class="col-sm-3">
-                                    <button type = "submit" class="btn btn-fill btn-create text-center" style="width: 120px;"> Assign </button>
+<!--                                    <div th:if="${problem.probVendor != null}">-->
+                                    <button type = "button" class="btn btn-fill btn-create text-center" style="width: 100px;" data-toggle="modal"
+                                            data-target="#changeStatus"> Assign </button>
+<!--                                    </div>-->
+<!--                                    <div th:unless="${problem.probVendor != null}">-->
+<!--                                        <button type = "button" class="btn btn-fill btn-create text-center" style="width: 100px;" data-toggle="modal"-->
+<!--                                                data-target="#error"> Assign </button>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+                            </div>
+
+                            <div class="modal fade" id="changeStatus" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-body">
+                                            <p>
+                                                <span>Are you sure you want to assign vendor </span>
+                                                <span> to solve problem </span>
+                                                <span th:text="${problem.codeProblem}+' ?'"></span>
+                                            </p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <button class="btn btn-dark" type="submit">Yes</button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+<!--                            <div class="modal fade" id="error" tabindex="-2" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">-->
+<!--                                <div class="modal-dialog" role="document">-->
+<!--                                    <div class="modal-content">-->
+<!--                                        <div class="modal-body">-->
+<!--                                            <p>-->
+<!--                                                <span>Mohon Pilih satu vendor</span>-->
+<!--                                            </p>-->
+<!--                                        </div>-->
+<!--                                        <div class="modal-footer">-->
+<!--                                            <button class="btn btn-secondary" data-dismiss="modal">Close</button>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
 
                         </div>
 

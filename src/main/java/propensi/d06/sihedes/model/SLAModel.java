@@ -49,7 +49,7 @@ public class SLAModel implements Serializable {
     @OneToMany(mappedBy = "sla", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<RequestModel> listRequest;
 
-    @OneToMany(mappedBy = "sla", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "sla", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<SLABOAModel> listSLABOA;
 
     public Long getId_sla() {
