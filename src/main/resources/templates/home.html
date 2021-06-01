@@ -15,7 +15,7 @@
     <div class="content-container">
       <div class="container-fluid">
         <div class="row">
-          <!--Page Name Header-->
+          <!--Page Name Header -->
           <div class="col-md-6">
             <div class="pageName">
               <h3>Dashboard</h3>
@@ -28,7 +28,155 @@
 
         <!--            START YOUR CONTENT                  -->
 
-        <div class="row">
+        <div class="col-md-8">
+          <ul class="nav nav-tabs">
+              <li class="active"><a data-toggle="tab" href="#problem">Problem</a></li>
+              <li><a data-toggle="tab" href="#request">Request</a></li>
+          </ul>
+
+
+
+
+          <div class="tab-content">
+<!--                    START TAB PROBLEM-->
+              <div class="tab-pane fade in active" id="problem">
+                  <div class="card">
+                      <div class="card-content">
+<!--                                for row header-->
+                          <div class="row">
+                              <div class="col-sm-7">
+                                  <div class="pageName">
+                                      <h3>Problem</h3>
+                                  </div>
+                              </div>
+                              <div class="col-sm-3"></div>
+                              <div class="col-sm-2">
+                                  <a th:href="@{/problem/add}" type="submit" class="btn btn-fill btn-create text-center"> CREATE </a>
+                              </div>
+                          </div>
+
+<!--                                for row search-->
+                          
+
+<!--                                            mulai table-->
+                          <div class="row">
+                              <div class="col-md-12">
+                                  <div th:if="${hasProblem}">
+                                      <table>
+                                          <thead>
+                                          <tr>
+                                              <th title="Field #1">No</th>
+                                              <th title="Field #2">ID</th>
+                                              <th title="Field #3">Subject</th>
+                                              <th title="Field #4">Date</th>
+                                              <th title="Field #5">Status</th>
+                                          </tr>
+                                          </thead>
+                                          <tbody>
+                                          <tr th:each="problem, iterationStatus : ${listProblem}">
+                                              <td th:text="${iterationStatus.count}"></td>
+                                              <td th:text="${problem.codeProblem}"></td>
+                                              <td th:text="${problem.subject}"></td>
+                                              <td th:text="${problem.real_date}"></td>
+                                              <td th:text="${problem.status.namaStatus}"></td>
+
+                                              </td>
+                                              <td><a th:href="@{/problem/detail/}+${problem.id_problem}"> Detail </a></td>
+                                              <!-- <td th:unless = "${problem.status.id_status == 4}"><a th:href="@{/problem/detail/}+${problem.id_problem}"> Detail </a></td>
+                                              <td th:if = "${problem.status.id_status == 4}"><a th:href="@{/problem/resolver/}+${problem.id_problem}"> Detail </a></td> -->
+                                          </tr>
+                                          </tbody>
+                                      </table>
+                                  </div>
+                                  <div th:unless="${hasProblem}">
+                                      <h2 th:text="'Problem belum tersedia'"></h2>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="row">
+                              <div th:if="${problemPage.totalPages > 0}" class="pagination"
+                                   th:each="pageNumber : ${pageNumbersProblem}">
+                                  <a th:href="@{/tickets(size=${requestPage.size}, page=${pageNumber})}"
+                                     th:text=${pageNumber}
+                                     th:class="${pageNumber==requestPage.number + 1} ? active"></a>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+
+<!--                    START TAB REQUEST-->
+              <div class="tab-pane fade" id="request">
+                  <div class="card">
+                      <div class="card-content">
+                          <!--                                for row header-->
+                          <div class="row">
+                              <div class="col-sm-7">
+                                  <div class="pageName">
+                                      <h3>Request</h3>
+                                  </div>
+                              </div>
+                              <div class="col-sm-3"></div>
+                              <div class="col-sm-2">
+                                  <a th:href="@{/request/add}" type="submit" class="btn btn-fill btn-create text-center"> CREATE </a>
+                              </div>
+                          </div>
+
+                          <!--                                for row search-->
+                          
+
+                          <!--                                            mulai table-->
+                          <div class="row">
+                              <div class="col-md-12">
+                                  <div th:if="${hasRequest}">
+                                      <table>
+                                          <thead>
+                                          <tr>
+                                              <th title="Field #1">No</th>
+                                              <th title="Field #2">ID</th>
+                                              <th title="Field #3">Subject</th>
+                                              <th title="Field #4">Service Catalog</th>
+                                              <th title="Field #5">Date</th>
+                                              <th title="Field #6">Status</th>
+                                              <th title="Field #6">Detail</th>
+                                          </tr>
+                                          </thead>
+                                          <tbody>
+                                          <tr th:each="request, iterationStatus : ${requestPage.content}">
+                                              <td th:text="${iterationStatus.count}"></td>
+                                              <td th:text="${request.codeRequest}"></td>
+                                              <td th:text="${request.subject}"></td>
+                                              <td th:text="${request.sla.nama_sla}"></td>
+                                              <td th:text="${request.created_date}"></td>
+                                              <td th:text="${request.status.namaStatus}">
+                                              </td>
+                                              <td><a th:href="@{/request/detailin/}+${request.id_request}"> Detail </a></td>
+                                          </tr>
+                                          </tbody>
+                                      </table>
+                                  </div>
+                                  <div th:unless="${hasRequest}">
+                                      <h2 th:text="'Request belum tersedia'"></h2>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="row">
+                              <div th:if="${requestPage.totalPages > 0}" class="pagination"
+                                   th:each="pageNumber : ${pageNumbers}">
+                                  <a th:href="@{/tickets(size=${requestPage.size}, page=${pageNumber})}"
+                                     th:text=${pageNumber}
+                                     th:class="${pageNumber==requestPage.number + 1} ? active"></a>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <!--END OF TAB REQUEST-->
+
+          </div>
+      </div>
+
+        <!-- <div class="row">
           <div class="col-sm-4">
             <div class="card">
               <div class="log-content">
@@ -77,6 +225,9 @@
           </div>
         </div>
 
+
+        
+
         <div class="row">
           <div class="col-sm-9 h-100">
             <div class="card h-100">
@@ -104,8 +255,8 @@
               </div>
             </div>
           </div>
-        </div>
-
+        </div> -->
+<!-- 
         <div class="row">
           <div class="col-sm-9">
             <div class="card">
@@ -123,11 +274,11 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
 
         <!--            END OF CONTENT                      -->
       </div>
-    </div>
+    </div> -->
     <!-- <script>
     // Dropdown
     $('.sub-menu ul').hide();
@@ -138,3 +289,5 @@
 </script> -->
   </body>
 </html>
+
+Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ducimus odio aperiam et, assumenda, minus iste id quo, atque ea accusantium incidunt qui laboriosam. Mollitia enim debitis eveniet vero accusantium facere harum doloremque ab, ea expedita quaerat? Omnis officia ipsum voluptatibus dolores tenetur ratione magni earum hic tempora quam, voluptas iste. Officiis possimus ad veritatis laboriosam distinctio animi pariatur, corrupti nobis odio. Nemo officiis sit explicabo inventore, consectetur est iste sapiente numquam ad mollitia voluptas at eligendi, aut tempora unde alias neque aliquid nostrum nisi repellendus delectus ut quam velit sint! Optio eligendi aperiam animi eveniet magnam pariatur, illo quam facilis?
