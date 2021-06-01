@@ -286,7 +286,7 @@ public class TicketController {
         @RequestParam(value = "jenisResolver", required = false) Long id,
         @PathVariable Long id_problem, Model model,
         RedirectAttributes redir) {
-        if (id != null){
+        // if (id != null){
             UserModel user = userService.getUserbyUsername(SecurityContextHolder.getContext().getAuthentication().getName());
             ProblemModel problem = problemService.findProblemById(id_problem);
             long idStatus = 5;
@@ -305,10 +305,10 @@ public class TicketController {
             logProblemService.addLog(log);
 
             return "redirect:/tickets";
-        } else{
-            redir.addFlashAttribute("alert", "Anda belum Assign Resolver Department");
-            return "redirect:/problem/detail/" + id_problem;
-        }
+        // } else{
+        //     redir.addFlashAttribute("alert", "Anda belum Assign Resolver Department");
+        //     return "redirect:/problem/detail/" + id_problem;
+        // }
     }
 
     // @GetMapping("/problem/individual/{id_problem}")
