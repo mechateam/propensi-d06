@@ -741,6 +741,12 @@ public class TicketController {
         return this.slaDb.findAllByDepartemen(departemenService.findDepartemenById(id));
     }
 
+    @ResponseBody
+    @GetMapping("loadslabyid/{id}")
+    public SLAModel loadSLAById(@PathVariable Long id){
+        return this.slaDb.findById(id).get();
+    }
+
     @GetMapping("/slm")
     public String slm(Model model) {
         HashMap<DepartemenModel, Double> rankDept = new HashMap<DepartemenModel, Double>();
