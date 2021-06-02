@@ -13,4 +13,5 @@ public interface UserService {
     boolean isMatch(String newPassword, String oldPassword);
     List<UserModel> getListUserbyDepartemen(DepartemenModel departemen);
     UserModel changePass(UserModel user);
+    UserModel updateUser(UserModel user);
 }
