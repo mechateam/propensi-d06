@@ -103,14 +103,21 @@
                                             <div class="col-sm-6">
                                                 Service Department <br>
                                                 <select id="sla_departemen" class="browser-default custom-select">
+                                                    <option selected value="">
+                                                        -- Choose Service Department --
+                                                    </option>
                                                     <option th:each="dept : ${deptList}"
                                                             th:value="${dept.id_dept}"
                                                             th:text="${dept.nama_departemen}"></option>
 
                                                 </select>
                                             </div>
-                                            <div class="col-sm-1"></div>
-                                            <div class="col-sm-5">
+                                            <div class="col-sm-2">
+                                                Days <br>
+                                                <div id="sla_days"></div>
+
+                                            </div>
+                                            <div class="col-sm-4">
                                                 Service Catalog <br>
                                                 <select name="sla" id="sla_service" class="browser-default custom-select">
 
@@ -185,12 +192,25 @@
                 url: getBaseUrl()+'loadslabydepartemen/' + deptId,
                 success: function(result) {
                     var s = '';
+                    var t='';
                     for(var i = 0; i < result.length; i++) {
                         // s+= '<option th:value="'+ result[i].id_sla+'" th:text="' + result[i].nama_sla + '" ></option>';
                         s+= '<option value="'+ result[i].id_sla+'" >'+ result[i].nama_sla+'</option>';
-                        console.log(s);
                     }
                     $('#sla_service').html(s);
+                }
+            });
+        });
+
+        $('#sla_service').on('change', function () {
+            var slaId = $(this).val();
+            $.ajax({
+                type: 'GET',
+                url: getBaseUrl()+'loadslabyid/' + slaId,
+                success: function(result){
+                    var t = '<input class="form-control" disabled type="text" disabled value="' + result.completion_time + '">';
+                    console.log(t);
+                    $('#sla_days').html(t);
                 }
             });
         });

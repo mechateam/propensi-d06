@@ -56,18 +56,18 @@
                     <i class="fa fa-tasks" aria-hidden="true"></i> Service Catalog
                 </a>
             </li>
-            <li>
-                <a href="/vendor">
+            <li sec:authorize="hasAuthority('Admin') or hasAuthority('Staff IT') or hasAuthority('Kepala Departemen IT') or hasAuthority('Helpdesk')">
+            <a href="/vendor">
                     <i class="fa fa-info-circle" aria-hidden="true"></i> Vendor
                 </a>
             </li>
-            <li>
-                <a href="/slm">
+            <li sec:authorize="hasAuthority('Admin') or hasAuthority('Staff IT') or hasAuthority('Kepala Departemen IT') or hasAuthority('Helpdesk')">
+            <a href="/slm">
                     <i class="fa fa-area-chart" aria-hidden="true"></i> SLM
                 </a>
             </li>
-            <li>
-                <a th:href="@{/user/add}">
+            <li sec:authorize="hasAuthority('Admin') or hasAuthority('Staff IT') or hasAuthority('Kepala Departemen IT') or hasAuthority('Helpdesk')">
+            <a th:href="@{/user/add}">
                     <i class="fa fa-info-circle" aria-hidden="true"></i> Add User
                 </a>
             </li>

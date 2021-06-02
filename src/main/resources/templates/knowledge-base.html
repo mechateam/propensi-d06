@@ -59,7 +59,7 @@
                           <h4>Browse Articles</h4>
                         </div>
                       </div>
-                      <div class="col-sm-2">
+                      <div class="col-sm-2" th:if="${user.id_role.id_role == 2}">
                         <a
                           th:href="@{/knowledgebase/add}"
                           type="submit"

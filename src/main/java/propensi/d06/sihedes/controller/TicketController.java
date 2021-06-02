@@ -741,8 +741,42 @@ public class TicketController {
         return this.slaDb.findAllByDepartemen(departemenService.findDepartemenById(id));
     }
 
+    @ResponseBody
+    @GetMapping("loadslabyid/{id}")
+    public SLAModel loadSLAById(@PathVariable Long id){
+        return this.slaDb.findById(id).get();
+    }
+
     @GetMapping("/slm")
     public String slm(Model model) {
+        HashMap<DepartemenModel, Double> rankDept = new HashMap<DepartemenModel, Double>();
+        List<DepartemenModel> listDept = departemenService.findAll();
+
+        for (int i=0; i < listDept.size(); i++){
+            Double ticketCompleted = 0.0;
+            for (int j=0;j<listDept.get(i).getListRequest().size();i++){
+                if (listDept.get(i).getListRequest().get(j).getStatus().getNamaStatus().equals("Done")){
+                    ticketCompleted+= 1.0;
+                }
+            }
+
+            for (int j=0;j<listDept.get(i).getListProblem().size();i++){
+                if (listDept.get(i).getListProblem().get(j).getStatus().getNamaStatus().equals("Done")){
+                    ticketCompleted+= 1.0;
+                }
+            }
+
+            rankDept.put(listDept.get(i),ticketCompleted/100);
+        }
+        Map<DepartemenModel, Double> sortedMap = rankDept.entrySet().stream()
+                .sorted(Comparator.comparingDouble(e -> -e.getValue()))
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (a, b) -> { throw new AssertionError(); },
+                        LinkedHashMap::new
+                ));
+        model.addAttribute("sortedRankDept",sortedMap);
 
         return "serviceLevelManagement";
     }

@@ -80,11 +80,7 @@ public class RequestModel implements Serializable {
 
     @NotNull
     @Column(name = "phone_number", nullable = false)
-    private Long phone_number;
-
-    public Long getPhone_number() { return phone_number; }
-
-    public void setPhone_number(Long phone_number) { this.phone_number = phone_number; }
+    private String phone_number;
 
     @NotNull
     @Size(max = 255)
@@ -285,6 +281,14 @@ public class RequestModel implements Serializable {
 
     public void setResolverDepartemen(DepartemenModel resolverDepartemen) {
         this.resolverDepartemen = resolverDepartemen;
+    }
+
+    public String getPhone_number() {
+        return phone_number;
+    }
+
+    public void setPhone_number(String phone_number) {
+        this.phone_number = phone_number;
     }
 }
 

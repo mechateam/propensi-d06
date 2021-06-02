@@ -198,20 +198,36 @@
                         <div class="created-by">
                             <p th:text="'Created by '+ ${request.pengaju.username}"></p>
                         </div>
+
                         <div th:if="${user.id_user == userApproval.id_user}" class="row action">
-                            <div class="col-sm-2">
-                                <form th:action="@{/request/approve}" th:object="${request}" method="POST">
-                                    <input type="hidden" th:field="*{id_request}"/>
-                                    <input type="submit" value="Approve" class="btn btn-fill btn-create text-center"/>
-                                </form>
-                            </div>
-                            <div class="col-sm-8"></div>
-                                <div class="col-sm-2">
-                                <form th:action="@{/request/reject}" th:object="${request}" method="POST">
-                                    <input type="hidden" th:field="*{id_request}"/>
-                                    <input type="submit" value="Reject" class="btn btn-fill btn-create text-center"/>
-                                </form>
+                            <!-- Button trigger modal -->
+                            <a class="btn btn-dark" data-toggle="modal" data-target="#exampleModal">
+                                Approve
+                            </a>
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-body">
+                                            <p>
+                                                <span>Are you sure to approve this ticket?</span>
+                                            </p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <a class="btn btn-secondary" data-dismiss="modal">Close</a>
+                                            <form th:action="@{/request/approve}" th:object="${request}" method="POST">
+                                                <input type="hidden" th:field="*{id_request}"/>
+                                                <input type="submit" value="Approve" class="btn btn-fill btn-create"/>
+                                            </form>
+                                            <form th:action="@{/request/reject}" th:object="${request}" method="POST">
+                                                <input type="hidden" th:field="*{id_request}"/>
+                                                <input type="submit" value="Reject" class="btn btn-fill btn-create"/>
+                                            </form>
+                                        </div>
+                                    </div>
                                 </div>
+                            </div>
                             </div>
                         </div>
                     </div>

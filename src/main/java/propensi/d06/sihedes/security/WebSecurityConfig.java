@@ -23,7 +23,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/css/**").permitAll()
                 .antMatchers("/js/**").permitAll()
                 .antMatchers("/img/**").permitAll()
-                .antMatchers("/vendor/**").permitAll()
                 // .antMatchers("/user/add").hasAuthority("Admin")
                 .antMatchers("/sla/daftar/tambah").hasAuthority("Admin")
                 .antMatchers("/sla/daftar/update/**").hasAuthority("Admin")
@@ -53,7 +52,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth
                 .inMemoryAuthentication()
                 .passwordEncoder(encoder())
-                .withUser("admin").password(encoder().encode("admin"))
+                .withUser("sfkadmin").password(encoder().encode("sfkadmin"))
                 .roles("USER");
     }
 
