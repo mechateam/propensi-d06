@@ -95,6 +95,7 @@ public class PageController {
 
         model.addAttribute("listProblem", listProblem);
         model.addAttribute("listRequest", listRequest);
+        model.addAttribute("user",user);
 
         return "home";
     }

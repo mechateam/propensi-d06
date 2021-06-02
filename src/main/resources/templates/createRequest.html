@@ -103,6 +103,9 @@
                                             <div class="col-sm-6">
                                                 Service Department <br>
                                                 <select id="sla_departemen" class="browser-default custom-select">
+                                                    <option selected value="">
+                                                        -- Choose Service Department --
+                                                    </option>
                                                     <option th:each="dept : ${deptList}"
                                                             th:value="${dept.id_dept}"
                                                             th:text="${dept.nama_departemen}"></option>

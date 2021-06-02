@@ -18,17 +18,33 @@
           <!--Page Name Header -->
           <div class="col-md-6">
             <div class="pageName">
-              <h3>Dashboard</h3>
+              <h3>Your Dashboard</h3>
               <p>Dashboard</p>
             </div>
           </div>
           <div class="col-md-6"></div>
         </div>
         <br />
+        <div class="row">
+          <div class="col-md-3">
+            <h4 th:text="'Welcome to SIHEDES, '+${user.nama}"></h4>
+          </div>
+        </div>
+        <div class="row">
+
+          <div class="col-md-1" style="text-align: center;">
+            <div class="card" style="padding-top: 0.5px; padding-bottom: 0.5px;">
+
+              <h5 class="font-weight-bold">Your tickets</h5>
+              <p th:text="${listProblem.size()+listRequest.size()}"></p>
+            </div>
+          </div>
+        </div>
+        <br>
 
         <!--            START YOUR CONTENT                  -->
 
-        <div class="col-md-8">
+        <div class="col-md-9">
           <ul class="nav nav-tabs">
               <li class="active"><a data-toggle="tab" href="#problem">Problem</a></li>
               <li><a data-toggle="tab" href="#request">Request</a></li>
@@ -46,7 +62,7 @@
                           <div class="row">
                               <div class="col-sm-7">
                                   <div class="pageName">
-                                      <h3>Problem</h3>
+                                      <h3>Your Problems</h3>
                                   </div>
                               </div>
                               <div class="col-sm-3"></div>
@@ -113,7 +129,7 @@
                           <div class="row">
                               <div class="col-sm-7">
                                   <div class="pageName">
-                                      <h3>Request</h3>
+                                      <h3>Your Requests</h3>
                                   </div>
                               </div>
                               <div class="col-sm-3"></div>
@@ -142,7 +158,7 @@
                                           </tr>
                                           </thead>
                                           <tbody>
-                                          <tr th:each="request, iterationStatus : ${requestPage.content}">
+                                          <tr th:each="request, iterationStatus : ${listRequest}">
                                               <td th:text="${iterationStatus.count}"></td>
                                               <td th:text="${request.codeRequest}"></td>
                                               <td th:text="${request.subject}"></td>
@@ -289,5 +305,3 @@
 </script> -->
   </body>
 </html>
-
-Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ducimus odio aperiam et, assumenda, minus iste id quo, atque ea accusantium incidunt qui laboriosam. Mollitia enim debitis eveniet vero accusantium facere harum doloremque ab, ea expedita quaerat? Omnis officia ipsum voluptatibus dolores tenetur ratione magni earum hic tempora quam, voluptas iste. Officiis possimus ad veritatis laboriosam distinctio animi pariatur, corrupti nobis odio. Nemo officiis sit explicabo inventore, consectetur est iste sapiente numquam ad mollitia voluptas at eligendi, aut tempora unde alias neque aliquid nostrum nisi repellendus delectus ut quam velit sint! Optio eligendi aperiam animi eveniet magnam pariatur, illo quam facilis?
