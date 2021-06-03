@@ -209,11 +209,11 @@
                                     </div>
 
                                     <div class="row-action">
+                                        <div class="col-sm-8"></div>
                                         <div class="col-sm-2">
-                                            <button class="btn btn-fill btn-decline text-center" data-toggle="modal"
+                                            <button th:if="${user.id_role.id_role==2||user.id_role.id_role==4}" class="btn btn-fill btn-decline text-center" data-toggle="modal"
                                                     data-target="#changeStatus"> Decline </button>
                                         </div>
-                                        <div class="col-sm-8"></div>
                                         <div class="col-sm-2">
                                                 <button class="btn btn-fill btn-create text-center" data-toggle="modal"
                                                         data-target="#changeStatus"> Accept </button>

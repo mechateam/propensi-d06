@@ -18,7 +18,9 @@ import propensi.d06.sihedes.service.RequestService;
 import propensi.d06.sihedes.service.UserService;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -91,11 +93,9 @@ public class PageController {
                 model.addAttribute("hasRequestOG", true);
             }
 
-            List<List<Object>> pieChartData = new ArrayList<List<Object>>();
-            List<Object> data = new ArrayList<>();
-            data.add("praya");
-            data.add(2);
-            pieChartData.add(data);
+            Map<String, Long> mapData = new HashMap<String, Long>();
+            Map<String, Long>[] pieChartData = new Map[1];
+            pieChartData[0] = mapData;
 
 
             model.addAttribute("pieChartData", pieChartData);
