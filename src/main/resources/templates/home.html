@@ -15,19 +15,60 @@
     <div class="content-container">
       <div class="container-fluid">
         <br>
-        <div class="row">
-          <div class="col-md-3">
-            <h4 th:text="'Welcome to SIHEDES, '+${user.nama}"></h4>
-          </div>
-          <div class="col-md-1" style="text-align: center;">
-            <div class="card" style="padding-top: 0.5px; padding-bottom: 0.5px;">
+        <div class="col-md-12">
 
-              <h5 class="font-weight-bold">Your tickets</h5>
-              <p th:text="${listProblem.size()+listRequest.size()}"></p>
+          <div class="row">
+            <div class="col-md-4" style="height: 80px;">
+              <div class="card" style="height: 80px; padding: 10px; padding-left:20px;">
+
+                <h4 style="margin: 0px; padding-top:5px;" th:text="'Welcome to SIHEDES, '+${user.nama}"></h4>
+                <p th:text="${user.departemen.nama_departemen}" style="color: #7dab5d; padding-top: 15px;"></p>
+              </div>
+            </div>
+            
+            <div th:if="${user.id_role.id_role==2}" class="col-md-2" style="text-align: center; height: 80px;">
+              <div class="card" style="padding: 1px 2px; height: 80px; padding-top:15px;" >
+                <h5 style="margin: 0px;" class="font-weight-bold">Unassigned tickets</h5>
+                <p style="margin: 0px;" class="font-weight-bold">(To department)</p>
+                <p style="margin: 0px; padding-top:0px;" th:text="${waitingAssignment}"></p>
+              </div>
+            </div>
+            <div th:if="${user.id_role.id_role==2 || user.id_role.id_role==4 || user.id_role.id_role==5}" class="col-md-2" style="text-align: center; height: 80px;">
+              <div class="card" style="padding: 1px 2px; height: 80px; padding-top:15px;" >
+                <h5 style="margin: 0px;" class="font-weight-bold">Unassigned tickets</h5>
+                <p style="margin: 0px;" class="font-weight-bold">(To individual)</p>
+                <p style="margin: 0px; padding-top:0px;" th:text="${waitingIndividual}"></p>
+              </div>
+            </div>
+            <div th:if="${user.id_role.id_role==2 || user.id_role.id_role==4 || user.id_role.id_role==5}" class="col-md-2" style="text-align: center; height: 80px;">
+              <div class="card" style="padding: 1px 2px; height: 80px; padding-top:15px;" >
+                <h5 style="margin: 0px;" class="font-weight-bold">Tickets to do</h5>
+                <p style="margin: 0px; padding-top:20px;" th:text="${onGoingResolverTickets}"></p>
+              </div>
+            </div>
+            <div th:if="${user.id_role.id_role==1 || user.id_role.id_role==3 || user.id_role.id_role==6}" class="col-md-2" style="text-align: center; height: 80px;">
+              <div class="card" style="padding: 1px 2px; height: 80px; padding-top:15px;" >
+                <h5 style="margin: 0px;" class="font-weight-bold">In progress tickets</h5>
+                <p style="margin: 0px; padding-top:20px;" th:text="${inProgressTickets}"></p>
+              </div>
+            </div>
+            <div th:if="${user.id_role.id_role==1 || user.id_role.id_role==3 || user.id_role.id_role==6}" class="col-md-2" style="text-align: center; height: 80px;">
+              <div class="card" style="padding: 1px 2px; height: 80px; padding-top:15px;" >
+                <h5 style="margin: 0px;" class="font-weight-bold">Tickets to review</h5>
+                <p style="margin: 0px; padding-top:20px;" th:text="${doneTickets}"></p>
+              </div>
+            </div>
+            <div class="col-md-2" style="text-align: center; height: 80px;">
+              <div class="card" style="padding: 1px 2px; height: 80px; padding-top:15px;" >
+                <h5 style="margin: 0px;" class="font-weight-bold">Your tickets</h5>
+                <p style="margin: 0px; padding-top:20px;  " th:text="${yourTickets}"></p>
+              </div>
             </div>
           </div>
+          
+          
+          <h3>Your Dashboard</h3>
         </div>
-        <br>
 
         <!--            START YOUR CONTENT                  -->
 
@@ -49,12 +90,13 @@
                           <div class="row">
                               <div class="col-sm-7">
                                   <div class="pageName">
-                                      <h3>Your Problems</h3>
+                                      <h3 th:if="${user.id_role.id_role==2 || user.id_role.id_role==4 || user.id_role.id_role==5}">Problems to be assigned</h3>
+                                      <h3 th:unless="${user.id_role.id_role==2 || user.id_role.id_role==4 || user.id_role.id_role==5}">Your problems</h3>
                                   </div>
                               </div>
                               <div class="col-sm-3"></div>
                               <div class="col-sm-2">
-                                  <a th:href="@{/problem/add}" type="submit" class="btn btn-fill btn-create text-center"> CREATE </a>
+                                  <a th:if="${user.id_role.id_role!=2}" th:href="@{/problem/add}" type="submit" class="btn btn-fill btn-create text-center"> CREATE </a>
                               </div>
                           </div>
 
@@ -81,7 +123,21 @@
                                               <td th:text="${problem.codeProblem}"></td>
                                               <td th:text="${problem.subject}"></td>
                                               <td th:text="${problem.real_date}"></td>
-                                              <td th:text="${problem.status.namaStatus}"></td>
+                                              <td th:if = "${problem.status.id_status == 4}">
+                                                <span class="badge badgeWAS" th:text="${problem.status.namaStatus}"></span>
+                                            </td>
+                                            <td th:if = "${problem.status.id_status == 5}">
+                                                <span class="badge badgeAss" th:text="${problem.status.namaStatus}"></span>
+                                            </td>
+                                            <td th:if = "${problem.status.id_status == 6}">
+                                                <span class="badge badgeIP" th:text="${problem.status.namaStatus}"></span>
+                                            </td>
+                                            <td th:if = "${problem.status.id_status == 7}">
+                                                <span class="badge badgeDone" th:text="${problem.status.namaStatus}"></span>
+                                            </td>
+                                            <td th:if = "${problem.status.id_status == 8}">
+                                                <span class="badge badgeClose" th:text="${problem.status.namaStatus}"></span>
+                                            </td>
 
                                               </td>
                                               <td><a th:href="@{/problem/detail/}+${problem.id_problem}"> Detail </a></td>
@@ -92,7 +148,14 @@
                                       </table>
                                   </div>
                                   <div th:unless="${hasProblem}">
-                                      <h2 th:text="'Problem belum tersedia'"></h2>
+                                      <p th:text="'No problems to be assigned yet'"></p>
+                                  </div>
+                                  <div class="row">
+                                    <div class="col-md-8"></div>
+                                    <div class="col-sm-4">
+                                      <a th:if="${user.id_role.id_role==2 || user.id_role.id_role==4 || user.id_role.id_role==5}" th:href="@{/pending}" type="submit" class="btn btn-fill btn-create text-center"> Go to pending tickets > </a>
+                                      <a th:unless="${user.id_role.id_role==2 || user.id_role.id_role==4 || user.id_role.id_role==5}" th:href="@{/mytickets}" type="submit" class="btn btn-fill btn-create text-center"> Go to my tickets > </a>
+                                  </div>
                                   </div>
                               </div>
                           </div>
@@ -116,12 +179,13 @@
                           <div class="row">
                               <div class="col-sm-7">
                                   <div class="pageName">
-                                      <h3>Your Requests</h3>
+                                    <h3 th:if="${user.id_role.id_role==2 || user.id_role.id_role==4 || user.id_role.id_role==5}">Requests to be assigned</h3>
+                                      <h3 th:unless="${user.id_role.id_role==2 || user.id_role.id_role==4 || user.id_role.id_role==5}">Your requests</h3>
                                   </div>
                               </div>
                               <div class="col-sm-3"></div>
                               <div class="col-sm-2">
-                                  <a th:href="@{/request/add}" type="submit" class="btn btn-fill btn-create text-center"> CREATE </a>
+                                  <a th:href="@{/request/add}" th:if="${user.id_role.id_role!=2}" type="submit" class="btn btn-fill btn-create text-center"> CREATE </a>
                               </div>
                           </div>
 
@@ -151,7 +215,24 @@
                                               <td th:text="${request.subject}"></td>
                                               <td th:text="${request.sla.nama_sla}"></td>
                                               <td th:text="${request.created_date}"></td>
-                                              <td th:text="${request.status.namaStatus}">
+                                              <td th:if = "${request.status.id_status == 3}">
+                                                <span class="badge badgeApproval" th:text="${request.status.namaStatus}"></span>
+                                            </td>
+                                            <td th:if = "${request.status.id_status == 4}">
+                                                <span class="badge badgeWAS" th:text="${request.status.namaStatus}"></span>
+                                            </td>
+                                            <td th:if = "${request.status.id_status == 5}">
+                                                <span class="badge badgeAss" th:text="${request.status.namaStatus}"></span>
+                                            </td>
+                                            <td th:if = "${request.status.id_status == 6}">
+                                                <span class="badge badgeIP" th:text="${request.status.namaStatus}"></span>
+                                            </td>
+                                            <td th:if = "${request.status.id_status == 7}">
+                                                <span class="badge badgeDone" th:text="${request.status.namaStatus}"></span>
+                                            </td>
+                                            <td th:if = "${request.status.id_status == 8}">
+                                                <span class="badge badgeClose" th:text="${request.status.namaStatus}"></span>
+                                            </td>
                                               </td>
                                               <td><a th:href="@{/request/detailin/}+${request.id_request}"> Detail </a></td>
                                           </tr>
@@ -159,16 +240,15 @@
                                       </table>
                                   </div>
                                   <div th:unless="${hasRequest}">
-                                      <h2 th:text="'Request belum tersedia'"></h2>
+                                      <p th:text="'No requests to be assigned yet'"></p>
                                   </div>
-                              </div>
-                          </div>
-                          <div class="row">
-                              <div th:if="${requestPage.totalPages > 0}" class="pagination"
-                                   th:each="pageNumber : ${pageNumbers}">
-                                  <a th:href="@{/tickets(size=${requestPage.size}, page=${pageNumber})}"
-                                     th:text=${pageNumber}
-                                     th:class="${pageNumber==requestPage.number + 1} ? active"></a>
+                                  <div class="row">
+                                    <div class="col-md-8"></div>
+                                    <div class="col-sm-4">
+                                      <a th:if="${user.id_role.id_role==2 || user.id_role.id_role==4 || user.id_role.id_role==5}" th:href="@{/pending}" type="submit" class="btn btn-fill btn-create text-center"> Go to pending tickets > </a>
+                                      <a th:unless="${user.id_role.id_role==2 || user.id_role.id_role==4 || user.id_role.id_role==5}" th:href="@{/mytickets}" type="submit" class="btn btn-fill btn-create text-center"> Go to my tickets > </a>
+                                  </div>
+                                  </div>
                               </div>
                           </div>
                       </div>
@@ -177,6 +257,18 @@
               <!--END OF TAB REQUEST-->
 
           </div>
+      </div>
+      <div class="col-md-3" th:if="${user.id_role.id_role==2}">
+        <div class="card">
+          <div class="card-content">
+            <div id="piechart"></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3" th:unless="${user.id_role.id_role==2}">
+        <div class="container-fluid">
+          <img th:src="@{/images/illustration.png}" alt="" class="img-fluid" style="max-width: 100%; height:auto; object-fit:cover;">
+        </div>
       </div>
 
         <!-- <div class="row">
@@ -280,6 +372,199 @@
         </div> -->
 
         <!--            END OF CONTENT                      -->
+
+        <div class="col-md-9">
+          <ul class="nav nav-tabs">
+              <li class="active"><a data-toggle="tab" href="#problem2">Problem</a></li>
+              <li><a data-toggle="tab" href="#request2">Request</a></li>
+          </ul>
+
+
+
+
+          <div class="tab-content">
+<!--                    START TAB PROBLEM-->
+              <div class="tab-pane fade in active" id="problem2">
+                  <div class="card">
+                      <div class="card-content">
+<!--                                for row header-->
+                          <div class="row">
+                              <div class="col-sm-7">
+                                  <div class="pageName">
+                                      <h3 th:if="${user.id_role.id_role==2 || user.id_role.id_role==4 || user.id_role.id_role==5}">Your on going problems</h3>
+                                      <h3 th:unless="${user.id_role.id_role==2 || user.id_role.id_role==4 || user.id_role.id_role==5}">Please give these tickets a feedback</h3>
+
+                                  </div>
+                              </div>
+                              <div class="col-sm-3"></div>
+                              
+                          </div>
+
+<!--                                for row search-->
+                          
+
+<!--                                            mulai table-->
+                          <div class="row">
+                              <div class="col-md-12">
+                                  <div th:if="${hasProblemOG}">
+                                      <table>
+                                          <thead>
+                                          <tr>
+                                              <th title="Field #1">No</th>
+                                              <th title="Field #2">ID</th>
+                                              <th title="Field #3">Subject</th>
+                                              <th title="Field #4">Date</th>
+                                              <th title="Field #5">Status</th>
+                                          </tr>
+                                          </thead>
+                                          <tbody>
+                                          <tr th:each="problem, iterationStatus : ${onGoingProblems}" th:if="${user.id_role.id_role==2 || user.id_role.id_role==4 || user.id_role.id_role==5}">
+                                          <tr th:each="problem, iterationStatus : ${doneProblems}" th:unless="${user.id_role.id_role==2 || user.id_role.id_role==4 || user.id_role.id_role==5}">
+                                              <td th:text="${iterationStatus.count}"></td>
+                                              <td th:text="${problem.codeProblem}"></td>
+                                              <td th:text="${problem.subject}"></td>
+                                              <td th:text="${problem.real_date}"></td>
+                                              <td th:if = "${problem.status.id_status == 4}">
+                                                <span class="badge badgeWAS" th:text="${problem.status.namaStatus}"></span>
+                                            </td>
+                                            <td th:if = "${problem.status.id_status == 5}">
+                                                <span class="badge badgeAss" th:text="${problem.status.namaStatus}"></span>
+                                            </td>
+                                            <td th:if = "${problem.status.id_status == 6}">
+                                                <span class="badge badgeIP" th:text="${problem.status.namaStatus}"></span>
+                                            </td>
+                                            <td th:if = "${problem.status.id_status == 7}">
+                                                <span class="badge badgeDone" th:text="${problem.status.namaStatus}"></span>
+                                            </td>
+                                            <td th:if = "${problem.status.id_status == 8}">
+                                                <span class="badge badgeClose" th:text="${problem.status.namaStatus}"></span>
+                                            </td>
+
+                                              </td>
+                                              <td><a th:href="@{/problem/detail/}+${problem.id_problem}"> Detail </a></td>
+                                              <!-- <td th:unless = "${problem.status.id_status == 4}"><a th:href="@{/problem/detail/}+${problem.id_problem}"> Detail </a></td>
+                                              <td th:if = "${problem.status.id_status == 4}"><a th:href="@{/problem/resolver/}+${problem.id_problem}"> Detail </a></td> -->
+                                          </tr>
+                                          </tbody>
+                                      </table>
+                                  </div>
+                                  <div th:unless="${hasProblemOG}">
+                                      <p th:text="'You dont have a working problem yet'" th:if="${user.id_role.id_role==2 || user.id_role.id_role==4 || user.id_role.id_role==5}"></p>
+                                      <p th:text="'No tickets to give your feedback yet'" th:unless="${user.id_role.id_role==2 || user.id_role.id_role==4 || user.id_role.id_role==5}"></p>
+                                  </div>
+                                  <div class="row">
+                                    <div class="col-md-8"></div>
+                                    <div class="col-sm-4">
+                                      <a th:if="${user.id_role.id_role==2 || user.id_role.id_role==4 || user.id_role.id_role==5}" th:href="@{/pending}" type="submit" class="btn btn-fill btn-create text-center"> Go to pending tickets > </a>
+                                      <a th:unless="${user.id_role.id_role==2 || user.id_role.id_role==4 || user.id_role.id_role==5}" th:href="@{/mytickets}" type="submit" class="btn btn-fill btn-create text-center"> Go to my tickets > </a>
+                                  </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="row">
+                              <div th:if="${problemPage.totalPages > 0}" class="pagination"
+                                   th:each="pageNumber : ${pageNumbersProblem}">
+                                  <a th:href="@{/tickets(size=${requestPage.size}, page=${pageNumber})}"
+                                     th:text=${pageNumber}
+                                     th:class="${pageNumber==requestPage.number + 1} ? active"></a>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+
+<!--                    START TAB REQUEST-->
+              <div class="tab-pane fade" id="request2">
+                  <div class="card">
+                      <div class="card-content">
+                          <!--                                for row header-->
+                          <div class="row">
+                            
+                              <div class="col-sm-7">
+                                  <div class="pageName">
+                                    <h3 th:if="${user.id_role.id_role==2 || user.id_role.id_role==4 || user.id_role.id_role==5}">Your on going problems</h3>
+                                    <h3 th:unless="${user.id_role.id_role==2 || user.id_role.id_role==4 || user.id_role.id_role==5}">Please give these tickets a feedback</h3>
+                                  </div>
+                              </div>
+                              <div class="col-sm-3"></div>
+                    
+                          </div>
+
+                          <!--                                for row search-->
+                          
+
+                          <!--                                            mulai table-->
+                          <div class="row">
+                              <div class="col-md-12">
+                                  <div th:if="${hasRequestOG}">
+                                      <table>
+                                          <thead>
+                                          <tr>
+                                              <th title="Field #1">No</th>
+                                              <th title="Field #2">ID</th>
+                                              <th title="Field #3">Subject</th>
+                                              <th title="Field #4">Service Catalog</th>
+                                              <th title="Field #5">Date</th>
+                                              <th title="Field #6">Status</th>
+                                              <th title="Field #6">Detail</th>
+                                          </tr>
+                                          </thead>
+                                          <tbody>
+                                          <tr th:each="request, iterationStatus : ${onGoingRequests}">
+                                              <td th:text="${iterationStatus.count}"></td>
+                                              <td th:text="${request.codeRequest}"></td>
+                                              <td th:text="${request.subject}"></td>
+                                              <td th:text="${request.sla.nama_sla}"></td>
+                                              <td th:text="${request.created_date}"></td>
+                                              <td th:if = "${request.status.id_status == 4}">
+                                                <span class="badge badgeWAS" th:text="${request.status.namaStatus}"></span>
+                                            </td>
+                                            <td th:if = "${request.status.id_status == 5}">
+                                                <span class="badge badgeAss" th:text="${request.status.namaStatus}"></span>
+                                            </td>
+                                            <td th:if = "${request.status.id_status == 6}">
+                                                <span class="badge badgeIP" th:text="${request.status.namaStatus}"></span>
+                                            </td>
+                                            <td th:if = "${request.status.id_status == 7}">
+                                                <span class="badge badgeDone" th:text="${request.status.namaStatus}"></span>
+                                            </td>
+                                            <td th:if = "${request.status.id_status == 8}">
+                                                <span class="badge badgeClose" th:text="${request.status.namaStatus}"></span>
+                                            </td>
+                                              </td>
+                                              <td><a th:href="@{/request/detailin/}+${request.id_request}"> Detail </a></td>
+                                          </tr>
+                                          </tbody>
+                                      </table>
+                                  </div>
+                                  <div th:unless="${hasRequestOG}">
+                                    <p th:text="'You dont have a working request   yet'" th:if="${user.id_role.id_role==2 || user.id_role.id_role==4 || user.id_role.id_role==5}"></p>
+                                    <p th:text="'No tickets to give your feedback yet'" th:unless="${user.id_role.id_role==2 || user.id_role.id_role==4 || user.id_role.id_role==5}"></p>
+                                  </div>
+                                  <div class="row">
+                                    <div class="col-md-8"></div>
+                                    <div class="col-sm-4">
+                                      <a th:if="${user.id_role.id_role==2 || user.id_role.id_role==4 || user.id_role.id_role==5}" th:href="@{/pending}" type="submit" class="btn btn-fill btn-create text-center"> Go to pending tickets > </a>
+                                      <a th:unless="${user.id_role.id_role==2 || user.id_role.id_role==4 || user.id_role.id_role==5}" th:href="@{/mytickets}" type="submit" class="btn btn-fill btn-create text-center"> Go to my tickets > </a>
+                                  </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="row">
+                              <div th:if="${requestPage.totalPages > 0}" class="pagination"
+                                   th:each="pageNumber : ${pageNumbers}">
+                                  <a th:href="@{/tickets(size=${requestPage.size}, page=${pageNumber})}"
+                                     th:text=${pageNumber}
+                                     th:class="${pageNumber==requestPage.number + 1} ? active"></a>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <!--END OF TAB REQUEST-->
+
+          </div>
+      </div>
       </div>
     </div> -->
     <!-- <script>
@@ -290,5 +575,23 @@
         $(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
     });
 </script> -->
-  </body>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript" th:inline="javascript">
+  // Load google charts
+  google.charts.load('current', {'packages':['corechart']});
+  google.charts.setOnLoadCallback(drawChart);
+  
+  // Draw the chart and set the chart values
+  function drawChart() {
+    var data = google.visualization.arrayToDataTable(/*[[${pieChartData}]]*/);
+  
+    // Optional; add a title and set the width and height of the chart
+    var options = {'title':'My Average Day'};
+  
+    // Display the chart inside the <div> element with id="piechart"
+    var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+    chart.draw(data, options);
+  }
+  </script>  
+</body>
 </html>

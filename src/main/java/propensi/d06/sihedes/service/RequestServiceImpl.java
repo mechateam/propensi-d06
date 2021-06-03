@@ -331,4 +331,24 @@ public class RequestServiceImpl implements RequestService{
 
         Transport.send(msg);
     }
+
+    @Override
+    public List<RequestModel> findRequestsByStatusId(Long id) {
+        return requestDb.findRequestModelsByStatus(statusDb.findById(id).get());
+    }
+
+    @Override
+    public List<RequestModel> findRequestsByStatusIdAndResolver(Long id, UserModel resolver) {
+        return requestDb.findRequestModelsByStatusAndResolver(statusDb.findById(id).get(), resolver);
+    }
+
+    @Override
+    public List<RequestModel> findRequestsByStatusIdAndPengaju(Long id, UserModel user) {
+        return requestDb.findRequestModelsByStatusAndPengaju(statusDb.findById(id).get(), user);
+    }
+
+    @Override
+    public List<RequestModel> findRequestsByStatusIdAndResolverDepartment(Long id, DepartemenModel departemenModel) {
+        return requestDb.findRequestModelsByStatusAndResolverDepartemen(statusDb.findById(id).get(), departemenModel);
+    }
 }

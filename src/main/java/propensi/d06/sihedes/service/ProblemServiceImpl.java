@@ -216,4 +216,23 @@ public class ProblemServiceImpl implements ProblemService{
         timer.schedule(timerTask, 172800000);
     }
 
+    @Override
+    public List<ProblemModel> getProblemByStatusId(Long id) {
+        return problemDb.findProblemModelsByStatus(statusDb.findById(id).get());
+    }
+
+    @Override
+    public List<ProblemModel> getProblemByStatusIdAndResolver(Long id, UserModel user) {
+        return problemDb.findProblemModelsByStatusAndResolver(statusDb.findById(id).get(), user);
+    }
+
+    @Override
+    public List<ProblemModel> getProblemByStatusIdAndPengaju(Long id, UserModel userModel) {
+        return problemDb.findProblemModelsByStatusAndPengaju(statusDb.findById(id).get(), userModel);
+    }
+
+    @Override
+    public List<ProblemModel> getProblemByStatusIdAndDepartmentResolver(Long id, DepartemenModel departemenModel) {
+        return problemDb.findProblemModelsByStatusAndResolverDepartemen(statusDb.findById(id).get(), departemenModel);
+    }
 }
