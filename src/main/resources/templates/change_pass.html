@@ -14,7 +14,21 @@
 <nav th:replace="fragments/fragment :: navbar"></nav>
 
 <div class="content-container">
-    <div class="card col-sm-6 offset-3 shadow p-3 mb-5 bg-white rounded">
+    <div class="container-fluid">
+        <div class="row">
+            <!--Page Name Header-->
+            <div class="col-sm-6">
+                <div class="pageName">
+                    <h3>Change Password</h3>
+                    <p><a th:href="@{/user/profil}">Profil</a> > Change Password</p>
+                </div>
+                <span id="alert"></span>
+            </div>
+            <div class="col-sm-6"> </div>
+        </div>
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <div class="card-content">
         <H2 class="alert-warning" th:if="${message}" th:text="${message}"></H2>
         <h2 class="text-center">Form Change Password</h2>
         <br>
@@ -35,6 +49,10 @@
 
         </form>
     </div>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+</div>
     <script type="text/javascript">
 
         function check_pass() {

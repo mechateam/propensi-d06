@@ -55,7 +55,7 @@
                                 </div>
                                 <div class="col-sm-3"></div>
                                 <div class="col-sm-2">
-                                    <!-- <a th:href="@{/ticket/add}" type="submit" class="btn btn-fill btn-create text-center"> CREATE </a> -->
+                                    <a th:href="@{/problem/add}" type="submit" class="btn btn-fill btn-create text-center" style="min-width: 90px;"> CREATE </a>
                                 </div>
                             </div>
 
@@ -76,32 +76,48 @@
                             <!--                                            mulai table-->
                             <div class="row">
                                 <div class="col-md-12">
-                                    <div th:if="${hasProblem}">
-                                        <table>
-                                            <thead>
-                                            <tr>
-                                                <th title="Field #1">No</th>
-                                                <th title="Field #2">ID</th>
-                                                <th title="Field #3">Subject</th>
-                                                <th title="Field #4">Date</th>
-                                                <th title="Field #5">Status</th>
-                                            </tr>
-                                            </thead>
+                                    <table>
+                                        <thead>
+                                        <tr>
+                                            <th title="Field #1">No</th>
+                                            <th title="Field #2">ID</th>
+                                            <th title="Field #3">Subject</th>
+                                            <th title="Field #4">Date</th>
+                                            <th title="Field #5">Status</th>
+                                        </tr>
+                                        </thead>
+                                        <div th:if="${hasProblem}">
                                             <tbody>
                                             <tr th:each="problem, iterationStatus : ${listProblem}">
                                                 <td th:text="${iterationStatus.count}"></td>
-                                                <td th:text="${problem.id_problem}"></td>
+                                                <td th:text="${problem.codeProblem}"></td>
                                                 <td th:text="${problem.subject}"></td>
                                                 <td th:text="${problem.real_date}"></td>
-                                                <td th:text="${problem.status.namaStatus}"></td>
-                                                <td th:unless = "${problem.status.id_status == 4}"><a th:href="@{/problem/detail/}+${problem.id_problem}"> Detail </a></td>
-                                                <td th:if = "${problem.status.id_status == 4}"><a th:href="@{/problem/resolver/}+${problem.id_problem}"> Detail </a></td>
+                                                <td th:if = "${problem.status.id_status == 4}">
+                                                    <span class="badge badgeWAS" th:text="${problem.status.namaStatus}"></span>
+                                                </td>
+                                                <td th:if = "${problem.status.id_status == 5}">
+                                                    <span class="badge badgeAss" th:text="${problem.status.namaStatus}"></span>
+                                                </td>
+                                                <td th:if = "${problem.status.id_status == 6}">
+                                                    <span class="badge badgeIP" th:text="${problem.status.namaStatus}"></span>
+                                                </td>
+                                                <td th:if = "${problem.status.id_status == 7}">
+                                                    <span class="badge badgeDone" th:text="${problem.status.namaStatus}"></span>
+                                                </td>
+                                                <td th:if = "${problem.status.id_status == 8}">
+                                                    <span class="badge badgeClose" th:text="${problem.status.namaStatus}"></span>
+                                                </td>
+                                                <td><a th:href="@{/problem/detail/}+${problem.id_problem}"> Detail </a></td>
+                                                <!-- <td th:unless = "${problem.status.id_status == 4}"><a th:href="@{/problem/detail/}+${problem.id_problem}"> Detail </a></td>
+                                                <td th:if = "${problem.status.id_status == 4}"><a th:href="@{/problem/resolver/}+${problem.id_problem}"> Detail </a></td> -->
                                             </tr>
+
                                             </tbody>
-                                        </table>
-                                    </div>
+                                        </div>
+                                    </table>
                                     <div th:unless="${hasProblem}">
-                                        <h2 th:text="'Problem belum tersedia'"></h2>
+                                        <p class="text-center">Problem belum tersedia</p>
                                     </div>
                                 </div>
                             </div>
@@ -130,7 +146,7 @@
                                 </div>
                                 <div class="col-sm-3"></div>
                                 <div class="col-sm-2">
-                                    <a th:href="@{/ticket/add}" type="submit" class="btn btn-fill btn-create text-center"> CREATE </a>
+                                    <a th:href="@{/request/add}" type="submit" class="btn btn-fill btn-create text-center" style="min-width: 90px;"> CREATE </a>
                                 </div>
                             </div>
 
@@ -151,34 +167,52 @@
                             <!--                                            mulai table-->
                             <div class="row">
                                 <div class="col-md-12">
-                                    <div th:if="${hasRequest}">
-                                        <table>
-                                            <thead>
-                                            <tr>
-                                                <th title="Field #1">No</th>
-                                                <th title="Field #2">ID</th>
-                                                <th title="Field #3">Subject</th>
-                                                <th title="Field #4">Service Catalog</th>
-                                                <th title="Field #5">Date</th>
-                                                <th title="Field #6">Status</th>
-                                                <th title="Field #6">Detail</th>
-                                            </tr>
-                                            </thead>
+
+                                    <table>
+                                        <thead>
+                                        <tr>
+                                            <th title="Field #1">No</th>
+                                            <th title="Field #2">ID</th>
+                                            <th title="Field #3">Subject</th>
+                                            <th title="Field #4">Service Catalog</th>
+                                            <th title="Field #5">Date</th>
+                                            <th title="Field #6">Status</th>
+                                            <th title="Field #6">Detail</th>
+                                        </tr>
+                                        </thead>
+                                        <div th:if="${hasRequest}">
                                             <tbody>
                                             <tr th:each="request, iterationStatus : ${requestPage.content}">
                                                 <td th:text="${iterationStatus.count}"></td>
-                                                <td th:text="${request.id_request}"></td>
+                                                <td th:text="${request.codeRequest}"></td>
                                                 <td th:text="${request.subject}"></td>
-                                                <td th:text="${request.sla}"></td>
+                                                <td th:text="${request.sla.nama_sla}"></td>
                                                 <td th:text="${request.created_date}"></td>
-                                                <td th:text="${request.status.namaStatus}"></td>
-                                                <td><a th:href="@{/request/detail/}+${request.id_request}"> Detail </a></td>
+                                                <td th:if = "${request.status.id_status == 3}">
+                                                    <span class="badge badgeApproval" th:text="${request.status.namaStatus}"></span>
+                                                </td>
+                                                <td th:if = "${request.status.id_status == 4}">
+                                                    <span class="badge badgeWAS" th:text="${requeststatus.namaStatus}"></span>
+                                                </td>
+                                                <td th:if = "${request.status.id_status == 5}">
+                                                    <span class="badge badgeAss" th:text="${request.status.namaStatus}"></span>
+                                                </td>
+                                                <td th:if = "${request.status.id_status == 6}">
+                                                    <span class="badge badgeIP" th:text="${request.status.namaStatus}"></span>
+                                                </td>
+                                                <td th:if = "${request.status.id_status == 7}">
+                                                    <span class="badge badgeDone" th:text="${request.status.namaStatus}"></span>
+                                                </td>
+                                                <td th:if = "${request.status.id_status == 8}">
+                                                    <span class="badge badgeClose" th:text="${request.status.namaStatus}"></span>
+                                                </td>
+                                                <td><a th:href="@{/request/detailin/}+${request.id_request}"> Detail </a></td>
                                             </tr>
                                             </tbody>
-                                        </table>
-                                    </div>
+                                        </div>
+                                    </table>
                                     <div th:unless="${hasRequest}">
-                                        <h2 th:text="'Request belum tersedia'"></h2>
+                                        <p class="text-center">Request belum tersedia</p>
                                     </div>
                                 </div>
                             </div>

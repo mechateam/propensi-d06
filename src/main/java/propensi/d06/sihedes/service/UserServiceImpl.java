@@ -1,14 +1,18 @@
 package propensi.d06.sihedes.service;
 
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import propensi.d06.sihedes.model.DepartemenModel;
+import propensi.d06.sihedes.model.ProblemModel;
+import propensi.d06.sihedes.model.StatusModel;
 import propensi.d06.sihedes.model.UserModel;
 import propensi.d06.sihedes.repository.UserDb;
 
 import javax.transaction.Transactional;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -67,5 +71,17 @@ public class UserServiceImpl implements UserService {
         else {
             return null;
         }
+    }
+    @Override
+    public UserModel updateUser(UserModel user) {
+        UserModel targetUser = userDb.findById(user.getId_user()).get();
+//        try {
+            targetUser.setEmail(user.getEmail());
+            targetUser.setNo_hp(user.getNo_hp());
+            userDb.save(targetUser);
+            return targetUser;
+//        } catch (NullPointerException nullPointerException) {
+//            return null;
+//        }
     }
 }

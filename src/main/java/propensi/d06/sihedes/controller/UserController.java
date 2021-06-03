@@ -1,6 +1,7 @@
 package propensi.d06.sihedes.controller;
 
 
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -73,6 +74,15 @@ public class UserController {
             model.addAttribute("message","Password anda salah");
             return "change_pass";
         }
+    }
+    @PostMapping("/update")
+    public String updateSubmit(@ModelAttribute UserModel user, Model model, RedirectAttributes attributes) {
+        System.out.println("Hehe");
+        UserModel updateUser = userService.updateUser(user);
+        System.out.println("Haha");
+        model.addAttribute("user",updateUser);
+        System.out.println("Hoho");
+        return "profil";
     }
 }
 

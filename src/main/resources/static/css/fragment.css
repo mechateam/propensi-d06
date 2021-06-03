@@ -441,3 +441,13 @@ tr:hover td {
 .badgeClose{
   background-color: #545655;
 }
+#btnChange{
+  background-color: white;
+  color: #7dab5d;
+  border-color: #7dab5d;
+}
+#btnChange:hover{
+  color: black;
+  border-color: black;
+
+}
