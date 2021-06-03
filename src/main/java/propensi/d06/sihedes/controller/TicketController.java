@@ -267,7 +267,7 @@ public class TicketController {
             model.addAttribute("pageNumbersProblem", pageNumbersProblem);
         }
         //Checking
-        boolean hasProblem = listProblem.size() > 0;
+        boolean hasProblem = listPendingProblem.size() > 0;
         model.addAttribute("hasProblem", hasProblem);
         boolean hasRequest = listRequest.size() > 0;
         model.addAttribute("hasRequest", hasRequest);
