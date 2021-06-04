@@ -80,7 +80,7 @@
                                 <div class="col-sm-3">
 <!--                                    <div th:if="${problem.probVendor != null}">-->
                                     <button type = "button" class="btn btn-fill btn-create text-center" style="width: 100px;" data-toggle="modal"
-                                            data-target="#changeStatus"> Assign </button>
+                                            th:attr="data-target='#changeStatus'+${vendor.id_vendor}"> Assign </button>
 <!--                                    </div>-->
 <!--                                    <div th:unless="${problem.probVendor != null}">-->
 <!--                                        <button type = "button" class="btn btn-fill btn-create text-center" style="width: 100px;" data-toggle="modal"-->
@@ -89,7 +89,7 @@
 <!--                                </div>-->
                             </div>
 
-                            <div class="modal fade" id="changeStatus" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal fade" th:id="'changeStatus' + ${vendor.id_vendor}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-body">
