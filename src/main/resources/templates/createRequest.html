@@ -120,7 +120,7 @@
                                             </div>
                                             <div class="col-sm-4">
                                                 Service Catalog <br>
-                                                <select name="sla" id="sla_service" class="browser-default custom-select" onclick="check_form();">
+                                                <select name="sla" id="sla_service" class="browser-default custom-select">
 
                                                 </select>
                                             </div>
@@ -222,7 +222,7 @@
 
     function check_form() {
         console.log("AAAA masuk")
-        if ((document.getElementById('nama').value) && (document.getElementById('subject').value) && (document.getElementById('date').value) && (document.getElementById('location').value) && (document.getElementById('phoneNumber').value) && (document.getElementById('sla_service').value) && (document.getElementById('sla_departemen').value)) {
+        if ((document.getElementById('nama').value) && (document.getElementById('subject').value) && (document.getElementById('date').value) && (document.getElementById('location').value) && (document.getElementById('phoneNumber').value) && (document.getElementById('sla_departemen').value)) {
             document.getElementById('create').disabled = false;
             document.getElementById('message').style.color = '';
             document.getElementById('message').innerHTML = '';

@@ -31,5 +31,5 @@ public interface RequestService {
     List<RequestModel> findRequestsByStatusIdAndResolver(Long id, UserModel resolver);
     List<RequestModel> findRequestsByStatusIdAndPengaju(Long id, UserModel user);
     List<RequestModel> findRequestsByStatusIdAndResolverDepartment(Long id, DepartemenModel departemenModel);
-    List<RequestModel> findRequestByCreatedDateMonth(String month);
+    List<RequestModel> findRequestByCreatedDateMonth(int month);
 }

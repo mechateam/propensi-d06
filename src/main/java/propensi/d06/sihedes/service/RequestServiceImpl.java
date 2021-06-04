@@ -358,7 +358,15 @@ public class RequestServiceImpl implements RequestService{
     }
 
     @Override
-    public List<RequestModel> findRequestByCreatedDateMonth(String month) {
-        return requestDb.findRequestModelsByCreatedDateContaining("-"+month+"-");
+    public List<RequestModel> findRequestByCreatedDateMonth(int month) {
+        List<RequestModel> allRequestByMonth = new ArrayList<>();
+
+        for (RequestModel a: requestDb.findAll()){
+            int bulan = a.getCreatedDate().getMonth() + 1;
+            if(bulan == month){
+                allRequestByMonth.add(a);
+            }
+        }
+        return allRequestByMonth;
     }
 }

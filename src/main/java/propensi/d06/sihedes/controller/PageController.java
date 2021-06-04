@@ -157,15 +157,12 @@ public class PageController {
         }
         model.addAttribute("departmentHash", departmentHash);
 
-        System.out.println(problemService.getProblemByCreatedDateMonth("06").size());
-        System.out.println(requestService.findRequestByCreatedDateMonth("06").size());
-
         int[][] ticketsArr = new int[12][3];
         for (int i=0;i<12;i++){
-            ticketsArr[i][0]=i;
+            ticketsArr[i][0]=i+1;
             int month = i+1;
-            ticketsArr[i][1]=problemService.getProblemByCreatedDateMonth("0"+month).size();
-            ticketsArr[i][2]=requestService.findRequestByCreatedDateMonth("0"+month).size();
+            ticketsArr[i][1]=problemService.getProblemByCreatedDateMonth(month).size();
+            ticketsArr[i][2]=requestService.findRequestByCreatedDateMonth(month).size();
         }
 
         model.addAttribute("ticketsArr", ticketsArr);
