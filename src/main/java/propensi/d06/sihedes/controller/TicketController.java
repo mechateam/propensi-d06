@@ -347,7 +347,8 @@ public class TicketController {
         log.setCreatedBy(user);
         logProblemService.addLog(log);
 
-        return "redirect:/tickets";
+        String link = "redirect:/problem/detail/" + problem.getId_problem();
+        return link;
     }
 
     @GetMapping("/request/individual/{id_request}")
@@ -387,7 +388,8 @@ public class TicketController {
         log.setCreatedBy(user);
         logProblemService.addLog(log);
 
-        return "redirect:/tickets";
+        String link = "redirect:/problem/detail/" + problem.getId_problem();
+        return link;
     }
 
     @PostMapping("/request/individual/{id_request}")
@@ -411,8 +413,8 @@ public class TicketController {
         log.setRequest(request);
         logRequestService.addLog(log);
 
-
-        return "redirect:/tickets";
+        String link = "redirect:/request/detailin/" + request.getId_request();
+        return link;
     }
 
     @GetMapping("/problem/individual/return/{id_problem}")
@@ -434,7 +436,8 @@ public class TicketController {
         log.setCreatedBy(user);
         logProblemService.addLog(log);
 
-        return "redirect:/tickets";
+        String link = "redirect:/problem/detail/" + problem.getId_problem();
+        return link;
     }
 
     @GetMapping("/request/individual/return/{id_request}")
@@ -453,7 +456,8 @@ public class TicketController {
 //        log.setPosted_date(new Date());
 //        log.setProblem(problem);
 //        logProblemService.addLog(log);
-        return "redirect:/tickets";
+        String link = "redirect:/request/detailin/" + request.getId_request();
+        return link;
     }
 
 
@@ -904,8 +908,8 @@ public class TicketController {
         log.setProblem(problem);
         log.setCreatedBy(user);
         logProblemService.addLog(log);
-
-        return "redirect:/tickets";
+        String link = "redirect:/problem/detail/" + problem.getId_problem();
+        return link;
     }
 
     @PostMapping("/request/close/{id_request}")
@@ -931,7 +935,7 @@ public class TicketController {
         log.setRequest(request);
         log.setCreatedBy(user);
         logRequestService.addLog(log);
-
-        return "redirect:/tickets";
+        String link = "redirect:/request/detailin/" + request.getId_request();
+        return link;
     }
 }

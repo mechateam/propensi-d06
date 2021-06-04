@@ -2,67 +2,95 @@
 <html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title> Home </title>
+    <title> Add User </title>
     <object th:include="fragments/fragment :: js" th:remove="tag"></object>
 
     <object th:include="fragments/fragment :: css" th:remove="tag"></object>
 
 
 </head>
-<title>Hai bela</title>
+
 <body>
 <div th:replace="fragments/fragment :: header"></div>
 <nav th:replace="fragments/fragment :: navbar"></nav>
 
 <div class="content-container">
-    <div class="card col-sm-6 offset-3 shadow p-3 mb-5 bg-white rounded">
-        <h2 class="text-center">Form Add User</h2>
-        <br>
+    <div class="container-fluid">
+        <div class="row">
 
-        <form th:action="@{/user/add}" th:object="${user}" method="POST">
-
-            Email : <br>
-            <input type="email" class="form-control" name="email" required>
-            <br>
-
-            Username : <br>
-            <input type="text" class="form-control" name="username" required>
-            <br>
-
-            Nama : <br>
-            <input type="text" class="form-control" name="nama" required>
-            <br>
-
-            Nomor Telepon : <br>
-            <input type="number" class="form-control" name="no_hp" required>
-            <br>
-
-
-            Password : <br>
-            <input type="password" name="password" class="form-control" title="8 or more character with number"
-                   pattern="(?=.*\d)(?=.*[a-z]).{8,}" placeholder="8 or more character with number" required/>
-            <br>
-
-            Role : <br>
-            <select name="id_role" class="form-control">
-                <option selected value =""> -- Pilih Role -- </option>
-                <option th:each="role: ${listRole}" th:value="${role.id_role}" th:text="${role.nama_role}"></option>
-            </select>
-            <br>
-
-            Departemen : <br>
-            <select name="departemen" class="form-control">
-                <option selected value =""> -- Pilih Departemen -- </option>
-                <option th:each="departemen: ${listDepartemen}" th:value="${departemen.id_dept}" th:text="${departemen.nama_departemen}"></option>
-            </select>
-            <br>
-
-            <div class="text-center">
-                <a class="btn btn-outline-dark" th:href="@{/}">Batal</a>
-                <button class="btn btn-dark" style="position: center" type="submit">Simpan</button>
+            <!--Page Name Header-->
+            <div class="col-md-6">
+                <div class="pageName">
+                    <h3>Add User</h3>
+                    <p>
+                        <a th:href="@{/user/add}">Add User</a>
+                    </p>
+                </div>
             </div>
 
-        </form>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+
+                        <div class="card" style="margin-bottom: 20px;">
+                            <div class="card-content">
+                                <h2 class="text-center">Form Add User</h2>
+                                <br>
+
+                                <form th:action="@{/user/add}" th:object="${user}" method="POST">
+
+                                    Email : <br>
+                                    <input type="email" class="form-control" name="email" required>
+                                    <br>
+
+                                    Username : <br>
+                                    <input type="text" class="form-control" name="username" required>
+                                    <br>
+
+                                    Nama : <br>
+                                    <input type="text" class="form-control" name="nama" required>
+                                    <br>
+
+                                    Nomor Telepon : <br>
+                                    <input type="number" class="form-control" name="no_hp" required>
+                                    <br>
+
+
+                                    Password : <br>
+                                    <input type="password" name="password" class="form-control" title="8 or more character with number"
+                                           pattern="(?=.*\d)(?=.*[a-z]).{8,}" placeholder="8 or more character with number" required/>
+                                    <br>
+
+                                    Role : <br>
+                                    <select name="id_role" class="form-control">
+                                        <option selected value =""> -- Pilih Role -- </option>
+                                        <option th:each="role: ${listRole}" th:value="${role.id_role}" th:text="${role.nama_role}"></option>
+                                    </select>
+                                    <br>
+
+                                    Departemen : <br>
+                                    <select name="departemen" class="form-control">
+                                        <option selected value =""> -- Pilih Departemen -- </option>
+                                        <option th:each="departemen: ${listDepartemen}" th:value="${departemen.id_dept}" th:text="${departemen.nama_departemen}"></option>
+                                    </select>
+                                    <br>
+
+                                    <div class="text-center">
+                                        <a class="btn btn-outline-dark" th:href="@{/}">Batal</a>
+                                        <button class="btn btn-dark" style="position: center" type="submit">Simpan</button>
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+            </div>
+            <div class="col-md-3"></div>
+            <br>
+            <br>
+        </div>
+    </div>
 </div>
 </body>
 </html>

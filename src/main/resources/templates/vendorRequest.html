@@ -80,10 +80,10 @@
                                 <div class="col-sm-9"></div>
                                 <div class="col-sm-3">
                                     <button data-toggle="modal"
-                                            th:attr="data-target='#changeStatus'+${vendor.id_vendor}" type = "button" class="btn btn-fill btn-create text-center" style="width: 100px;"> Assign </button>
+                                           data-target="#changeStatus" type = "button" class="btn btn-fill btn-create text-center" style="width: 100px;"> Assign </button>
                                 </div>
                             </div>
-                            <div class="modal fade" th:id="'changeStatus' + ${vendor.id_vendor}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal fade" th:id="changeStatus" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-body">
