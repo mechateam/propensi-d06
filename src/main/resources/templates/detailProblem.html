@@ -113,6 +113,7 @@
                         name=""
                         class="dropdown"
                         th:field="*{problem.resolverDepartemen}"
+                        style="width: 40%;"
                         disabled
                       >
                         <option value="1">IT Helpdesk</option>
@@ -124,6 +125,35 @@
                       </select>
                     </div>
                   </div>
+                  <!-- individual resolver -->
+                  <div
+                  class="row detail-row"
+            
+                >
+                  <div class="col-sm-3">Resolver Assigned</div>
+                  <div class="col-sm-9">
+                    :
+
+                    <select
+                      name="individual"
+                      class="dropdown"
+                      th:field="*{problem.resolver}"
+                      style="width: 40%;"
+                      disabled
+                    >
+                      <option selected value="">
+                        -- Assign Individual Resolver --
+                      </option>
+                      <option
+                        th:each="individual : ${resolvers}"
+                        th:value="${individual.id_user}"
+                        th:text="${individual.nama}"
+                      ></option>
+                    </select>
+                  </div>
+
+                  <br />
+                </div>
                   <!-- show feedback -->
                   <div
                     class="row detail-row"
