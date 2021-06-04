@@ -192,9 +192,7 @@
                 url: getBaseUrl()+'loadslabydepartemen/' + deptId,
                 success: function(result) {
                     var s = '';
-                    var t='';
                     for(var i = 0; i < result.length; i++) {
-                        // s+= '<option th:value="'+ result[i].id_sla+'" th:text="' + result[i].nama_sla + '" ></option>';
                         s+= '<option value="'+ result[i].id_sla+'" >'+ result[i].nama_sla+'</option>';
                     }
                     $('#sla_service').html(s);
