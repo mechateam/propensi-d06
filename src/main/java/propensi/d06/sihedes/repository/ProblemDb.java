@@ -22,7 +22,4 @@ public interface ProblemDb extends JpaRepository<ProblemModel, Long> {
     List<ProblemModel> findProblemModelsByStatusAndResolver(StatusModel statusModel, UserModel resolver);
     List<ProblemModel> findProblemModelsByStatusAndPengaju(StatusModel statusModel, UserModel userModel);
     List<ProblemModel> findProblemModelsByStatusAndResolverDepartemen(StatusModel statusModel, DepartemenModel departemenModel);
-    @Query(value = "SELECT * FROM problem WHERE created_date Like %?1%", nativeQuery = true)
-    List<ProblemModel> findProblemModelsByCreatedDateContaining(@Param("createdDate") String createdDate);
-
 }
