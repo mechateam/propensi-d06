@@ -241,8 +241,9 @@ public class ProblemServiceImpl implements ProblemService{
     public List<ProblemModel> getProblemByCreatedDateMonth(int month) {
         List<ProblemModel> allProblemByMonth = new ArrayList<>();
 
-        for (ProblemModel a: problemDb.findAll()){
-            if(a.getCreatedDate().getMonth() == month){
+        for (ProblemModel a : problemDb.findAll()) {
+            int bulan = a.getCreatedDate().getMonth() + 1;
+            if (bulan == month) {
                 allProblemByMonth.add(a);
             }
         }

@@ -362,7 +362,8 @@ public class RequestServiceImpl implements RequestService{
         List<RequestModel> allRequestByMonth = new ArrayList<>();
 
         for (RequestModel a: requestDb.findAll()){
-            if(a.getCreatedDate().getMonth() == month){
+            int bulan = a.getCreatedDate().getMonth() + 1;
+            if(bulan == month){
                 allRequestByMonth.add(a);
             }
         }
