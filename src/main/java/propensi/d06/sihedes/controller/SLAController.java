@@ -123,7 +123,7 @@ public class SLAController {
 
         if (boxRankDua != null){
             for (int i=0; i < boxRankDua.length;i++){
-                Long j = new Long(boxRankSatu[i]);
+                Long j = new Long(boxRankDua[i]);
                 SLABOAModel targetSLABOA = new SLABOAModel();
                 targetSLABOA.setBoa(boaService.findById(j).get());
                 targetSLABOA.setSla(sla);
@@ -133,7 +133,7 @@ public class SLAController {
 
         if (boxRankTiga != null){
             for (int i=0; i < boxRankTiga.length;i++){
-                Long j = new Long(boxRankSatu[i]);
+                Long j = new Long(boxRankTiga[i]);
                 SLABOAModel targetSLABOA = new SLABOAModel();
                 targetSLABOA.setBoa(boaService.findById(j).get());
                 targetSLABOA.setSla(sla);

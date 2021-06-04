@@ -116,6 +116,8 @@ public class RequestServiceImpl implements RequestService{
         try{
             targetRequest.setIdApprover(new Long(-1));
             targetRequest.setStatus(statusDb.findByNamaStatus("Closed"));
+            List<FeedbackRequest> feedback = new ArrayList<>();
+            targetRequest.setListFeedback(feedback);
             return targetRequest;
         }
         catch (NullPointerException nullException){
@@ -264,7 +266,7 @@ public class RequestServiceImpl implements RequestService{
                 minRankBoa = boa;
             }
         }
-        request.setIdApprover(minRankBoa.getBoa().getId_boa());
+        request.setIdApprover(minRankBoa.getBoa().getUser().getId_user());
 
         requestDb.save(request);
     }
