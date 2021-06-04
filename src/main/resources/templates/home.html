@@ -21,47 +21,47 @@
             <div class="col-md-4" style="height: 80px;">
               <div class="card" style="height: 80px; padding: 10px; padding-left:20px;">
 
-                <h4 style="margin: 0px; padding-top:5px;" th:text="'Welcome to SIHEDES, '+${user.nama}"></h4>
-                <p th:text="${user.departemen.nama_departemen}" style="color: #7dab5d; padding-top: 15px;"></p>
+                <h4 style="margin: 0px; padding-top:2%;" th:text="'Welcome to SIHEDES, '+${user.nama}"></h4>
+                <p th:text="${user.departemen.nama_departemen}" style="color: #7dab5d; padding-top: 3%;"></p>
               </div>
             </div>
             
             <div th:if="${user.id_role.id_role==2}" class="col-md-2" style="text-align: center; height: 80px;">
-              <div class="card" style="padding: 1px 2px; height: 80px; padding-top:15px;" >
+              <div class="card" style="padding: 1px 2px; height: 80px; padding-top:7%;" >
                 <h5 style="margin: 0px;" class="font-weight-bold">Unassigned tickets</h5>
                 <p style="margin: 0px;" class="font-weight-bold">(To department)</p>
-                <p style="margin: 0px; padding-top:0px;" th:text="${waitingAssignment}"></p>
+                <p style="margin: 0px; padding-top:0%;" th:text="${waitingAssignment}"></p>
               </div>
             </div>
             <div th:if="${user.id_role.id_role==2 || user.id_role.id_role==4 || user.id_role.id_role==5}" class="col-md-2" style="text-align: center; height: 80px;">
-              <div class="card" style="padding: 1px 2px; height: 80px; padding-top:15px;" >
+              <div class="card" style="padding: 1px 2px; height: 80px; padding-top:7%;" >
                 <h5 style="margin: 0px;" class="font-weight-bold">Unassigned tickets</h5>
                 <p style="margin: 0px;" class="font-weight-bold">(To individual)</p>
-                <p style="margin: 0px; padding-top:0px;" th:text="${waitingIndividual}"></p>
+                <p style="margin: 0px; padding-top:0%;" th:text="${waitingIndividual}"></p>
               </div>
             </div>
             <div th:if="${user.id_role.id_role==2 || user.id_role.id_role==4 || user.id_role.id_role==5}" class="col-md-2" style="text-align: center; height: 80px;">
-              <div class="card" style="padding: 1px 2px; height: 80px; padding-top:15px;" >
+              <div class="card" style="padding: 1px 2px; height: 80px; padding-top:7%;" >
                 <h5 style="margin: 0px;" class="font-weight-bold">Tickets to do</h5>
-                <p style="margin: 0px; padding-top:20px;" th:text="${onGoingResolverTickets}"></p>
+                <p style="margin: 0px; padding-top:10%;" th:text="${onGoingResolverTickets}"></p>
               </div>
             </div>
             <div th:if="${user.id_role.id_role==1 || user.id_role.id_role==3 || user.id_role.id_role==6}" class="col-md-2" style="text-align: center; height: 80px;">
-              <div class="card" style="padding: 1px 2px; height: 80px; padding-top:15px;" >
+              <div class="card" style="padding: 1px 2px; height: 80px; padding-top:7%;" >
                 <h5 style="margin: 0px;" class="font-weight-bold">In progress tickets</h5>
-                <p style="margin: 0px; padding-top:20px;" th:text="${inProgressTickets}"></p>
+                <p style="margin: 0px; padding-top:10%;" th:text="${inProgressTickets}"></p>
               </div>
             </div>
             <div th:if="${user.id_role.id_role==1 || user.id_role.id_role==3 || user.id_role.id_role==6}" class="col-md-2" style="text-align: center; height: 80px;">
-              <div class="card" style="padding: 1px 2px; height: 80px; padding-top:15px;" >
+              <div class="card" style="padding: 1px 2px; height: 80px; padding-top:7%;" >
                 <h5 style="margin: 0px;" class="font-weight-bold">Tickets to review</h5>
-                <p style="margin: 0px; padding-top:20px;" th:text="${doneTickets}"></p>
+                <p style="margin: 0px; padding-top:10%;" th:text="${doneTickets}"></p>
               </div>
             </div>
             <div class="col-md-2" style="text-align: center; height: 80px;">
-              <div class="card" style="padding: 1px 2px; height: 80px; padding-top:15px;" >
+              <div class="card" style="padding: 1px 2px; height: 80px; padding-top:7%;" >
                 <h5 style="margin: 0px;" class="font-weight-bold">Your tickets</h5>
-                <p style="margin: 0px; padding-top:20px;  " th:text="${yourTickets}"></p>
+                <p style="margin: 0px; padding-top:10%;  " th:text="${yourTickets}"></p>
               </div>
             </div>
           </div>
@@ -214,7 +214,7 @@
                                               <td th:text="${request.codeRequest}"></td>
                                               <td th:text="${request.subject}"></td>
                                               <td th:text="${request.sla.nama_sla}"></td>
-                                              <td th:text="${request.created_date}"></td>
+                                              <td th:text="${request.createdDate}"></td>
                                               <td th:if = "${request.status.id_status == 3}">
                                                 <span class="badge badgeApproval" th:text="${request.status.namaStatus}"></span>
                                             </td>
@@ -259,9 +259,11 @@
           </div>
       </div>
       <div class="col-md-3" th:if="${user.id_role.id_role==2}">
-        <div class="card">
-          <div class="card-content">
-            <div id="piechart"></div>
+        <div class="d-flex flex-column">
+          <div class="card">
+            <div class="card-content">
+              <div id="piechart"></div>
+            </div>
           </div>
         </div>
       </div>
@@ -271,86 +273,6 @@
         </div>
       </div>
 
-        <!-- <div class="row">
-          <div class="col-sm-4">
-            <div class="card">
-              <div class="log-content">
-                <p class="card-title">Welcome</p>
-                <h3 class="card-text">Fadil</h3>
-              </div>
-            </div>
-          </div>
-          <div class="col-sm-2">
-            <div class="card">
-              <div class="log-content">
-                <p class="card-title text-center">Unassigned Tickets</p>
-                <h3 class="card-text text-center">1</h3>
-              </div>
-            </div>
-          </div>
-          <div class="col-sm-2">
-            <div class="card">
-              <div class="log-content">
-                <p class="card-title text-center">Unassigned Tickets</p>
-                <h3 class="card-text text-center">1</h3>
-              </div>
-            </div>
-          </div>
-          <div class="col-sm-2">
-            <div class="card">
-              <div class="log-content">
-                <p class="card-title text-center">Unassigned Tickets</p>
-                <h3 class="card-text text-center">1</h3>
-              </div>
-            </div>
-          </div>
-          <div class="col-sm-2">
-            <div class="card">
-              <div class="log-content">
-                <p class="card-title text-center">Unassigned Tickets</p>
-                <h3 class="card-text text-center">1</h3>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col">
-            <h3>IT Helpdesk Dashboard</h3>
-          </div>
-        </div>
-
-
-        
-
-        <div class="row">
-          <div class="col-sm-9 h-100">
-            <div class="card h-100">
-              <div class="log-content">
-                <p class="card-title text-center">Unassigned Tickets</p>
-                <h3 class="card-text text-center">1</h3>
-              </div>
-            </div>
-          </div>
-          <div class="col-sm-3">
-            <div class="row">
-              <div class="card">
-                <div class="log-content">
-                  <p class="card-title text-center">Unassigned Tickets</p>
-                  <h3 class="card-text text-center">1</h3>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="card">
-                <div class="log-content">
-                  <p class="card-title text-center">Unassigned Tickets</p>
-                  <h3 class="card-text text-center">1</h3>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div> -->
 <!-- 
         <div class="row">
           <div class="col-sm-9">
@@ -406,7 +328,7 @@
 <!--                                            mulai table-->
                           <div class="row">
                               <div class="col-md-12">
-                                  <div th:if="${hasProblemOG}">
+                                  <div>
                                       <table>
                                           <thead>
                                           <tr>
@@ -419,7 +341,27 @@
                                           </thead>
                                           <tbody>
                                           <tr th:each="problem, iterationStatus : ${onGoingProblems}" th:if="${user.id_role.id_role==2 || user.id_role.id_role==4 || user.id_role.id_role==5}">
-                                          <tr th:each="problem, iterationStatus : ${doneProblems}" th:unless="${user.id_role.id_role==2 || user.id_role.id_role==4 || user.id_role.id_role==5}">
+                                            <td th:text="${iterationStatus.count}"></td>
+                                            <td th:text="${problem.codeProblem}"></td>
+                                            <td th:text="${problem.subject}"></td>
+                                            <td th:text="${problem.real_date}"></td>
+                                            <td th:if = "${problem.status.id_status == 4}">
+                                              <span class="badge badgeWAS" th:text="${problem.status.namaStatus}"></span>
+                                          </td>
+                                          <td th:if = "${problem.status.id_status == 5}">
+                                              <span class="badge badgeAss" th:text="${problem.status.namaStatus}"></span>
+                                          </td>
+                                          <td th:if = "${problem.status.id_status == 6}">
+                                              <span class="badge badgeIP" th:text="${problem.status.namaStatus}"></span>
+                                          </td>
+                                          <td th:if = "${problem.status.id_status == 7}">
+                                              <span class="badge badgeDone" th:text="${problem.status.namaStatus}"></span>
+                                          </td>
+                                          <td th:if = "${problem.status.id_status == 8}">
+                                              <span class="badge badgeClose" th:text="${problem.status.namaStatus}"></span>
+                                          </td>
+
+                                          <tr th:each="problem, iterationStatus : ${doneProblems}">
                                               <td th:text="${iterationStatus.count}"></td>
                                               <td th:text="${problem.codeProblem}"></td>
                                               <td th:text="${problem.subject}"></td>
@@ -448,10 +390,10 @@
                                           </tbody>
                                       </table>
                                   </div>
-                                  <div th:unless="${hasProblemOG}">
+                                  <!-- <div>
                                       <p th:text="'You dont have a working problem yet'" th:if="${user.id_role.id_role==2 || user.id_role.id_role==4 || user.id_role.id_role==5}"></p>
                                       <p th:text="'No tickets to give your feedback yet'" th:unless="${user.id_role.id_role==2 || user.id_role.id_role==4 || user.id_role.id_role==5}"></p>
-                                  </div>
+                                  </div> -->
                                   <div class="row">
                                     <div class="col-md-8"></div>
                                     <div class="col-sm-4">
@@ -496,7 +438,7 @@
                           <!--                                            mulai table-->
                           <div class="row">
                               <div class="col-md-12">
-                                  <div th:if="${hasRequestOG}">
+                                  <div>
                                       <table>
                                           <thead>
                                           <tr>
@@ -510,12 +452,34 @@
                                           </tr>
                                           </thead>
                                           <tbody>
-                                          <tr th:each="request, iterationStatus : ${onGoingRequests}">
+                                            <tr th:each="request, iterationStatus : ${onGoingRequests}" th:if="${user.id_role.id_role==2 || user.id_role.id_role==4 || user.id_role.id_role==5}">
                                               <td th:text="${iterationStatus.count}"></td>
                                               <td th:text="${request.codeRequest}"></td>
                                               <td th:text="${request.subject}"></td>
                                               <td th:text="${request.sla.nama_sla}"></td>
-                                              <td th:text="${request.created_date}"></td>
+                                              <td th:text="${request.createdDate}"></td>
+                                              <td th:if = "${request.status.id_status == 4}">
+                                                <span class="badge badgeWAS" th:text="${request.status.namaStatus}"></span>
+                                            </td>
+                                            <td th:if = "${request.status.id_status == 5}">
+                                                <span class="badge badgeAss" th:text="${request.status.namaStatus}"></span>
+                                            </td>
+                                            <td th:if = "${request.status.id_status == 6}">
+                                                <span class="badge badgeIP" th:text="${request.status.namaStatus}"></span>
+                                            </td>
+                                            <td th:if = "${request.status.id_status == 7}">
+                                                <span class="badge badgeDone" th:text="${request.status.namaStatus}"></span>
+                                            </td>
+                                            <td th:if = "${request.status.id_status == 8}">
+                                                <span class="badge badgeClose" th:text="${request.status.namaStatus}"></span>
+                                            </td>
+
+                                            <tr th:each="request, iterationStatus : ${doneRequests}" th:unless="${user.id_role.id_role==2 || user.id_role.id_role==4 || user.id_role.id_role==5}">
+                                              <td th:text="${iterationStatus.count}"></td>
+                                              <td th:text="${request.codeRequest}"></td>
+                                              <td th:text="${request.subject}"></td>
+                                              <td th:text="${request.sla.nama_sla}"></td>
+                                              <td th:text="${request.createdDate}"></td>
                                               <td th:if = "${request.status.id_status == 4}">
                                                 <span class="badge badgeWAS" th:text="${request.status.namaStatus}"></span>
                                             </td>
@@ -537,10 +501,10 @@
                                           </tbody>
                                       </table>
                                   </div>
-                                  <div th:unless="${hasRequestOG}">
+                                  <!-- <div th:unless="${hasRequestOG}">
                                     <p th:text="'You dont have a working request   yet'" th:if="${user.id_role.id_role==2 || user.id_role.id_role==4 || user.id_role.id_role==5}"></p>
                                     <p th:text="'No tickets to give your feedback yet'" th:unless="${user.id_role.id_role==2 || user.id_role.id_role==4 || user.id_role.id_role==5}"></p>
-                                  </div>
+                                  </div> -->
                                   <div class="row">
                                     <div class="col-md-8"></div>
                                     <div class="col-sm-4">
@@ -565,6 +529,13 @@
 
           </div>
       </div>
+      <div class="col-md-12" th:if="${user.id_role.id_role==2}">
+        <div class="card">
+          <div class="card-content">
+            <div id="linechart_material"></div>
+          </div>
+        </div>
+      </div>
       </div>
     </div> -->
     <!-- <script>
@@ -583,15 +554,56 @@
   
   // Draw the chart and set the chart values
   function drawChart() {
-    var data = google.visualization.arrayToDataTable([[${pieChartData}]]);
+    console.log([[${test}]]);
+    var dict = [[${departmentHash}]];
+var arr = [];
+
+for (var key in dict) {
+    if (dict.hasOwnProperty(key)) {
+        arr.push( [ key, dict[key] ] );
+    }
+}
+
+arr.unshift(['Departments', 'Amount of Work'])
+
+    var data = google.visualization.arrayToDataTable(arr);
   
     // Optional; add a title and set the width and height of the chart
-    var options = {'title':'My Average Day'};
+    var options = {'title':'Department Tickets', height:300};
   
     // Display the chart inside the <div> element with id="piechart"
+
     var chart = new google.visualization.PieChart(document.getElementById('piechart'));
     chart.draw(data, options);
   }
-  </script>  
+  </script>
+
+  <script type="text/javascript" th:inline="javascript">
+    google.charts.load('current', {'packages':['line']});
+      google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+
+      var data = new google.visualization.DataTable();
+      data.addColumn('number', 'Day');
+      data.addColumn('number', 'Problem');
+      data.addColumn('number', 'Request');
+
+      data.addRows([[${ticketsArr}]]);
+
+      var options = {
+        chart: {
+          title: 'Number of Tickets Submitted',
+          subtitle: 'Problem & Request'
+        },
+        height: 400
+      };
+
+      var chart = new google.charts.Line(document.getElementById('linechart_material'));
+
+      chart.draw(data, google.charts.Line.convertOptions(options));
+    }
+  </script>
+  
 </body>
 </html>

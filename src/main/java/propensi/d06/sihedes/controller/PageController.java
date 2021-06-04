@@ -13,14 +13,12 @@ import propensi.d06.sihedes.model.DepartemenModel;
 import propensi.d06.sihedes.model.ProblemModel;
 import propensi.d06.sihedes.model.RequestModel;
 import propensi.d06.sihedes.model.UserModel;
+import propensi.d06.sihedes.service.DepartemenService;
 import propensi.d06.sihedes.service.ProblemService;
 import propensi.d06.sihedes.service.RequestService;
 import propensi.d06.sihedes.service.UserService;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -35,10 +33,14 @@ public class PageController {
     @Autowired
     ProblemService problemService;
 
+    @Autowired
+    DepartemenService departemenService;
+
     @RequestMapping("/")
     public String home(Model model){
         UserModel user = userService.getUserbyUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         DepartemenModel dept = user.getDepartemen();
+        List<DepartemenModel> allDept = departemenService.findAll();
         int allProblemPengaju = problemService.getProblemByPengaju(user).size();
         int allRequestPengaju = requestService.getRequestByPengaju(user).size();
         int closedProblemPengaju = problemService.getProblemByStatusIdAndPengaju(8L, user).size();
@@ -108,6 +110,12 @@ public class PageController {
             listRequest.addAll(requests);
             List<ProblemModel> doneProblems = problemService.getProblemByStatusIdAndPengaju(7L, user);
             List<RequestModel> doneRequests = requestService.findRequestsByStatusIdAndPengaju(7L, user);
+            if (doneProblems.size()>0){
+                model.addAttribute("doneProblemBool", true);
+            }
+            if (doneRequests.size()>0){
+                model.addAttribute("doneRequestsBool", true);
+            }
             if (doneProblems.size()>3){
                 model.addAttribute("doneProblems", doneProblems.subList(0,3));
             } else {
@@ -142,6 +150,28 @@ public class PageController {
         model.addAttribute("listProblem", listProblem);
         model.addAttribute("listRequest", listRequest);
         model.addAttribute("user",user);
+        Map<String, Integer> departmentHash = new HashMap<>();
+        for (DepartemenModel i:allDept
+             ) {
+            departmentHash.put(i.getNama_departemen(), i.getListProblem().size()+i.getListRequest().size());
+        }
+        model.addAttribute("departmentHash", departmentHash);
+
+        System.out.println(problemService.getProblemByCreatedDateMonth("06").size());
+        System.out.println(requestService.findRequestByCreatedDateMonth("06").size());
+
+        int[][] ticketsArr = new int[12][3];
+        for (int i=0;i<12;i++){
+            ticketsArr[i][0]=i;
+            int month = i+1;
+            ticketsArr[i][1]=problemService.getProblemByCreatedDateMonth("0"+month).size();
+            ticketsArr[i][2]=requestService.findRequestByCreatedDateMonth("0"+month).size();
+        }
+
+        model.addAttribute("ticketsArr", ticketsArr);
+
+
+
 
         return "home";
     }

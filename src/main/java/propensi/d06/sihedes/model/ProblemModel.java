@@ -45,7 +45,7 @@ public class ProblemModel implements Serializable {
     @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "created_date", nullable = false)
-    private Date created_date;
+    private Date createdDate;
 
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -139,12 +139,12 @@ public class ProblemModel implements Serializable {
         this.status = status;
     }
 
-    public Date getCreated_date() {
-        return created_date;
+    public Date getCreatedDate() {
+        return createdDate;
     }
 
-    public void setCreated_date(Date created_date) {
-        this.created_date = created_date;
+    public void setCreatedDate(Date created_date) {
+        this.createdDate = created_date;
     }
 
     public Date getFinished_date() {
