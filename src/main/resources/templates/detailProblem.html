@@ -128,7 +128,7 @@
                   <!-- individual resolver -->
                   <div
                   class="row detail-row"
-            
+                  th:unless="${problem.status.id_status == 1 || problem.status.id_status == 3 || problem.status.id_status == 4 }"
                 >
                   <div class="col-sm-3">Resolver Assigned</div>
                   <div class="col-sm-9">
