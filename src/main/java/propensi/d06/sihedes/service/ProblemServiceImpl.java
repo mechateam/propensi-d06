@@ -1,6 +1,7 @@
 package propensi.d06.sihedes.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.parsing.Problem;
 import org.springframework.data.domain.*;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -237,7 +238,14 @@ public class ProblemServiceImpl implements ProblemService{
     }
 
     @Override
-    public List<ProblemModel> getProblemByCreatedDateMonth(String month) {
-        return problemDb.findProblemModelsByCreatedDateContaining("-"+month+"-");
+    public List<ProblemModel> getProblemByCreatedDateMonth(int month) {
+        List<ProblemModel> allProblemByMonth = new ArrayList<>();
+
+        for (ProblemModel a: problemDb.findAll()){
+            if(a.getCreatedDate().getMonth() == month){
+                allProblemByMonth.add(a);
+            }
+        }
+        return allProblemByMonth;
     }
 }
