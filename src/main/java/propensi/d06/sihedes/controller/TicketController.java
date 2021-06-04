@@ -246,6 +246,7 @@ public class TicketController {
             listRequestDuplicate.addAll(requestService.findRequestsByStatusIdAndResolverDepartment(new Long(4),user.getDepartemen()));
             listRequestDuplicate.addAll(requestService.findRequestsByStatusIdAndResolverDepartment(new Long(5),user.getDepartemen()));
             listRequestDuplicate.addAll(requestService.findRequestsByStatusIdAndResolverDepartment(new Long(6),user.getDepartemen()));
+            listRequestDuplicate.addAll(requestService.findAllRequestBasedOnIdApprover(user));
 
             listPendingProblem = listProblemDuplicate.stream().distinct().collect(Collectors.toList());
             listPendingRequest = listRequestDuplicate.stream().distinct().collect(Collectors.toList());
