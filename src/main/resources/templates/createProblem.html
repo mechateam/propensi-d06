@@ -10,7 +10,7 @@
 
 </head>
 
-<body>
+<body onload="check_form()">
 <div th:replace="fragments/fragment :: header"></div>
 <nav th:replace="fragments/fragment :: navbar"></nav>
 
@@ -51,6 +51,7 @@
                                 <div class="col-sm-7">
                                     <div class="pageName">
                                         <h4>Problem</h4>
+                                        <p id="message"></p>
                                     </div>
                                 </div>
                                 <div class="col-sm-5"></div>
@@ -63,22 +64,21 @@
                                 <div class="col-sm-12">
                                     <form th:action="@{/problem/add}" th:object="${problem}" method="POST">
                                         <div class="row">
-                                            <H2 class="alert-warning" th:if="${message}" th:text="${message}"></H2>
                                             <div class="col-sm-6">
                                                 Requestor's Name <br>
-                                                <input type="text" class="form-control"  name="nama_pengaju" id="nama""/>
+                                                <input type="text" class="form-control"  name="nama_pengaju" id="nama" onkeyup="check_form();"/>
                                             </div>
                                             <div class="col-sm-1"></div>
                                             <div class="col-sm-5">
                                                 Subject <br>
-                                                <input type="text" class="form-control"  name="subject"/>
+                                                <input type="text" class="form-control"  name="subject" id="subject" onkeyup="check_form();"/>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <br>
                                             <div class="col-sm-6">
                                                 Date <br>
-                                                <input type="datetime-local" class="form-control"  name="real_date"/>
+                                                <input type="datetime-local" class="form-control"  name="real_date" id="date" onchange="check_form();"/>
                                             </div>
                                             <div class="col-sm-6"></div>
                                         </div>
@@ -90,7 +90,7 @@
                                             </div>
                                         </div>
                                         <br>
-                                        <button type="button" data-toggle="modal" data-target="#exampleModal" class="btn btn-fill btn-create text-center">
+                                        <button type="button" id="create" data-toggle="modal" data-target="#exampleModal" class="btn btn-fill btn-create text-center">
                                             Create
                                         </button>
 
@@ -123,23 +123,21 @@
 
     </div>
 </div>
+<script type="text/javascript">
 
-<!--<script type="text/javascript">-->
-
-<!--    function check_form() {-->
-<!--        console.log("AAAA masuk")-->
-<!--        if (typeof (document.getElementById('nama').value) == "string") {-->
-<!--            document.getElementById('submit').disabled = false;-->
-<!--            document.getElementById('message').style.color = '';-->
-<!--            document.getElementById('message').innerHTML = '';-->
-<!--        } else {-->
-<!--            document.getElementById('submit').disabled = true;-->
-<!--            document.getElementById('message').style.color = 'red';-->
-<!--            document.getElementById('message').innerHTML = 'Periksa lagi data yang diisi';-->
-<!--        }-->
-<!--    }-->
-<!--</script>-->
-
+    function check_form() {
+        console.log("AAAA masuk")
+        if ((document.getElementById('nama').value) && (document.getElementById('subject').value) && (document.getElementById('date').value)) {
+            document.getElementById('create').disabled = false;
+            document.getElementById('message').style.color = '';
+            document.getElementById('message').innerHTML = '';
+        } else {
+            document.getElementById('create').disabled = true;
+            document.getElementById('message').style.color = 'red';
+            document.getElementById('message').innerHTML = 'Please fill all the information needed';
+        }
+    }
+</script>
 </body>
 
 
