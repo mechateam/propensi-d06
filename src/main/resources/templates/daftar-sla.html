@@ -85,12 +85,12 @@
                                         </td>
                                         <td th:if="${user.id_role.id_role == 1}">
                                             <!-- Button trigger modal -->
-                                            <a class="btn btn-dark" data-toggle="modal" data-target="#exampleModal">
+                                            <a class="btn btn-dark" data-toggle="modal" th:attr="data-target='#exampleModal'+${sla.id_sla}">
                                                 Delete
                                             </a>
 
                                             <!-- Modal -->
-                                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal fade" th:id="'exampleModal' + ${sla.id_sla}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                 <div class="modal-dialog" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-body">
