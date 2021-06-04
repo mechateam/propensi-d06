@@ -116,7 +116,12 @@ public class RequestServiceImpl implements RequestService{
         try{
             targetRequest.setIdApprover(new Long(-1));
             targetRequest.setStatus(statusDb.findByNamaStatus("Closed"));
+            FeedbackRequest feedbackbaru = new FeedbackRequest();
+            feedbackbaru.setDescription("");
+            feedbackbaru.setRequest(request);
+            feedbackbaru.setCreated_date(new Date());
             List<FeedbackRequest> feedback = new ArrayList<>();
+            feedback.add(feedbackbaru);
             targetRequest.setListFeedback(feedback);
             return targetRequest;
         }

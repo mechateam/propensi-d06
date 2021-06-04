@@ -330,25 +330,24 @@ public class TicketController {
         @RequestParam(value = "jenisResolver", required = false) Long id,
         @PathVariable Long id_problem, Model model,
         RedirectAttributes redir) {
-        // if (id != null){
-            UserModel user = userService.getUserbyUsername(SecurityContextHolder.getContext().getAuthentication().getName());
-            ProblemModel problem = problemService.findProblemById(id_problem);
-            long idStatus = 5;
-            StatusModel status = statusService.findStatusById(idStatus);
-            problem.setStatus(status);
+        UserModel user = userService.getUserbyUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        ProblemModel problem = problemService.findProblemById(id_problem);
+        long idStatus = 5;
+        StatusModel status = statusService.findStatusById(idStatus);
+        problem.setStatus(status);
 
-            System.out.println(problem.getId_problem());
-            problem.setResolverDepartemen(problemService.getDepById(id));
-            problemService.updateProblem(problem);
+        System.out.println(problem.getId_problem());
+        problem.setResolverDepartemen(problemService.getDepById(id));
+        problemService.updateProblem(problem);
 
-            LogProblemModel log = new LogProblemModel();
-            log.setDescription(status.getNamaStatus());
-            log.setPosted_date(new Date());
-            log.setProblem(problem);
-            log.setCreatedBy(user);
-            logProblemService.addLog(log);
+        LogProblemModel log = new LogProblemModel();
+        log.setDescription(status.getNamaStatus());
+        log.setPosted_date(new Date());
+        log.setProblem(problem);
+        log.setCreatedBy(user);
+        logProblemService.addLog(log);
 
-            return "redirect:/tickets";
+        return "redirect:/tickets";
     }
 
     @GetMapping("/request/individual/{id_request}")
@@ -520,17 +519,19 @@ public class TicketController {
         }
         if(request.getStatus().getId_status() == 8){
             System.out.println(request.getPengaju().getId_user() + " itu pengaju dan user yang login " + userLoggedin.getId_user());
-            if(feedbackRequestService.findFeedbackByRequest(request) != null){
-                FeedbackRequest feedback = feedbackRequestService.findFeedbackByRequest(request);
-                model.addAttribute("feedback",feedback);
-            } else{
-                FeedbackRequest feedbackbaru = new FeedbackRequest();
-                feedbackbaru.setDescription("");
-                feedbackbaru.setRequest(request);
-                feedbackbaru.setCreated_date(new Date());
-                feedbackRequestService.addFeedback(feedbackbaru);
-                model.addAttribute("feedback",feedbackbaru);
-            }
+            FeedbackRequest feedback = feedbackRequestService.findFeedbackByRequest(request);
+            model.addAttribute("feedback",feedback);
+            // if(feedbackRequestService.findFeedbackByRequest(request) != null){
+            //     FeedbackRequest feedback = feedbackRequestService.findFeedbackByRequest(request);
+            //     model.addAttribute("feedback",feedback);
+            // } else{
+            //     FeedbackRequest feedbackbaru = new FeedbackRequest();
+            //     feedbackbaru.setDescription("");
+            //     feedbackbaru.setRequest(request);
+            //     feedbackbaru.setCreated_date(new Date());
+            //     feedbackRequestService.addFeedback(feedbackbaru);
+            //     model.addAttribute("feedback",feedbackbaru);
+            // }
         }
 
         model.addAttribute("resolverList", listResolver);
