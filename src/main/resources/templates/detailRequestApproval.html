@@ -201,12 +201,12 @@
 
                         <div th:if="${user.id_user == userApproval.id_user}" class="row action">
                             <!-- Button trigger modal -->
+                            <div class="col-sm-9"></div>
                             <div class="col-sm-3">
                                 <a class="btn btn-fill btn-create text-center" data-toggle="modal" data-target="#exampleModal">
                                     Approve
                                 </a>
                             </div>
-                            <div class="col-sm-9"></div>
 
                             <!-- Modal -->
                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -224,7 +224,6 @@
                                        </div>
 
                                        <div class="modal-footer">
-                                           &lt;!&ndash; <a class="btn btn-secondary" data-dismiss="modal">Close</a> &ndash;&gt;
                                            <form th:action="@{/request/approve}" th:object="${request}" method="POST">
                                                <input type="hidden" th:field="*{id_request}"/>
                                                <input type="submit" value="Approve" class="btn btn-fill btn-create"/>

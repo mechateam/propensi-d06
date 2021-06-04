@@ -520,8 +520,8 @@ public class TicketController {
         }
         if(request.getStatus().getId_status() == 8){
             System.out.println(request.getPengaju().getId_user() + " itu pengaju dan user yang login " + userLoggedin.getId_user());
-            FeedbackRequest feedback = feedbackRequestService.findFeedbackByRequest(request);
-            if(feedback != null){
+            if(feedbackRequestService.findFeedbackByRequest(request) != null){
+                FeedbackRequest feedback = feedbackRequestService.findFeedbackByRequest(request);
                 model.addAttribute("feedback",feedback);
             } else{
                 FeedbackRequest feedbackbaru = new FeedbackRequest();
