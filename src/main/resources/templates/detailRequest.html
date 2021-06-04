@@ -252,12 +252,13 @@
                         <!-- selesai feedback -->
                         </div>
                         <div class="row-action" th:if = "${request.status.id_status == 6}">
+                            <div class="col-sm-8"></div>
                             <div class="col-sm-2">
                                 <a th:href="@{/request/vendor/}+${request.id_request}" class="btn btn-fill btn-create text-center">  Assign Vendor
 
                                 </a>
                             </div>
-                            <div class="col-sm-8"></div>
+
                             <div class="col-sm-2">
                                 <form th:action="@{/request/update/}"  th:object="${request}" method="POST">
                                     <input type="hidden" th:field="*{id_request}"/>
