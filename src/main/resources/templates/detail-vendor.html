@@ -172,7 +172,7 @@
                                                                             <td class="tableWfa" th:text="${problem.status.namaStatus}"></td>
                                                                         </div>
                                                                         </td>
-                                                                        <td><a th:href="@{/problem/detail/}+${problem.id_problem}"> Detail </a></td>s
+                                                                        <td><a th:href="@{/problem/detail/}+${problem.id_problem}"> Detail </a></td>
                                                                     </tr>
                                                                     </tbody>
                                                                 </table>
@@ -244,7 +244,7 @@
                                                                         <td th:text="${request.codeRequest}"></td>
                                                                         <td th:text="${request.subject}"></td>
                                                                         <td th:text="${request.sla.nama_sla}"></td>
-                                                                        <td th:text="${request.created_date}"></td>
+                                                                        <td th:text="${request.createdDate}"></td>
                                                                         <td th:text="${request.status.namaStatus}">
                                                                         </td>
                                                                         <td><a th:href="@{/request/detailin/}+${request.id_request}"> Detail </a></td>

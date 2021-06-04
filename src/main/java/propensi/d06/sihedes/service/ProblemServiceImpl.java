@@ -128,7 +128,7 @@ public class ProblemServiceImpl implements ProblemService{
         StringBuilder code =new StringBuilder();
         code.append("PR");
 
-        Date datenow = problem.getCreated_date();
+        Date datenow = problem.getCreatedDate();
         SimpleDateFormat format = new SimpleDateFormat("ddMMyyyy");
         String dateString = format.format( datenow  );
         code.append(dateString);
@@ -234,5 +234,10 @@ public class ProblemServiceImpl implements ProblemService{
     @Override
     public List<ProblemModel> getProblemByStatusIdAndDepartmentResolver(Long id, DepartemenModel departemenModel) {
         return problemDb.findProblemModelsByStatusAndResolverDepartemen(statusDb.findById(id).get(), departemenModel);
+    }
+
+    @Override
+    public List<ProblemModel> getProblemByCreatedDateMonth(String month) {
+        return problemDb.findProblemModelsByCreatedDateContaining("-"+month+"-");
     }
 }
