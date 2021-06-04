@@ -513,10 +513,10 @@ public class TicketController {
         List<SLABOAModel> listBOA = slaboaService.getSLABOABySLAId(sla.getId_sla());
         List<UserModel> listResolver = new ArrayList<>();
         listResolver.add(userLoggedin);
-        if(userLoggedin.getId_role().getId_role()==4){
+        if (userLoggedin.getId_role().getId_role()==4){
             listResolver = userService.getListUserbyDepartemen(request.getResolverDepartemen());
         }
-        else if (request.getStatus().getNamaStatus().equals("Waiting for Approval")){
+        if (request.getStatus().getNamaStatus().equals("Waiting for Approval")){
 
             if (request.getIdApprover() == null){
                 for (SLABOAModel boa: listBOA) {
