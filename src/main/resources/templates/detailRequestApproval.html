@@ -194,15 +194,11 @@
                                 </form>
                             </div>
                         </div>
-                        <br>
-                        <div class="created-by">
-                            <p th:text="'Created by '+ ${request.pengaju.username}"></p>
-                        </div>
 
                         <div th:if="${user.id_user == userApproval.id_user}" class="row action">
                             <!-- Button trigger modal -->
                             <div class="col-sm-9"></div>
-                            <div class="col-sm-3">
+                            <div class="col-sm-3" style="padding-right: 5%; padding-bottom: 1%;">
                                 <a class="btn btn-fill btn-create text-center" data-toggle="modal" data-target="#exampleModal">
                                     Approve
                                 </a>
@@ -237,6 +233,9 @@
                                </div>
                             </div>
                             
+                            </div>
+                            <div class="created-by">
+                                <p th:text="'Created by '+ ${request.pengaju.username}"></p>
                             </div>
                         </div>
                     </div>
