@@ -216,12 +216,14 @@ public class TicketController {
             List<ProblemModel> listProblemDuplicate;
             List<RequestModel> listRequestDuplicate;
 
-            listProblemDuplicate = problemService.getProblemByDepartemen(user.getDepartemen());
+            listProblemDuplicate = problemService.getProblemByStatusId(new Long(3));
             listProblemDuplicate.addAll(problemService.getProblemByStatusId(new Long(4)));
+            listProblemDuplicate.addAll(problemService.getProblemByStatusId(new Long(5)));
             listProblemDuplicate.addAll(problemService.getProblemByStatusId(new Long(6)));
 
-            listRequestDuplicate = requestService.getRequestByDepartment(user.getDepartemen());
+            listRequestDuplicate = requestService.findRequestsByStatusId(new Long(3));
             listRequestDuplicate.addAll(requestService.findRequestsByStatusId(new Long(4)));
+            listRequestDuplicate.addAll(requestService.findRequestsByStatusId(new Long(5)));
             listRequestDuplicate.addAll(requestService.findRequestsByStatusId(new Long(6)));
 
             listPendingProblem = listProblemDuplicate.stream().distinct().collect(Collectors.toList());
@@ -346,27 +348,7 @@ public class TicketController {
             logProblemService.addLog(log);
 
             return "redirect:/tickets";
-        // } else{
-        //     redir.addFlashAttribute("alert", "Anda belum Assign Resolver Department");
-        //     return "redirect:/problem/detail/" + id_problem;
-        // }
     }
-
-    // @GetMapping("/problem/individual/{id_problem}")
-    // public String detailIndividualProblem(
-    //         @PathVariable(value="id_problem") Long id_problem,
-    //         Model model
-    // ){
-    //     ProblemModel problem = problemService.findProblemById(id_problem);
-    //     List<UserModel> resolvers = userService.getListUserbyDepartemen(problem.getResolverDepartemen());
-    //     UserModel user = userService.getUserbyUsername(SecurityContextHolder.getContext().getAuthentication().getName());
-    //     List<LogProblemModel> logs = problem.getListLog();
-    //     model.addAttribute("logs", logs);
-    //     model.addAttribute("user",user);
-    //     model.addAttribute("problem",problem);
-    //     model.addAttribute("resolvers", resolvers);
-    //     return "individual-problem";
-    // }
 
     @GetMapping("/request/individual/{id_request}")
     public String detailRequestProblem(
