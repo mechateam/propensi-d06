@@ -502,10 +502,10 @@ public class TicketController {
         UserModel userLoggedin = userService.getUserbyUsername(req.getRemoteUser());
         SLAModel sla = request.getSla();
         List<SLABOAModel> listBOA = slaboaService.getSLABOABySLAId(sla.getId_sla());
-
-        if(request.getStatus().getId_status() == 5){
-            List<UserModel> listResolver = userService.getListUserbyDepartemen(request.getResolverDepartemen());
-            model.addAttribute("resolverList", listResolver);
+        List<UserModel> listResolver = new ArrayList<>();
+        listResolver.add(userLoggedin);
+        if(userLoggedin.getId_role().getId_role()==4){
+            listResolver = userService.getListUserbyDepartemen(request.getResolverDepartemen());
         }
         else if (request.getStatus().getNamaStatus().equals("Waiting for Approval")){
 
@@ -532,6 +532,7 @@ public class TicketController {
             model.addAttribute("feedback",feedback);
         }
 
+        model.addAttribute("resolverList", listResolver);
         model.addAttribute("user",userLoggedin);
         model.addAttribute("request",request);
         model.addAttribute("logs", allLogs);

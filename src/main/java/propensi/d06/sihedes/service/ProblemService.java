@@ -12,6 +12,10 @@ public interface ProblemService {
     List<ProblemModel> findAll();
     List<ProblemModel> getProblemByPengaju(UserModel user);
     List<ProblemModel> getProblemByDepartemen(DepartemenModel departemen);
+    List<ProblemModel> getProblemByStatusId(Long id);
+    List<ProblemModel> getProblemByStatusIdAndResolver(Long id, UserModel user);
+    List<ProblemModel> getProblemByStatusIdAndPengaju(Long id, UserModel userModel);
+    List<ProblemModel> getProblemByStatusIdAndDepartmentResolver(Long id, DepartemenModel departemenModel);
     ProblemModel findProblemById(Long id);
     void addProblem(ProblemModel problem);
     ProblemModel updateProblemStatus(ProblemModel problem);

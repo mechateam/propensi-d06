@@ -27,4 +27,8 @@ public interface RequestService {
     String getRandomChar(int length);
     String getRandomInt(int length);
     void sendmail(String emailRecipient) throws AddressException, MessagingException, IOException;
+    List<RequestModel> findRequestsByStatusId(Long id);
+    List<RequestModel> findRequestsByStatusIdAndResolver(Long id, UserModel resolver);
+    List<RequestModel> findRequestsByStatusIdAndPengaju(Long id, UserModel user);
+    List<RequestModel> findRequestsByStatusIdAndResolverDepartment(Long id, DepartemenModel departemenModel);
 }

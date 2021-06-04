@@ -15,5 +15,9 @@ public interface ProblemDb extends JpaRepository<ProblemModel, Long> {
     Optional<ProblemModel> findById(Long id);
     List<ProblemModel> findAllByResolverDepartemen(DepartemenModel departemen);
     List<ProblemModel> findAllByPengaju(UserModel user);
+    List<ProblemModel> findProblemModelsByStatus(StatusModel statusModel);
+    List<ProblemModel> findProblemModelsByStatusAndResolver(StatusModel statusModel, UserModel resolver);
+    List<ProblemModel> findProblemModelsByStatusAndPengaju(StatusModel statusModel, UserModel userModel);
+    List<ProblemModel> findProblemModelsByStatusAndResolverDepartemen(StatusModel statusModel, DepartemenModel departemenModel);
 
 }

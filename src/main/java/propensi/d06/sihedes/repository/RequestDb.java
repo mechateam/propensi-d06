@@ -16,4 +16,8 @@ public interface RequestDb extends JpaRepository<RequestModel, Long> {
     List<RequestModel> findAllByResolverDepartemen(DepartemenModel departemen);
     List<RequestModel> findAllByIdApprover(Long id);
     List<RequestModel> findAllByPengaju(UserModel user);
+    List<RequestModel> findRequestModelsByStatus(StatusModel statusModel);
+    List<RequestModel> findRequestModelsByStatusAndResolver(StatusModel statusModel, UserModel resolver);
+    List<RequestModel> findRequestModelsByStatusAndPengaju(StatusModel statusModel, UserModel userModel);
+    List<RequestModel> findRequestModelsByStatusAndResolverDepartemen(StatusModel statusModel, DepartemenModel departemenModel);
 }
