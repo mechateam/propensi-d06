@@ -10,7 +10,7 @@
 
 </head>
 
-<body>
+<body onload="check_form()">
 <div th:replace="fragments/fragment :: header"></div>
 <nav th:replace="fragments/fragment :: navbar"></nav>
 
@@ -51,6 +51,7 @@
                                 <div class="col-sm-7">
                                     <div class="pageName">
                                         <h4>Request</h4>
+                                        <p id="message"></p>
                                     </div>
                                 </div>
                                 <div class="col-sm-5"></div>
@@ -65,12 +66,12 @@
                                         <div class="row">
                                             <div class="col-sm-6">
                                                 Requestor's Name <br>
-                                                <input type="text" class="form-control"  name="nama_pengaju"/>
+                                                <input type="text" class="form-control"  name="nama_pengaju" id="nama" onkeyup="check_form();"/>
                                             </div>
                                             <div class="col-sm-1"></div>
                                             <div class="col-sm-5">
                                                 Subject <br>
-                                                <input type="text" class="form-control"  name="subject"/>
+                                                <input type="text" class="form-control"  name="subject" id="subject" onkeyup="check_form();"/>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -83,26 +84,26 @@
                                             <div class="col-sm-1"></div>
                                             <div class="col-sm-5">
                                                 Target Date Required <br>
-                                                <input type="datetime-local" class="form-control"  name="target_date"/>
+                                                <input type="datetime-local" class="form-control"  name="target_date" id="date" onchange="check_form();"/>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <br>
                                             <div class="col-sm-6">
                                                 Location <br>
-                                                <input type="text" class="form-control"  name="location"/>
+                                                <input type="text" class="form-control"  name="location" id="location" onkeyup="check_form();"/>
                                             </div>
                                             <div class="col-sm-1"></div>
                                             <div class="col-sm-5">
                                                 Phone/ext# <br>
-                                                <input type="text" class="form-control"  name="phone_number"/>
+                                                <input type="text" class="form-control"  name="phone_number" id="phoneNumber" onkeyup="check_form();"/>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <br>
                                             <div class="col-sm-6">
                                                 Service Department <br>
-                                                <select id="sla_departemen" class="browser-default custom-select">
+                                                <select id="sla_departemen" class="browser-default custom-select" onchange="check_form();">
                                                     <option selected value="">
                                                         -- Choose Service Department --
                                                     </option>
@@ -119,7 +120,7 @@
                                             </div>
                                             <div class="col-sm-4">
                                                 Service Catalog <br>
-                                                <select name="sla" id="sla_service" class="browser-default custom-select">
+                                                <select name="sla" id="sla_service" class="browser-default custom-select" onclick="check_form();">
 
                                                 </select>
                                             </div>
@@ -139,7 +140,7 @@
                                             </div>
                                         </div>
                                         <br>
-                                        <button type="button" data-toggle="modal" data-target="#exampleModal" class="btn btn-fill btn-create text-center">
+                                        <button type="button" data-toggle="modal" data-target="#exampleModal" class="btn btn-fill btn-create text-center" id="create">
                                             Create
                                         </button>
 
@@ -217,6 +218,21 @@
 
 </script>
 
+<script type="text/javascript">
+
+    function check_form() {
+        console.log("AAAA masuk")
+        if ((document.getElementById('nama').value) && (document.getElementById('subject').value) && (document.getElementById('date').value) && (document.getElementById('location').value) && (document.getElementById('phoneNumber').value) && (document.getElementById('sla_service').value) && (document.getElementById('sla_departemen').value)) {
+            document.getElementById('create').disabled = false;
+            document.getElementById('message').style.color = '';
+            document.getElementById('message').innerHTML = '';
+        } else {
+            document.getElementById('create').disabled = true;
+            document.getElementById('message').style.color = 'red';
+            document.getElementById('message').innerHTML = 'Please fill all the information needed';
+        }
+    }
+</script>
 </body>
 
 
