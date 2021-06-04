@@ -264,7 +264,7 @@ public class RequestServiceImpl implements RequestService{
                 minRankBoa = boa;
             }
         }
-        request.setIdApprover(minRankBoa.getBoa().getId_boa());
+        request.setIdApprover(minRankBoa.getBoa().getUser().getId_user());
 
         requestDb.save(request);
     }
