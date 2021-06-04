@@ -24,6 +24,7 @@
                     <h3>Problem</h3>
                     <p><a th:href="@{/tickets}">All Tickets</a> > Create </p>
                 </div>
+                <span id="alert"></span>
             </div>
 
         </div>
@@ -62,9 +63,10 @@
                                 <div class="col-sm-12">
                                     <form th:action="@{/problem/add}" th:object="${problem}" method="POST">
                                         <div class="row">
+                                            <H2 class="alert-warning" th:if="${message}" th:text="${message}"></H2>
                                             <div class="col-sm-6">
                                                 Requestor's Name <br>
-                                                <input type="text" class="form-control"  name="nama_pengaju"/>
+                                                <input type="text" class="form-control"  name="nama_pengaju" id="nama""/>
                                             </div>
                                             <div class="col-sm-1"></div>
                                             <div class="col-sm-5">
@@ -99,7 +101,7 @@
                                                         Problem Created!
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <button type="submit" class="btn btn-fill btn-create text-center">Ok</button>
+                                                        <button type="submit" class="btn btn-fill btn-create text-center" id="submit">Ok</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -122,6 +124,21 @@
     </div>
 </div>
 
+<!--<script type="text/javascript">-->
+
+<!--    function check_form() {-->
+<!--        console.log("AAAA masuk")-->
+<!--        if (typeof (document.getElementById('nama').value) == "string") {-->
+<!--            document.getElementById('submit').disabled = false;-->
+<!--            document.getElementById('message').style.color = '';-->
+<!--            document.getElementById('message').innerHTML = '';-->
+<!--        } else {-->
+<!--            document.getElementById('submit').disabled = true;-->
+<!--            document.getElementById('message').style.color = 'red';-->
+<!--            document.getElementById('message').innerHTML = 'Periksa lagi data yang diisi';-->
+<!--        }-->
+<!--    }-->
+<!--</script>-->
 
 </body>
 
