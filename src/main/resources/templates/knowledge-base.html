@@ -106,12 +106,12 @@
                             <!-- <a th:href="@{/knowledgebase/delete/}+${article.id_artikel}" th:text="Delete"></a> -->
 
                             <!-- Button trigger modal -->
-                            <a th:if="${user.id_role.id_role == 2}" class="btn btn-dark" data-toggle="modal" data-target="#exampleModal">
+                            <a th:if="${user.id_role.id_role == 2}" class="btn btn-dark" data-toggle="modal" th:attr="data-target='#exampleModal'+${article.id_artikel}" >
                               Delete
                           </a>
 
                           <!-- Modal -->
-                          <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                          <div class="modal fade" th:id="'exampleModal' + ${article.id_artikel}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                               <div class="modal-dialog" role="document">
                                   <div class="modal-content">
                                       <div class="modal-body">
