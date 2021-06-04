@@ -118,7 +118,7 @@ public class RequestServiceImpl implements RequestService{
             targetRequest.setStatus(statusDb.findByNamaStatus("Closed"));
             FeedbackRequest feedbackbaru = new FeedbackRequest();
             feedbackbaru.setDescription("");
-            feedbackbaru.setRequest(request);
+            feedbackbaru.setRequest(targetRequest);
             feedbackbaru.setCreated_date(new Date());
             List<FeedbackRequest> feedback = new ArrayList<>();
             feedback.add(feedbackbaru);
