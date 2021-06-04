@@ -521,7 +521,16 @@ public class TicketController {
         if(request.getStatus().getId_status() == 8){
             System.out.println(request.getPengaju().getId_user() + " itu pengaju dan user yang login " + userLoggedin.getId_user());
             FeedbackRequest feedback = feedbackRequestService.findFeedbackByRequest(request);
-            model.addAttribute("feedback",feedback);
+            if(feedback != null){
+                model.addAttribute("feedback",feedback);
+            } else{
+                FeedbackRequest feedbackbaru = new FeedbackRequest();
+                feedbackbaru.setDescription("");
+                feedbackbaru.setRequest(request);
+                feedbackbaru.setCreated_date(new Date());
+                feedbackRequestService.addFeedback(feedbackbaru);
+                model.addAttribute("feedback",feedbackbaru);
+            }
         }
 
         model.addAttribute("resolverList", listResolver);
