@@ -17,7 +17,7 @@ public interface ProblemService {
     List<ProblemModel> getProblemByStatusIdAndResolver(Long id, UserModel user);
     List<ProblemModel> getProblemByStatusIdAndPengaju(Long id, UserModel userModel);
     List<ProblemModel> getProblemByStatusIdAndDepartmentResolver(Long id, DepartemenModel departemenModel);
-    List<ProblemModel> getProblemByCreatedDateMonth(String month);
+    List<ProblemModel> getProblemByCreatedDateMonth(int month);
     ProblemModel findProblemById(Long id);
     void addProblem(ProblemModel problem);
     ProblemModel updateProblemStatus(ProblemModel problem);
