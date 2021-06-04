@@ -233,7 +233,7 @@ public class RequestServiceImpl implements RequestService{
         StringBuilder code =new StringBuilder();
         code.append("RQ");
 
-        Date datenow = request.getCreated_date();
+        Date datenow = request.getCreatedDate();
         SimpleDateFormat format = new SimpleDateFormat("ddMMyyyy");
         String dateString = format.format( datenow  );
         code.append(dateString);
@@ -253,7 +253,7 @@ public class RequestServiceImpl implements RequestService{
 
         UserModel userPembuat = userDb.findByUsername(currentPrincipalName);
 
-        request.setCreated_date(new Date());
+        request.setCreatedDate(new Date());
         request.setPengaju(userPembuat);
         request.setStatus(statusDb.findByNamaStatus("Waiting for Approval"));
         request.setRequestDepartemen(userPembuat.getDepartemen());
@@ -355,5 +355,10 @@ public class RequestServiceImpl implements RequestService{
     @Override
     public List<RequestModel> findRequestsByStatusIdAndResolverDepartment(Long id, DepartemenModel departemenModel) {
         return requestDb.findRequestModelsByStatusAndResolverDepartemen(statusDb.findById(id).get(), departemenModel);
+    }
+
+    @Override
+    public List<RequestModel> findRequestByCreatedDateMonth(String month) {
+        return requestDb.findRequestModelsByCreatedDateContaining("-"+month+"-");
     }
 }

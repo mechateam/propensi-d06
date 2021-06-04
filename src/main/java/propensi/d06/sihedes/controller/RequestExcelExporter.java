@@ -89,7 +89,7 @@ public class RequestExcelExporter {
             int columnCount = 0;
 
             createCell(row, columnCount++, request.getCodeRequest(), style);
-            createCell(row, columnCount++, request.getCreated_date().toString(), style);
+            createCell(row, columnCount++, request.getCreatedDate().toString(), style);
             createCell(row, columnCount++, request.getPengaju().getUsername(), style);
             createCell(row, columnCount++, request.getSla().getDepartemen().getNama_departemen(), style);
             createCell(row, columnCount++, request.getSla().getNama_sla(), style);
@@ -105,7 +105,7 @@ public class RequestExcelExporter {
             int columnCount = 0;
 
             createCell(rowProb,columnCount++,problem.getCodeProblem(),style);
-            createCell(rowProb,columnCount++,problem.getCreated_date().toString(),style);
+            createCell(rowProb,columnCount++,problem.getCreatedDate().toString(),style);
             createCell(rowProb,columnCount++,problem.getPengaju().getUsername(),style);
             createCell(rowProb,columnCount++,problem.getPengaju().getDepartemen().getNama_departemen(),style);
             createCell(rowProb,columnCount++,problem.getSubject(),style);

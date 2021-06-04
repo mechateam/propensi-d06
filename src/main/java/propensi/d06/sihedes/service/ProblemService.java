@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import propensi.d06.sihedes.model.*;
 
+import java.util.Date;
 import java.util.List;
 
 public interface ProblemService {
@@ -16,6 +17,7 @@ public interface ProblemService {
     List<ProblemModel> getProblemByStatusIdAndResolver(Long id, UserModel user);
     List<ProblemModel> getProblemByStatusIdAndPengaju(Long id, UserModel userModel);
     List<ProblemModel> getProblemByStatusIdAndDepartmentResolver(Long id, DepartemenModel departemenModel);
+    List<ProblemModel> getProblemByCreatedDateMonth(String month);
     ProblemModel findProblemById(Long id);
     void addProblem(ProblemModel problem);
     ProblemModel updateProblemStatus(ProblemModel problem);

@@ -612,7 +612,7 @@ public class TicketController {
         problem.setPengaju(user);
 
         Date dateNow = new java.util.Date();
-        problem.setCreated_date(dateNow);
+        problem.setCreatedDate(dateNow);
         problemService.makeCode(problem);
 
         problemService.addProblem(problem);
@@ -634,7 +634,7 @@ public class TicketController {
             @ModelAttribute RequestModel request,
             Model model) {
         Date dateNow = new java.util.Date();
-        request.setCreated_date(dateNow);
+        request.setCreatedDate(dateNow);
         requestService.makeCode(request);
         requestService.addRequest(request);
         UserModel user = userService.getUserbyUsername(SecurityContextHolder.getContext().getAuthentication().getName());
