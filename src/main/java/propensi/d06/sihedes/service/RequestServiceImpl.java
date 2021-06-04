@@ -4,16 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
-import propensi.d06.sihedes.model.RequestModel;
-import propensi.d06.sihedes.model.SLABOAModel;
-import propensi.d06.sihedes.model.SLAModel;
-import propensi.d06.sihedes.repository.RequestDb;
-import propensi.d06.sihedes.repository.SLABOADb;
-import propensi.d06.sihedes.repository.SLADb;
-import propensi.d06.sihedes.repository.StatusDb;
-import org.springframework.security.core.context.SecurityContextHolder;
 import propensi.d06.sihedes.model.*;
 import propensi.d06.sihedes.repository.*;
+import propensi.d06.sihedes.service.*;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.mail.*;
 import javax.mail.internet.*;
@@ -42,6 +36,9 @@ public class RequestServiceImpl implements RequestService{
 
     @Autowired
     UserDb userDb;
+
+    @Autowired
+    private FeedbackRequestService feedbackRequestService;
 
 
     @Override
@@ -116,6 +113,14 @@ public class RequestServiceImpl implements RequestService{
         try{
             targetRequest.setIdApprover(new Long(-1));
             targetRequest.setStatus(statusDb.findByNamaStatus("Closed"));
+            FeedbackRequest feedbackbaru = new FeedbackRequest();
+            feedbackbaru.setDescription("");
+            feedbackbaru.setRequest(targetRequest);
+            feedbackbaru.setCreated_date(new Date());
+            List<FeedbackRequest> feedback = new ArrayList<>();
+            feedback.add(feedbackbaru);
+            feedbackRequestService.addFeedback(feedbackbaru);
+            targetRequest.setListFeedback(feedback);
             return targetRequest;
         }
         catch (NullPointerException nullException){
@@ -264,7 +269,7 @@ public class RequestServiceImpl implements RequestService{
                 minRankBoa = boa;
             }
         }
-        request.setIdApprover(minRankBoa.getBoa().getId_boa());
+        request.setIdApprover(minRankBoa.getBoa().getUser().getId_user());
 
         requestDb.save(request);
     }

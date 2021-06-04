@@ -72,49 +72,40 @@ public class TicketController {
             RequestModel request,
             @RequestParam("page") Optional<Integer> page,
             @RequestParam("size") Optional<Integer> size,
-            Model model) throws AddressException, MessagingException, IOException {
-        requestService.sendmail("meldihafizh@gmail.com");
+            Model model){
 
+        List<ProblemModel> listProblem;
+        List<RequestModel> listRequest;
         UserModel user = userService.getUserbyUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         DepartemenModel dept = user.getDepartemen();
 
         // ProblemModel
-        List<ProblemModel> listProblem= problemService.findAll();
-        List<RequestModel> listRequest= requestService.findAll();
-//        Set<ProblemModel> listProblem = new HashSet<>();
-//        Set<RequestModel> listRequest = new HashSet<>();
-//        if(user.getId_role().getId_role() == Long.parseLong("2") || user.getId_role()) {
-//            List<ProblemModel> problems = problemService.findAll();
-//            List<RequestModel> requests = requestService.findAll();
-//            for(ProblemModel p : problems){
-//                listProblem.add(p);
-//            }
-//            for(RequestModel r : requests){
-//                listRequest.add(r);
-//            }
-//        }
-//        else if (user.getId_role().getId_role() == Long.parseLong("3")){
-//            List<ProblemModel> problems = problemService.getProblemByPengaju(user);
-//            List<RequestModel> requests = requestService.getRequestByPengaju(user);
-//            for(ProblemModel p : problems){
-//                listProblem.add(p);
-//            }
-//            for(RequestModel r : requests){
-//                listRequest.add(r);
-//            }
-//
-//
-//        }
-//        else {
-//            List<ProblemModel> problems = problemService.getProblemByDepartemen(dept);
-//            List<RequestModel> requests = requestService.getRequestByDepartment(dept);
-//            for(ProblemModel p : problems){
-//                listProblem.add(p);
-//            }
-//            for(RequestModel r : requests){
-//                listRequest.add(r);
-//            }
-//        }
+        if (user.getId_role().getId_role() == 2){
+            listProblem = problemService.findAll();
+            listRequest = requestService.findAll();
+        }
+        else if (user.getId_role().getId_role() == 3){
+            listProblem = problemService.getProblemByPengaju(user);
+            List<RequestModel> listRequestDuplicate;
+            listRequestDuplicate = requestService.getRequestByPengaju(user);
+            listRequestDuplicate.addAll(requestService.findAllRequestBasedOnIdApprover(user));
+            listRequest = listRequestDuplicate.stream().distinct().collect(Collectors.toList());
+        }
+        else{
+            List<ProblemModel> listProblemDuplicate;
+            List<RequestModel> listRequestDuplicate;
+
+            listProblemDuplicate = problemService.getProblemByPengaju(user);
+            listProblemDuplicate.addAll(problemService.getProblemByDepartemen(user.getDepartemen()));
+
+            listRequestDuplicate = requestService.getRequestByPengaju(user);
+            listRequestDuplicate.addAll(requestService.findAllRequestBasedOnIdApprover(user));
+            listRequestDuplicate.addAll(requestService.getRequestByDepartment(user.getDepartemen()));
+
+            listProblem = listProblemDuplicate.stream().distinct().collect(Collectors.toList());
+            listRequest = listRequestDuplicate.stream().distinct().collect(Collectors.toList());
+        }
+
 
         //Checking
         boolean hasProblem = listProblem.size() > 0;
@@ -214,38 +205,60 @@ public class TicketController {
             @ModelAttribute ProblemModel problem,
             @RequestParam("page") Optional<Integer> page,
             @RequestParam("size") Optional<Integer> size,
-            RequestModel request,
             Model model) {
+
+        List<ProblemModel> listPendingProblem;
+        List<RequestModel> listPendingRequest;
 
         UserModel user = userService.getUserbyUsername(SecurityContextHolder.getContext().getAuthentication().getName());
 
-        // ProblemModel
-        List<ProblemModel> listProblem = problemService.getProblemByDepartemen(user.getDepartemen());
-        List<ProblemModel> listPendingProblem = new ArrayList<>();
-        for(ProblemModel pendingProblem : listProblem){
-            if(pendingProblem.getStatus().getId_status() == 5){
-                listPendingProblem.add(pendingProblem);
-            }
-            else if ((pendingProblem.getStatus().getId_status() == 6) && (pendingProblem.getResolver().getId_user() == user.getId_user())){
-                listPendingProblem.add(pendingProblem);
-            }
-            else if ((user.getId_role().getId_role() == 2) && (pendingProblem.getStatus().getId_status() == 4)){
-                listPendingProblem.add(pendingProblem);
-            }
+        if (user.getId_role().getId_role()==2){
+            List<ProblemModel> listProblemDuplicate;
+            List<RequestModel> listRequestDuplicate;
 
+            listProblemDuplicate = problemService.getProblemByStatusId(new Long(3));
+            listProblemDuplicate.addAll(problemService.getProblemByStatusId(new Long(4)));
+            listProblemDuplicate.addAll(problemService.getProblemByStatusId(new Long(5)));
+            listProblemDuplicate.addAll(problemService.getProblemByStatusId(new Long(6)));
+
+            listRequestDuplicate = requestService.findRequestsByStatusId(new Long(3));
+            listRequestDuplicate.addAll(requestService.findRequestsByStatusId(new Long(4)));
+            listRequestDuplicate.addAll(requestService.findRequestsByStatusId(new Long(5)));
+            listRequestDuplicate.addAll(requestService.findRequestsByStatusId(new Long(6)));
+
+            listPendingProblem = listProblemDuplicate.stream().distinct().collect(Collectors.toList());
+            listPendingRequest = listRequestDuplicate.stream().distinct().collect(Collectors.toList());
         }
-        model.addAttribute("listProblem", listPendingProblem);
+        else if (user.getId_role().getId_role() == 3 ){
+            listPendingRequest = requestService.findAllRequestBasedOnIdApprover(user);
+            listPendingProblem = new ArrayList<>();
+        }
+        else{
+            List<ProblemModel> listProblemDuplicate;
+            List<RequestModel> listRequestDuplicate;
 
-        // RequestModel
-        List<RequestModel> listRequest = requestService.getRequestByDepartment(user.getDepartemen());
-        List<RequestModel> listReqApproval = requestService.findAllRequestBasedOnIdApprover(user);
-        listRequest.addAll(listReqApproval);
-        model.addAttribute("listRequest", listRequest);
+            listProblemDuplicate = problemService.getProblemByStatusIdAndDepartmentResolver(new Long(3),user.getDepartemen());
+            listProblemDuplicate.addAll(problemService.getProblemByStatusIdAndDepartmentResolver(new Long(4),user.getDepartemen()));
+            listProblemDuplicate.addAll(problemService.getProblemByStatusIdAndDepartmentResolver(new Long(5),user.getDepartemen()));
+            listProblemDuplicate.addAll(problemService.getProblemByStatusIdAndDepartmentResolver(new Long(6),user.getDepartemen()));
+
+            listRequestDuplicate = requestService.findRequestsByStatusIdAndResolverDepartment(new Long(3),user.getDepartemen());
+            listRequestDuplicate.addAll(requestService.findRequestsByStatusIdAndResolverDepartment(new Long(4),user.getDepartemen()));
+            listRequestDuplicate.addAll(requestService.findRequestsByStatusIdAndResolverDepartment(new Long(5),user.getDepartemen()));
+            listRequestDuplicate.addAll(requestService.findRequestsByStatusIdAndResolverDepartment(new Long(6),user.getDepartemen()));
+            listRequestDuplicate.addAll(requestService.findAllRequestBasedOnIdApprover(user));
+
+            listPendingProblem = listProblemDuplicate.stream().distinct().collect(Collectors.toList());
+            listPendingRequest = listRequestDuplicate.stream().distinct().collect(Collectors.toList());
+        }
+
+        model.addAttribute("listProblem", listPendingProblem);
+        model.addAttribute("listRequest", listPendingRequest);
 
         int currentPage = page.orElse(1);
         int pageSize = size.orElse(5);
 
-        Page<RequestModel> requestPage = requestService.findPaginated(PageRequest.of(currentPage - 1, pageSize), listRequest);
+        Page<RequestModel> requestPage = requestService.findPaginated(PageRequest.of(currentPage - 1, pageSize), listPendingRequest);
         Page<ProblemModel> problemPage = problemService.findPaginated(PageRequest.of(currentPage - 1, pageSize), listPendingProblem);
 
         model.addAttribute("requestPage", requestPage);
@@ -269,7 +282,7 @@ public class TicketController {
         //Checking
         boolean hasProblem = listPendingProblem.size() > 0;
         model.addAttribute("hasProblem", hasProblem);
-        boolean hasRequest = listRequest.size() > 0;
+        boolean hasRequest = listPendingRequest.size() > 0;
         model.addAttribute("hasRequest", hasRequest);
 
         // Return view template yang diinginkan
@@ -291,11 +304,10 @@ public class TicketController {
         }
 
         if(problem.getStatus().getId_status() == 8){
-            System.out.println(problem.getPengaju().getId_user() + " itu pengaju dan user yang login " + user.getId_user());
             FeedbackProblem feedback = feedbackProblemService.findFeedbackByProblem(problem);
             model.addAttribute("feedback",feedback);
         }
-        
+
         List<LogProblemModel> allLogs = problem.getListLog();
         List<LogProblemModel> logs = new ArrayList<>();
         for(int i = allLogs.size()-1 ; i > -1 ;i--)
@@ -318,46 +330,25 @@ public class TicketController {
         @RequestParam(value = "jenisResolver", required = false) Long id,
         @PathVariable Long id_problem, Model model,
         RedirectAttributes redir) {
-        // if (id != null){
-            UserModel user = userService.getUserbyUsername(SecurityContextHolder.getContext().getAuthentication().getName());
-            ProblemModel problem = problemService.findProblemById(id_problem);
-            long idStatus = 5;
-            StatusModel status = statusService.findStatusById(idStatus);
-            problem.setStatus(status);
-            
-            System.out.println(problem.getId_problem());
-            problem.setResolverDepartemen(problemService.getDepById(id));
-            problemService.updateProblem(problem);
+        UserModel user = userService.getUserbyUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        ProblemModel problem = problemService.findProblemById(id_problem);
+        long idStatus = 5;
+        StatusModel status = statusService.findStatusById(idStatus);
+        problem.setStatus(status);
 
-            LogProblemModel log = new LogProblemModel();
-            log.setDescription(status.getNamaStatus());
-            log.setPosted_date(new Date());
-            log.setProblem(problem);
-            log.setCreatedBy(user);
-            logProblemService.addLog(log);
+        System.out.println(problem.getId_problem());
+        problem.setResolverDepartemen(problemService.getDepById(id));
+        problemService.updateProblem(problem);
 
-            return "redirect:/tickets";
-        // } else{
-        //     redir.addFlashAttribute("alert", "Anda belum Assign Resolver Department");
-        //     return "redirect:/problem/detail/" + id_problem;
-        // }
+        LogProblemModel log = new LogProblemModel();
+        log.setDescription(status.getNamaStatus());
+        log.setPosted_date(new Date());
+        log.setProblem(problem);
+        log.setCreatedBy(user);
+        logProblemService.addLog(log);
+
+        return "redirect:/tickets";
     }
-
-    // @GetMapping("/problem/individual/{id_problem}")
-    // public String detailIndividualProblem(
-    //         @PathVariable(value="id_problem") Long id_problem,
-    //         Model model
-    // ){
-    //     ProblemModel problem = problemService.findProblemById(id_problem);
-    //     List<UserModel> resolvers = userService.getListUserbyDepartemen(problem.getResolverDepartemen());
-    //     UserModel user = userService.getUserbyUsername(SecurityContextHolder.getContext().getAuthentication().getName());
-    //     List<LogProblemModel> logs = problem.getListLog();
-    //     model.addAttribute("logs", logs);
-    //     model.addAttribute("user",user);
-    //     model.addAttribute("problem",problem);
-    //     model.addAttribute("resolvers", resolvers);
-    //     return "individual-problem";
-    // }
 
     @GetMapping("/request/individual/{id_request}")
     public String detailRequestProblem(
@@ -504,10 +495,10 @@ public class TicketController {
         List<SLABOAModel> listBOA = slaboaService.getSLABOABySLAId(sla.getId_sla());
         List<UserModel> listResolver = new ArrayList<>();
         listResolver.add(userLoggedin);
-        if(userLoggedin.getId_role().getId_role()==4){
+        if (userLoggedin.getId_role().getId_role()==4){
             listResolver = userService.getListUserbyDepartemen(request.getResolverDepartemen());
         }
-        else if (request.getStatus().getNamaStatus().equals("Waiting for Approval")){
+        if (request.getStatus().getNamaStatus().equals("Waiting for Approval")){
 
             if (request.getIdApprover() == null){
                 for (SLABOAModel boa: listBOA) {
@@ -530,6 +521,17 @@ public class TicketController {
             System.out.println(request.getPengaju().getId_user() + " itu pengaju dan user yang login " + userLoggedin.getId_user());
             FeedbackRequest feedback = feedbackRequestService.findFeedbackByRequest(request);
             model.addAttribute("feedback",feedback);
+            // if(feedbackRequestService.findFeedbackByRequest(request) != null){
+            //     FeedbackRequest feedback = feedbackRequestService.findFeedbackByRequest(request);
+            //     model.addAttribute("feedback",feedback);
+            // } else{
+            //     FeedbackRequest feedbackbaru = new FeedbackRequest();
+            //     feedbackbaru.setDescription("");
+            //     feedbackbaru.setRequest(request);
+            //     feedbackbaru.setCreated_date(new Date());
+            //     feedbackRequestService.addFeedback(feedbackbaru);
+            //     model.addAttribute("feedback",feedbackbaru);
+            // }
         }
 
         model.addAttribute("resolverList", listResolver);
@@ -571,24 +573,6 @@ public class TicketController {
         return link;
 
     }
-
-
-    // Cancelled
-    // @PostMapping("/request/resolver")
-    // public String ResolveRequest(
-    //     @RequestParam(value = "jenisResolver") Long id,
-    //     @ModelAttribute RequestModel request,
-    //     RedirectAttributes redir) {
-    //     if (id == 0){
-    //         redir.addFlashAttribute("gagal", "Resolver Departemen belum dipilih!");
-    //         return "redirect:/request/resolver"; 
-    //     } else {
-    //         request.setResolver_departemen(requestService.getDepById(id));
-    //         requestService.updateRequest(request);
-    //         return "redirect:/tickets";
-    //     }
-    // }
-
 
     @GetMapping("/request/add")
     public String addRequest(Model model) {
@@ -754,20 +738,27 @@ public class TicketController {
         List<DepartemenModel> listDept = departemenService.findAll();
 
         for (int i=0; i < listDept.size(); i++){
+            Double totalTicket = 0.0;
             Double ticketCompleted = 0.0;
-            for (int j=0;j<listDept.get(i).getListRequest().size();i++){
-                if (listDept.get(i).getListRequest().get(j).getStatus().getNamaStatus().equals("Done")){
+
+            totalTicket+= new Double(listDept.get(i).getListRequest().size());
+            totalTicket+= new Double(listDept.get(i).getListProblem().size());
+
+            for (int j=0;j<listDept.get(i).getListRequest().size();j++){
+                String status = listDept.get(i).getListRequest().get(j).getStatus().getNamaStatus();
+                if (status.equals("Done") || status.equals("Closed")){
                     ticketCompleted+= 1.0;
                 }
             }
 
-            for (int j=0;j<listDept.get(i).getListProblem().size();i++){
-                if (listDept.get(i).getListProblem().get(j).getStatus().getNamaStatus().equals("Done")){
+            for (int j=0;j<listDept.get(i).getListProblem().size();j++){
+                String status = listDept.get(i).getListProblem().get(j).getStatus().getNamaStatus();
+                if (status.equals("Done") || status.equals("Closed")){
                     ticketCompleted+= 1.0;
                 }
             }
 
-            rankDept.put(listDept.get(i),ticketCompleted/100);
+            rankDept.put(listDept.get(i),(ticketCompleted/totalTicket)*100);
         }
         Map<DepartemenModel, Double> sortedMap = rankDept.entrySet().stream()
                 .sorted(Comparator.comparingDouble(e -> -e.getValue()))
